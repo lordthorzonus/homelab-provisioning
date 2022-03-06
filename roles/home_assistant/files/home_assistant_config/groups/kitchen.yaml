@@ -1,0 +1,7 @@
+kitchen:
+  name: Kitchen
+  icon: "mdi:fridge-outline"
+  entities:
+    - light.kitchen_ceiling_spots
+    - light.kitchen_hallway_spots
+    - sensor.kitchen_dimmer_switch_battery

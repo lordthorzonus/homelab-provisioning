@@ -1,0 +1,19 @@
+permit_join: false
+availability: true
+mqtt:
+  server: "mqtt://mosquitto:8883"
+  user: "{{ zigbee2mqtt_mqtt_username }}"
+  password: "{{ zigbee2mqtt_mqtt_password }}"
+serial:
+  adapter: deconz
+frontend:
+  port: 8080
+homeassistant: true
+devices: devices.yaml
+groups: groups.yaml
+advanced:
+  lst_seen: ISO_8601
+  network_key:
+  {% for item in zigbee2mqtt_network_key %}
+  - {{ item }}
+  {% endfor %}

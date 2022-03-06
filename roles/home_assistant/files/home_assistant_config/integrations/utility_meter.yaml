@@ -1,0 +1,10 @@
+utility_meter:
+  monthly_workstation_energy:
+    source: sensor.office_workstation_shelly_plug_energy
+    name: Monthly Workstation Energy
+    cycle: monthly
+  daily_fridge_energy:
+    source: sensor.shellyplug:s:kitchen_fridge_energy
+    name: Daily Fridge Energy usage
+    cycle: daily
+

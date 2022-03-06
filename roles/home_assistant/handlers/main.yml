@@ -1,0 +1,10 @@
+---
+- name: restart home assistant
+  community.docker.docker_compose:
+    project_src: "{{ home_assistant_home_folder }}"
+    restarted: true
+
+- name: reload ufw
+  community.general.ufw:
+    state: reloaded
+  become: true

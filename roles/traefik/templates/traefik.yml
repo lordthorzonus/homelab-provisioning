@@ -1,0 +1,75 @@
+################################################################
+#
+# Configuration sample for Traefik v2.
+#
+# For Traefik v1: https://github.com/traefik/traefik/blob/v1.7/traefik.sample.toml
+#
+################################################################
+
+################################################################
+# Global configuration
+################################################################
+global:
+  checkNewVersion: true
+  sendAnonymousUsage: false
+
+################################################################
+# EntryPoints configuration
+################################################################
+entryPoints:
+  web:
+    address: :80
+    http:
+      redirections:
+        entryPoint:
+          to: websecure
+          scheme: https
+  websecure:
+    address: :443
+    forwardedHeaders:
+      trustedIPs:
+        {% for source in allowed_network_sources %}
+  - "{{ source }}"
+        {% endfor %}
+
+    http:
+      tls:
+        certResolver: lets-encrypt
+  mqtt:
+    address: :8883
+    forwardedHeaders:
+      trustedIPs:
+        {% for source in allowed_network_sources %}
+  - "{{ source }}"
+        {% endfor %}
+
+
+
+################################################################
+# API and dashboard configuration
+################################################################
+api:
+  dashboard: true
+
+################################################################
+# Docker configuration backend
+################################################################
+providers:
+  docker:
+    network: "{{ traefik_docker_network }}"
+    exposedByDefault: false
+
+################################################################
+# Let's encrypt configuration
+################################################################
+certificatesResolvers:
+  lets-encrypt:
+    acme:
+      email: "{{ lets_encrypt_user_email }}"
+      caServer: "{{ (lets_encrypt_use_production == true) | ternary('https://acme-v02.api.letsencrypt.org/directory', 'https://acme-staging-v02.api.letsencrypt.org/directory') }}"
+      dnsChallenge:
+        provider: "route53"
+
+
+
+

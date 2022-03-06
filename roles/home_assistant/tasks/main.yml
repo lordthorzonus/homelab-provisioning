@@ -1,0 +1,76 @@
+---
+- name: Ensure Home Assistant group exists
+  group:
+    name: home-assistant
+    state: present
+
+- name: Ensure Home Assistant user exists
+  user:
+    name: "{{ home_assistant_user }}"
+    password: "{{ home_assistant_user_password }}"
+    groups: docker, home-assistant
+    state: present
+    append: yes
+
+- name: Ensure Home Assistant folder exists
+  file:
+    path: "{{ home_assistant_home_folder }}/config"
+    state: directory
+    owner: "{{ home_assistant_user }}"
+    group: home-assistant
+    mode: 0755
+
+- name: Allow direct access to home assistant
+  community.general.ufw:
+    rule: allow
+    port: "8123"
+    proto: tcp
+    src: "{{ item }}"
+  loop: "{{ allowed_direct_access_to_home_assistant }}"
+  notify: reload ufw
+
+- name: Ensure home assistant docker network exists
+  community.docker.docker_network:
+    name: "{{ home_assistant_docker_network }}"
+    ipam_config:
+      - subnet: "{{ home_assistant_docker_network_subnet }}"
+        gateway: "{{ home_assistant_docker_network_gateway }}"
+    state: present
+    appends: yes
+
+- name: Ensure home assistant secrets are present
+  template:
+    src: secrets.yaml
+    dest: "{{ home_assistant_home_folder }}/config/secrets.yaml"
+    group: home-assistant
+    mode: 0644
+    owner: "{{ home_assistant_user }}"
+  notify: restart home assistant
+
+- name: Ensure home assistant config is present
+  copy:
+    src: home_assistant_config/
+    group: home-assistant
+    owner: "{{ home_assistant_user }}"
+    mode: 0644
+    dest: "{{ home_assistant_home_folder }}/config/"
+  notify: restart home assistant
+
+- name: Ensure correct home assistant docker-compose file is present
+  template:
+    src: docker-compose.yml
+    dest: "{{ home_assistant_home_folder }}"
+    mode: 0644
+    group: home-assistant
+    owner: "{{ home_assistant_user }}"
+  notify: restart home assistant
+
+- name: Ensure home assistant is running
+  community.docker.docker_compose:
+    project_src: "{{ home_assistant_home_folder }}"
+    state: present
+
+
+
+
+

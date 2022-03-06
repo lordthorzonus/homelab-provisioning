@@ -1,0 +1,17 @@
+light:
+  - platform: group
+    name: Kitchen ceiling spots
+    unique_id: kitchen_ceiling_spots
+    entities:
+      - light.kitchen_ceiling_spot_1
+      - light.kitchen_ceiling_spot_2
+      - light.kitchen_ceiling_spot_3
+      - light.kitchen_ceiling_spot_4
+  - platform: group
+    unique_id: kitchen_hallway_spots
+    name: Kitchen hallway spots
+    entities:
+      - light.kitchen_ceiling_spot_1
+      - light.kitchen_ceiling_spot_2
+      - light.kitchen_ceiling_spot_3
+      - light.kitchen_ceiling_spot_4

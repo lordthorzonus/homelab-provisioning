@@ -1,0 +1,8 @@
+light:
+  platform: group
+  name: Living room ceiling lights
+  unique_id: living_room_ceiling_lights
+  entities:
+    - light.living_room_ceiling_1
+    - light.living_room_ceiling_2
+    - light.living_room_ceiling_3

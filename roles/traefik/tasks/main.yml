@@ -1,0 +1,75 @@
+- name: Allow Traefik http port
+  community.general.ufw:
+    rule: allow
+    port: "80"
+    proto: tcp
+    src: "{{ item }}"
+  loop: "{{ allowed_network_sources }}"
+  notify: reload ufw
+
+- name: Allow Traefik https port
+  community.general.ufw:
+    rule: allow
+    port: "443"
+    proto: tcp
+    src: "{{ item }}"
+  loop: "{{ allowed_network_sources }}"
+  notify: reload ufw
+
+- name: Allow Traefik mqqts port
+  community.general.ufw:
+    rule: allow
+    port: "8883"
+    proto: tcp
+    src: "{{ item }}"
+  loop: "{{ allowed_network_sources }}"
+  notify: reload ufw
+
+
+- name: Ensure Traefik docker network exists
+  community.docker.docker_network:
+    name: "{{ traefik_docker_network }}"
+    ipam_config:
+      - subnet: "{{ traefik_docker_network_subnet }}"
+        gateway: "{{ traefik_docker_network_gateway }}"
+    state: present
+    appends: yes
+
+- name: Ensure Traefik folder exists
+  file:
+    path: "{{ traefik_home_folder }}"
+    state: directory
+    owner: "{{ traefik_user }}"
+    group: docker
+    mode: 0755
+
+- name: Ensures acme.json file exists
+  file:
+    path: "{{ traefik_home_folder }}/acme.json"
+    state: touch
+    group: docker
+    mode: 0600
+
+- name: Ensure Traefik configuration is present
+  template:
+    src: traefik.yml
+    dest: "{{ traefik_home_folder }}/traefik.yml"
+    group: docker
+    mode: 0600
+    owner: "{{ traefik_user }}"
+  notify: restart traefik
+
+- name: Ensure Traefik docker-compose file is present
+  template:
+    src: docker-compose.yml
+    dest: "{{ traefik_home_folder }}/docker-compose.yml"
+    group: docker
+    mode: 0644
+    owner: "{{ traefik_user }}"
+  notify: restart traefik
+
+- name: Ensure traefik is running
+  community.docker.docker_compose:
+    project_src: "{{ traefik_home_folder }}"
+    state: present
+

@@ -1,0 +1,12 @@
+living_room:
+  name: Living Room
+  icon: "mdi:television-classic"
+  entities:
+    - light.dinner_lamp
+    - light.living_room_ceiling_lights
+    - sensor.living_room_switch_battery
+    - sensor.netatmo_living_room_co2
+    - sensor.netatmo_living_room_humidity
+    - sensor.netatmo_living_room_noise
+    - sensor.netatmo_living_room_pressure
+    - sensor.netatmo_living_room_temperature

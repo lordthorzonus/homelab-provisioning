@@ -1,0 +1,34 @@
+---
+# Netatmo integration
+# https://www.home-assistant.io/integrations/netatmo/
+
+netatmo:
+  client_id: !secret netatmo_client_id
+  client_secret: !secret netatmo_client_secret
+
+homeassistant:
+  customize:
+    sensor.netatmo_living_room_co2:
+      friendly_name: Netatmo Living Room CO2
+    sensor.netatmo_living_room_humidity:
+      friendly_name: Netatmo Living Room Humidity
+    sensor.netatmo_living_room_noise:
+      friendly_name: Netatmo Living Room Noise
+    sensor.netatmo_living_room_pressure:
+      friendly_name: Netatmo Living Room Pressure
+    sensor.netatmo_living_room_temperature:
+      friendly_name: Netatmo Living Room Temperature
+    sensor.netatmo_bedroom_temperature:
+      friendly_name: Netatmo Bedroom Temperature
+    sensor.netatmo_bedroom_co2:
+      friendly_name: Netatmo Bedroom CO2
+    sensor.netatmo_bedroom_humidity:
+      friendly_name: Netatmo Bedroom Humidity
+    sensor.netatmo_bedroom_battery_percent:
+      friendly_name: Netatmo Bedroom Battery
+    sensor.netatmo_balcony_humidity:
+      friendly_name: Netatmo Balcony Humidity
+    sensor.netatmo_balcony_temperature:
+      friendly_name: Netatmo Balcony Temperature
+    sensor.netatmo_balcony_battery_percent:
+      friendly_name: Netatmo Balcony Battery

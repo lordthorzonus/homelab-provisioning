@@ -1,0 +1,6 @@
+---
+- name: Setup UFW
+  import_tasks: ufw.yml
+
+- name: Setup fail2ban
+  import_tasks: fail2ban.yml

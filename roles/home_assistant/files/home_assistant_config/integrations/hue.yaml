@@ -1,0 +1,10 @@
+---
+# Philips Hue
+# https://www.home-assistant.io/integrations/hue/
+
+hue:
+  bridges:
+    - host: !secret philips_hue_bridge_ip
+      allow_unreachable: true
+      allow_hue_groups: true
+

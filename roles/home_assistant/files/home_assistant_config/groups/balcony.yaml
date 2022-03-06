@@ -1,0 +1,11 @@
+balcony:
+  name: Balcony
+  icon: "mdi:balcony"
+  entities:
+    - light.balcony_outdoor_lights
+    - sensor.netatmo_balcony_humidity
+    - sensor.netatmo_balcony_temperature
+    - sensor.netatmo_balcony_battery_percent
+    - sensor.balcony_light_sensor_battery
+    - sensor.balcony_light_sensor_illuminance_lux
+    - binary_sensor.dark_outside

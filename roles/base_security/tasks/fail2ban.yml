@@ -1,0 +1,21 @@
+---
+- name: install fail2ban
+  apt:
+    name: fail2ban
+    state: present
+    update_cache: true
+
+- name: update configuration file
+  copy:
+    src: fail2ban.local
+    dest: /etc/fail2ban/fail2ban.local
+    owner: root
+    group: root
+    mode: 0644
+  notify: restart fail2ban
+
+- name: configure systemd service
+  service:
+    name: fail2ban
+    state: started
+    enabled: true

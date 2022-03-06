@@ -1,0 +1,6 @@
+---
+- hosts: home_assistant
+  roles:
+    - { name: home_assistant, become: true }
+
+

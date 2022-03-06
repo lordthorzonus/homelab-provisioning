@@ -1,0 +1,70 @@
+- name: Ensure Mosquitto folder exists
+  file:
+    path: "{{ mosquitto_home_folder }}"
+    state: directory
+    owner: "{{ mosquitto_user }}"
+    group: docker
+    mode: 0755
+
+- name: Ensure Mosquitto config folder exists
+  file:
+    path: "{{ mosquitto_home_folder }}/config"
+    state: directory
+    owner: "{{ mosquitto_user }}"
+    group: docker
+    mode: 0755
+
+- name: Ensure Mosquitto data exists
+  file:
+    path: "{{ mosquitto_home_folder }}/data"
+    state: directory
+    owner: "{{ mosquitto_user }}"
+    group: docker
+    mode: 0755
+
+- name: Ensure Mosquitto docker network exists
+  community.docker.docker_network:
+    name: "{{ mqtt_docker_network }}"
+    ipam_config:
+      - subnet: "{{ mqtt_docker_network_subnet }}"
+        gateway: "{{ mqtt_docker_network_gateway }}"
+    state: present
+    appends: yes
+
+- name: Ensure correct mosquitto docker-compose file is present
+  template:
+    src: docker-compose.yml
+    dest: "{{ mosquitto_home_folder }}"
+    mode: 0644
+    group: home-assistant
+    owner: "{{ mosquitto_user }}"
+  notify: restart mosquitto
+
+- name: Ensure correct mosquitto mosquitto.conf file is present
+  template:
+    src: mosquitto.conf
+    dest: "{{ mosquitto_home_folder }}/config"
+    mode: 0644
+    group: home-assistant
+    owner: "{{ mosquitto_user }}"
+  notify: restart mosquitto
+
+- name: Ensure correct mosquitto mosquitto.passwd file is present
+  template:
+    src: mosquitto.passwd
+    dest: "{{ mosquitto_home_folder }}/config"
+    mode: 0644
+    group: home-assistant
+    owner: "{{ mosquitto_user }}"
+  notify: restart mosquitto
+
+- name: Recrypt mosquitto.passwd file
+  shell:
+    chdir: "{{ mosquitto_home_folder }}"
+    cmd: 'docker-compose run mosquitto mosquitto_passwd -U /mosquitto/config/mosquitto.passwd'
+  notify: restart mosquitto
+
+- name: Ensure mosquitto is running
+  community.docker.docker_compose:
+    project_src: "{{ mosquitto_home_folder }}"
+    state: present

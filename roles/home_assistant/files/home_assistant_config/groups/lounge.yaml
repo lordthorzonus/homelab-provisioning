@@ -1,0 +1,7 @@
+kitchen:
+  name: Lounge
+  icon: "mdi:sofa-outline"
+  entities:
+    - light.kitchen_ceiling_spots
+    - light.kitchen_hallway_spots
+    - light.living_room_ceiling_lights

@@ -1,0 +1,12 @@
+---
+- hosts: home_assistant
+  roles:
+    - { name: base_security, become: true }
+    - { name: geerlingguy.pip, become: true }
+    - { name: geerlingguy.docker_arm, become: true }
+    - { name: traefik, become: true }
+    - { name: home_assistant, become: true }
+    - { name: mosquitto, become: true }
+    - { name: zigbee2mqtt, become: true }
+
+

@@ -1,0 +1,13 @@
+cloud:
+  google_actions:
+    filter:
+      include_entities:
+        - sensor.netatmo_living_room_temperature
+        - sensor.netatmo_bedroom_temperature
+        - sensor.netatmo_balcony_temperature
+        - sensor.netatmo_living_room_co2
+        - sensor.netatmo_bedroom_co2
+        - sensor.netatmo_balcony_co2
+        - sensor.netatmo_living_room_humidity
+        - sensor.netatmo_bedroom_humidity
+        - sensor.netatmo_balcony_humidity

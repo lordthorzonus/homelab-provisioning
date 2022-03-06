@@ -1,0 +1,5 @@
+---
+- name: restart zigbee2mqtt
+  community.docker.docker_compose:
+    project_src: "{{ zigbee2mqtt_home_folder }}"
+    restarted: true

@@ -1,0 +1,9 @@
+office:
+  name: Office
+  icon: "mdi:chair-rolling"
+  entities:
+    - light.office_medusa_ceiling_light
+    - sensor.office_switch_battery
+    - sensor.office_workstation_shelly_plug_power
+    - sensor.office_workstation_shelly_plug_energy
+    - switch.office_workstation_shelly_plug

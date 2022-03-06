@@ -1,0 +1,31 @@
+---
+- alias: Office Motion Lights
+  id: office_motion_lights_automation
+  description: >-
+    Controls the Office lights. 
+    
+    They respond to motion and turn off when no motion is detected in 15 minutes
+  mode: restart
+  max_exceeded: silent
+  trigger:
+    - platform: state
+      entity_id: binary_sensor.office_motion_sensor_occupancy
+      from: "off"
+      to: "on"
+  action:
+    - alias: "Turn on the light"
+      service: light.turn_on
+      target:
+        entity_id: light.office_medusa_ceiling_light
+    - alias: "Wait until there is no motion"
+      wait_for_trigger:
+        platform: state
+        entity_id: binary_sensor.office_motion_sensor_occupancy
+        from: "on"
+        to: "off"
+    - alias: "Wait until some time has passed"
+      delay: 900
+    - alias: "turn off the light"
+      service: light.turn_off
+      target:
+        entity_id: light.office_medusa_ceiling_light

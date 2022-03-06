@@ -1,0 +1,74 @@
+###########################
+# Security
+###########################
+ansible_ssh_user: pi
+docker_users:
+  - "pi"
+
+allowed_network_sources:
+  - "{{ iot_vlan_network }}"
+  - "{{ main_vlan_network }}"
+  - "{{ lan_network }}"
+  - "{{ media_vlan_network }}"
+  - "{{ iot_untrusted_vlan_network }}"
+
+allowed_direct_access_to_home_assistant:
+  - "{{ iot_vlan_network }}"
+
+
+###########################
+# Traefik
+###########################
+traefik_home_folder: "/home/{{ home_assistant_user }}/traefik"
+traefik_user: "{{ home_assistant_user }}"
+
+traefik_docker_network: "{{ home_assistant_docker_network }}"
+traefik_docker_network_subnet: "{{ home_assistant_docker_network_subnet }}"
+traefik_docker_network_gateway: "{{ home_assistant_docker_network_gateway }}"
+traefik_docker_ip: "172.20.0.2"
+
+traefik_version: "2.6"
+traefik_domain: "{{ vault_traefik_domain }}"
+
+lets_encrypt_use_production: true
+
+###########################
+# Home assistant
+###########################
+philips_hue_bridge_ip: "{{ vault_philips_hue_bridge_ip }}"
+
+home_longitude: "{{ vault_home_longitude }}"
+home_latitude: "{{ vault_home_latitude }}"
+
+netatmo_client_id: "{{ vault_netatmo_client_id }}"
+netatmo_client_secret: "{{ vault_netatmo_client_secret }}"
+
+home_assistant_user_password: "{{ vault_home_assistant_user_password }}"
+home_assistant_user: home_assistant
+home_assistant_home_folder: "/home/{{ home_assistant_user }}/home_assistant"
+home_assistant_version: "2022.3"
+home_assistant_docker_network: "home-assistant-network"
+home_assistant_docker_network_subnet: "172.20.0.0/16"
+home_assistant_docker_network_gateway: "172.20.0.1"
+home_assistant_domain: "{{ vault_home_assistant_domain }}"
+
+###########################
+# MQTT
+###########################
+mqtt_docker_network_subnet: "{{ home_assistant_docker_network_subnet }}"
+mqtt_docker_network: "{{ home_assistant_docker_network }}"
+mqtt_docker_network_gateway: "{{ home_assistant_docker_network_gateway }}"
+mosquitto_home_folder: "/home/{{ home_assistant_user }}/mosquitto"
+mosquitto_user: "{{ home_assistant_user }}"
+
+###########################
+# Zigbee2MQTT
+###########################
+zigbee2mqtt_home_folder: "/home/{{ home_assistant_user }}/zigbee2mqtt"
+zigbee2mqtt_user: "{{ home_assistant_user }}"
+zigbee2mqtt_domain: "{{ vault_zigbee2mqtt_domain }}"
+zigbee2mqtt_docker_network_subnet: "{{ home_assistant_docker_network_subnet }}"
+zigbee2mqtt_docker_network: "{{ home_assistant_docker_network }}"
+zigbee2mqtt_docker_network_gateway: "{{ home_assistant_docker_network_gateway }}"
+zigbee2mqtt_version: "1.24.0"
+zigbee2mqtt_network_key: "{{ vault_zigbee2mqtt_network_key }}"

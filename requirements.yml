@@ -1,0 +1,12 @@
+---
+roles:
+  - name: geerlingguy.pip
+    version: "2.1.0"
+  - name: geerlingguy.docker_arm
+    version: "5.0.0"
+
+collections:
+  - name: community.general
+    version: "4.1.0"
+  - name: community.docker
+    version: "2.0.2"

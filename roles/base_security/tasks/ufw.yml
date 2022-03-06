@@ -1,0 +1,33 @@
+---
+- name: Ensure ufw is present
+  apt:
+    name: ufw
+    state: present
+    update_cache: true
+
+- name: Enable ufw service
+  community.general.ufw:
+    state: enabled
+
+- name: Deny all incoming traffic
+  community.general.ufw:
+    default: deny
+    direction: incoming
+  notify: reload ufw
+
+- name: Allow all outgoing traffic
+  community.general.ufw:
+    default: allow
+    direction: outgoing
+  notify: reload ufw
+
+- name: Allow ssh access
+  community.general.ufw:
+    rule: allow
+    port: "22"
+    proto: tcp
+    src: "{{ item }}"
+  loop:
+    - "{{ main_vlan_network }}"
+    - "{{ lan_network }}"
+  notify: reload ufw

@@ -1,0 +1,23 @@
+services:
+  home-assistant:
+    container_name: home-assistant
+    image: "homeassistant/home-assistant:{{ home_assistant_version }}"
+    restart: unless-stopped
+    privileged: true
+    volumes:
+      - ./config:/config
+      - /etc/localtime:/etc/localtime:ro
+      - /etc/timezone:/etc/timezone:ro
+    ports:
+      - "8123:8123"
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.home-assistant.rule=Host(`{{ home_assistant_domain }}`)"
+      - "traefik.http.routers.home-assistant.entrypoints=websecure"
+      - "traefik.http.routers.home-assistant.tls.certresolver=lets-encrypt"
+      - "traefik.http.services.home-assistant.loadbalancer.server.port=8123"
+    networks:
+      - "{{ home_assistant_docker_network }}"
+networks:
+  "{{ home_assistant_docker_network }}":
+    external: true

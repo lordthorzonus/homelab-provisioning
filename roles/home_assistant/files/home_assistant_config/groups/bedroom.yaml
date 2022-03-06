@@ -1,0 +1,10 @@
+bedroom:
+  name: Bedroom
+  icon: "mdi:bed-king-outline"
+  entities:
+    - sensor.bedroom_switch_battery
+    - light.bedroom_light
+    - sensor.netatmo_bedroom_humidity
+    - sensor.netatmo_bedroom_co2
+    - sensor.netatmo_bedroom_temperature
+    - sensor.netatmo_bedroom_battery_percent

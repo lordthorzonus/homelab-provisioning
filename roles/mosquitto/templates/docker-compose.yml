@@ -1,0 +1,21 @@
+services:
+  mosquitto:
+    image: "eclipse-mosquitto:{{ mqtt_mosquitto_version }}-openssl"
+    container_name: mosquitto
+    networks:
+      - "{{ mqtt_docker_network }}"
+    restart: unless-stopped
+    volumes:
+      - "./config:/mosquitto/config"
+      - "./data:/mosquitto/data"
+    labels:
+      - traefik.enable=true
+      - "traefik.tcp.services.mosquitto.loadbalancer.server.port={{ mqtt_broker_port }}"
+      - traefik.tcp.routers.mosquitto.entrypoints=mqtt
+      - traefik.tcp.routers.mosquitto.service=mosquitto
+      - "traefik.tcp.routers.mosquitto.rule=HostSNI(`{{ mqtt_broker_domain }}`)"
+      - traefik.tcp.routers.mosquitto.tls=true
+      - traefik.tcp.routers.mosquitto.tls.certresolver=lets-encrypt
+networks:
+  "{{ mqtt_docker_network }}":
+    external: true

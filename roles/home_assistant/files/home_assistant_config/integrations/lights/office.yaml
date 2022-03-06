@@ -1,0 +1,10 @@
+light:
+  platform: group
+  name: Office Medusa Ceiling Light
+  unique_id: office_medusa_ceiling_light
+  entities:
+    - light.office_ceiling_1
+    - light.office_ceiling_2
+    - light.office_ceiling_3
+    - light.office_ceiling_4
+    - light.office_ceiling_5
