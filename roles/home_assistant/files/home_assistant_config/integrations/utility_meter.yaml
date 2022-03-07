@@ -4,7 +4,7 @@ utility_meter:
     name: Monthly Workstation Energy
     cycle: monthly
   daily_fridge_energy:
-    source: sensor.shellyplug:s:kitchen_fridge_energy
+    source: sensor.shellyplug_s_kitchen_fridge_energy
     name: Daily Fridge Energy usage
     cycle: daily
 
