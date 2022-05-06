@@ -8,5 +8,6 @@
     - { name: home_assistant, become: true }
     - { name: mosquitto, become: true }
     - { name: zigbee2mqtt, become: true }
+    - { name: ble2mqtt, become: true }
 
 

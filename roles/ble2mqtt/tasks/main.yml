@@ -1,0 +1,30 @@
+- name: Ensure BLE2MQTT folder exists
+  file:
+    path: "{{ ble2mqtt_home_folder }}"
+    state: directory
+    owner: "{{ ble2mqtt_user }}"
+    group: docker
+    mode: 0755
+
+- name: Ensure BLE2MQTT configuration is present
+  template:
+    src: configuration.yaml
+    dest: "{{ ble2mqtt_home_folder }}/configuration.yaml"
+    group: docker
+    mode: 0600
+    owner: "{{ ble2mqtt_user }}"
+  notify: restart ble2mqtt
+
+- name: Ensure BLE2MQTT docker-compose file is present
+  template:
+    src: docker-compose.yml
+    dest: "{{ ble2mqtt_home_folder }}/docker-compose.yml"
+    group: docker
+    mode: 0644
+    owner: "{{ ble2mqtt_user }}"
+  notify: restart ble2mqtt
+
+- name: Ensure ble2mqtt is running
+  community.docker.docker_compose:
+    project_src: "{{ ble2mqtt_home_folder }}"
+    state: present

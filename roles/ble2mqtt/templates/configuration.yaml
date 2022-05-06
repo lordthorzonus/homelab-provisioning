@@ -1,0 +1,15 @@
+mqtt:
+  host: "{{ mqtt_broker_domain }}"
+  port: 8883
+  username: "{{ zigbee2mqtt_mqtt_username }}"
+  password: "{{ zigbee2mqtt_mqtt_password }}"
+  client_id: ble2mqtt
+  protocol: mqtt
+
+gateways:
+  base_topic: ble2mqtt
+  ruuvitag:
+    allow_unknown: false
+    devices:
+      - name: office_ruuvitag
+        id: da21045d81a8

@@ -1,0 +1,5 @@
+---
+- name: restart ble2mqtt
+  community.docker.docker_compose:
+    project_src: "{{ ble2mqtt_home_folder }}"
+    restarted: true
