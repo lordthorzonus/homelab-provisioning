@@ -11,7 +11,7 @@
     src: configuration.yaml
     dest: "{{ ble2mqtt_home_folder }}/configuration.yaml"
     group: docker
-    mode: 0600
+    mode: 0644
     owner: "{{ ble2mqtt_user }}"
   notify: restart ble2mqtt
 

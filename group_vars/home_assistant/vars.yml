@@ -78,4 +78,4 @@ zigbee2mqtt_network_key: "{{ vault_zigbee2mqtt_network_key }}"
 ###########################
 ble2mqtt_home_folder: "/home/{{ home_assistant_user }}/ble2mqtt"
 ble2mqtt_user: "{{ home_assistant_user }}"
-ble2mqtt_version: "edge"
+ble2mqtt_version: "0.2.0"

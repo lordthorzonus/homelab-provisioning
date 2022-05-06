@@ -2,11 +2,12 @@ services:
   ble2mqtt:
     image: "lordthorzonus/ble2mqtt-gateway:{{ ble2mqtt_version }}"
     restart: unless-stopped
+    user: 0:0
     cap_add:
-      - NET_ADMIN
+      - NET_RAW
     network_mode: host
     volumes:
       - ./configuration.yaml:/home/node/app/config/configuration.yaml
     environment:
-      - CONFIG_FILE_LOCATION="/home/node/app/config/configuration.yaml"
-      - TZ="Europe/Helsinki"
+      - CONFIG_FILE_LOCATION=/home/node/app/config/configuration.yaml
+      - TZ=Europe/Helsinki
