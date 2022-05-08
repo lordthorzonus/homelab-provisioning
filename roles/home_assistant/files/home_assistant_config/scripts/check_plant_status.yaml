@@ -1,0 +1,36 @@
+---
+check_plant_status:
+  alias: "Inform the status of all plants and display the plant dashboard"
+  sequence:
+    - service: tts.cloud_say
+      alias: "Announce plant statuses by voice"
+      data_template:
+        entity_id: media_player.living_room_nest_hub
+        options:
+          gender: female
+        language: en-US
+        message: >
+          {%- set problems = expand('group.plants') | selectattr('state','eq','problem') | list %}
+          {%- if problems %}
+            Some of your plants needs attention.
+          {%- else %}
+            Your plants are doing fine. Have a good day!
+          {%- endif %}
+          Please check following plants:
+          {%- for problem in problems %}
+            {{ problem.name }} - {{ problem.attributes.problem }}
+          {%- endfor %}
+    - delay: 1
+    - wait_template: "{{ is_state('media_player.living_room_nest_hub', 'idle') }}"
+    - service: cast.show_lovelace_view
+      alias: "Show Plant dashboard on the main nest hub"
+      data:
+        entity_id: media_player.living_room_nest_hub
+        dashboard_path: lovelace-cast
+        view_path: plants
+    - alias: "Wait for 30s"
+      delay: 30
+    - service: media_player.turn_off
+      alias: "Stop casting the plant dashboard"
+      target:
+        entity_id: media_player.living_room_nest_hub

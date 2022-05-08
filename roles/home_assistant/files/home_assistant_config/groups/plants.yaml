@@ -1,0 +1,6 @@
+plants:
+  name: All Plants
+  icon: mdi:flower
+  entities:
+    - plant.anopinkieli
+    - plant.rahapuu

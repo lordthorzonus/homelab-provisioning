@@ -11,3 +11,4 @@ cloud:
         - sensor.netatmo_living_room_humidity
         - sensor.netatmo_bedroom_humidity
         - sensor.netatmo_balcony_humidity
+        - script.check_plant_status
