@@ -11,5 +11,11 @@ gateways:
   ruuvitag:
     allow_unknown: false
     devices:
-      - name: office_ruuvitag
+      - name: Office Ruuvitag
         id: da21045d81a8
+  miflora:
+    devices:
+      - name: Rahapuu
+        id: c47c8d6e069c
+      - name: Anopinkieli
+        id: c47c8d6e07cf
