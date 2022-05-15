@@ -9,5 +9,6 @@
     - { name: mosquitto, become: true }
     - { name: zigbee2mqtt, become: true }
     - { name: ble2mqtt, become: true }
+    - { name: influxdb, become: true }
 
 

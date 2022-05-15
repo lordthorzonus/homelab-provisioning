@@ -1,0 +1,5 @@
+---
+- name: restart influxdb
+  community.docker.docker_compose:
+    project_src: "{{ influxdb_home_folder }}"
+    restarted: true

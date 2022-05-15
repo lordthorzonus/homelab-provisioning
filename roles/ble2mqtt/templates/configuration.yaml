@@ -13,7 +13,10 @@ gateways:
     devices:
       - name: Office Ruuvitag
         id: da21045d81a8
+      - name: Fridge Ruuvitag
+        id: f66b9906ee4e
   miflora:
+    timeout: 120000
     devices:
       - name: Rahapuu
         id: c47c8d6e069c

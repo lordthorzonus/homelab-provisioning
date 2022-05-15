@@ -11,6 +11,7 @@ allowed_network_sources:
   - "{{ lan_network }}"
   - "{{ media_vlan_network }}"
   - "{{ iot_untrusted_vlan_network }}"
+  - "{{ home_assistant_docker_network_subnet }}"
 
 allowed_direct_access_to_home_assistant:
   - "{{ iot_vlan_network }}"
@@ -79,3 +80,16 @@ zigbee2mqtt_network_key: "{{ vault_zigbee2mqtt_network_key }}"
 ble2mqtt_home_folder: "/home/{{ home_assistant_user }}/ble2mqtt"
 ble2mqtt_user: "{{ home_assistant_user }}"
 ble2mqtt_version: "0.3.0"
+
+###########################
+# InfluxDB
+###########################
+influxdb_version: "1.8.10"
+influxdb_user: "{{ home_assistant_user }}"
+influxdb_home_folder: "/home/{{ home_assistant_user }}/influxdb"
+influxdb_docker_network_subnet: "{{ home_assistant_docker_network_subnet }}"
+influxdb_docker_network: "{{ home_assistant_docker_network }}"
+influxdb_docker_network_gateway: "{{ home_assistant_docker_network_gateway }}"
+influxdb_init_bucket: "home-assistant"
+influxdb_init_organization: "home-automation"
+chronograf_version: "1.8.10"

@@ -25,6 +25,14 @@
   loop: "{{ allowed_network_sources }}"
   notify: reload ufw
 
+- name: Allow Traefik influxdb port
+  community.general.ufw:
+    rule: allow
+    port: "8086"
+    proto: tcp
+    src: "{{ item }}"
+  loop: "{{ allowed_network_sources }}"
+  notify: reload ufw
 
 - name: Ensure Traefik docker network exists
   community.docker.docker_network:

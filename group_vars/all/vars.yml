@@ -24,7 +24,14 @@ mqtt_broker_domain: "{{ vault_mqtt_broker_domain }}"
 mqtt_broker_port: 8883
 mqtt_mosquitto_version: "2.0.14"
 mqtt_broker_users:
-  - { username: "{{ home_assistant_mqtt_username }}" , password: "{{ home_assistant_mqtt_password }}"  }
-  - { username: "{{ zigbee2mqtt_mqtt_username }}", password: "{{ zigbee2mqtt_mqtt_password }}"  }
+  - { username: "{{ home_assistant_mqtt_username }}" , password: "{{ home_assistant_mqtt_password }}" }
+  - { username: "{{ zigbee2mqtt_mqtt_username }}", password: "{{ zigbee2mqtt_mqtt_password }}" }
 
+influxdb_domain: "{{ vault_influxdb_domain }}"
+influxdb_admin_username: "{{ vault_influxdb_admin_username }}"
+influxdb_admin_password: "{{ vault_influxdb_admin_password }}"
+influxdb_admin_token: "{{ vault_influxdb_admin_token }}"
+chronograf_domain: "{{ vault_chronograf_domain }}"
+influxdb_home_assistant_username: "{{ vault_influxdb_home_assistant_username }}"
+influxdb_home_assistant_password: "{{ vault_influxdb_home_assistant_password }}"
 
