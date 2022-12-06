@@ -4,7 +4,7 @@
     ],
     "regexManagers": [
         {
-            "fileMatch": ["^vars.yml$"],
+            "fileMatch": ["(^|/|\\.)vars.yml$"],
             "matchStringsStrategy": "combination",
             "matchStrings": [
                 "mqtt_mosquitto_version:\\s*\"(?<currentValue>.*)\"\\s*//"
@@ -13,7 +13,7 @@
             "depNameTemplate": "eclipse-mosquitto"
         },
         {
-            "fileMatch": ["^vars.yml$"],
+            "fileMatch": ["(^|/|\\.)vars.yml$"],
             "matchStringsStrategy": "combination",
             "matchStrings": [
                 "home_assistant_version:\\s*\"(?<currentValue>.*)\"\\s*//"
@@ -22,7 +22,7 @@
             "depNameTemplate": "homeassistant/home-assistant"
         },
         {
-            "fileMatch": ["^vars.yml$"],
+            "fileMatch": ["(^|/|\\.)vars.yml$"],
             "matchStringsStrategy": "combination",
             "matchStrings": [
                 "grafana/grafana:\\s*\"(?<currentValue>.*)\"\\s*//"
@@ -31,7 +31,7 @@
             "depNameTemplate": "homeassistant/home-assistant"
         },
         {
-            "fileMatch": ["^vars.yml$"],
+            "fileMatch": ["(^|/|\\.)vars.yml$"],
             "matchStringsStrategy": "combination",
             "matchStrings": [
                 "ble2mqtt_version:\\s*\"(?<currentValue>.*)\"\\s*//"
@@ -40,7 +40,7 @@
             "depNameTemplate": "lordthorzonus/ble2mqtt-gateway"
         },
         {
-            "fileMatch": ["^vars.yml$"],
+            "fileMatch": ["(^|/|\\.)vars.yml$"],
             "matchStringsStrategy": "combination",
             "matchStrings": [
                 "zigbee2mqtt_version:\\s*\"(?<currentValue>.*)\"\\s*//"
@@ -49,7 +49,7 @@
             "depNameTemplate": "koenkk/zigbee2mqtt"
         },
         {
-            "fileMatch": ["^vars.yml$"],
+            "fileMatch": ["(^|/|\\.)vars.yml$"],
             "matchStringsStrategy": "combination",
             "matchStrings": [
                 "traefik_version:\\s*\"(?<currentValue>.*)\"\\s*//"
