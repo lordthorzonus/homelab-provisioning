@@ -36,3 +36,4 @@ influxdb_home_assistant_username: "{{ vault_influxdb_home_assistant_username }}"
 influxdb_home_assistant_password: "{{ vault_influxdb_home_assistant_password }}"
 
 dropbox_access_token: "{{ vault_dropbox_access_token }}"
+backup_password: "{{ vault_backup_password }}"

@@ -1,0 +1,14 @@
+[Unit]
+Description=Backup to Dropbox
+
+[Timer]
+OnCalendar=*-*-* 02:00:00
+
+[Install]
+WantedBy=timers.target
+
+[Service]
+Environment=DROPBOX_ACCESS_TOKEN={{ dropbox_access_token }}
+Environment=ARCHIVE_PASSWORD={{ backup_password }}
+
+ExecStart=/usr/local/bin/backup-to-dropbox.sh{% for folder in folders_to_backup %} -f {{ folder }}{% endfor %} -n {{ backup_name }} -d {{ dropbox_backup_folder }}

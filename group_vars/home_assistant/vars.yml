@@ -105,3 +105,17 @@ grafana_home_folder: "/home/{{ home_assistant_user }}/grafana"
 grafana_docker_network_subnet: "{{ home_assistant_docker_network_subnet }}"
 grafana_docker_network: "{{ home_assistant_docker_network }}"
 grafana_docker_network_gateway: "{{ home_assistant_docker_network_gateway }}"
+
+#########################
+# Backup
+#########################
+folders_to_backup:
+  - "{{ ble2mqtt_home_folder }}"
+  - "{{ grafana_home_folder }}"
+  - "{{ home_assistant_home_folder }}"
+  - "{{ mosquitto_home_folder }}"
+  - "{{ traefik_home_folder }}"
+  - "{{ zigbee2mqtt_home_folder }}"
+
+dropbox_backup_folder: "/home_assistant_server_backups"
+backup_name: "home_assistant_server_backup"
