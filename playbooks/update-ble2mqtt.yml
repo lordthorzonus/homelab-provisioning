@@ -1,0 +1,4 @@
+---
+- hosts: home_assistant
+  roles:
+    - { name: ble2mqtt, become: true }

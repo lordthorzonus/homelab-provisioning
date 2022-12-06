@@ -1,0 +1,84 @@
+- alias: Turn on the illuminance based lights when it's dark
+  id: turn_on_balcony_outdoor_lights_automation
+  description: >-
+    Turns on the illuminance based lights when it's dark enough outside
+  trigger:
+    - platform: state
+      entity_id: binary_sensor.dark_outside
+      from: "off"
+      to: "on"
+      for: "00:10:00"
+  action:
+    - alias: "Turn on the balcony lights"
+      service: light.turn_on
+      target:
+        entity_id: light.balcony_outdoor_lights
+    - alias: "Turn on the Mood Lights"
+      service: light.turn_on
+      target:
+        entity_id: light.mood_lights
+    - alias: "Announce Turning on the lights"
+      service: tts.cloud_say
+      data:
+        entity_id: media_player.living_room_nest_hub
+        message: "It's getting dark outside. I'm turning on illuminance controlled lights."
+        options:
+          gender: female
+        language: en-US
+
+- alias: Turn off all illuminance based lights when it's not dark
+  id: turn_off_illuminance_based_lights_automation
+  description: >-
+    Turns off the illuminance based lights when it's not dark anymore.
+  trigger:
+    - platform: state
+      entity_id: binary_sensor.dark_outside
+      from: "on"
+      to: "off"
+      for: "00:10:00"
+  action:
+    - alias: "Turn off the balcony lights"
+      service: light.turn_off
+      target:
+        entity_id: light.balcony_outdoor_lights
+    - alias: "Turn off the Mood lights"
+      service: light.turn_off
+      target:
+        entity_id: light.mood_lights
+
+- alias: Turn off Mood Lights for night
+  id: turn_off_mood_lights_for_night_automation
+  description: >-
+    Turns off the Mood Lights for the night.
+  trigger:
+    - platform: time
+      at: '02:00'
+  condition:
+    - condition: state
+      entity_id: light.mood_lights
+      state: "on"
+  action:
+    - alias: "Turn off the Mood lights"
+      service: light.turn_off
+      target:
+        entity_id: light.mood_lights
+
+- alias: Turn on Mood Lights for morning
+  id: turn_on_mood_lights_for_morning_automation
+  description: >-
+    Turns on the Mood Lights for the Morning.
+  trigger:
+    - platform: time
+      at: '06:00'
+  condition:
+    - condition: state
+      entity_id: light.mood_lights
+      state: "off"
+    - condition: state
+      entity_id: binary_sensor.dark_outside
+      state: "on"
+  action:
+    - alias: "Turn on the Mood lights"
+      service: light.turn_on
+      target:
+        entity_id: light.mood_lights

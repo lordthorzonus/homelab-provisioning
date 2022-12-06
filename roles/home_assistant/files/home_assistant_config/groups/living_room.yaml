@@ -4,6 +4,7 @@ living_room:
   entities:
     - light.dinner_lamp
     - light.living_room_ceiling_lights
+    - light.mood_lights
     - sensor.living_room_switch_battery
     - sensor.netatmo_living_room_co2
     - sensor.netatmo_living_room_humidity

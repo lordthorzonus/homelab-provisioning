@@ -28,7 +28,7 @@ traefik_docker_network_subnet: "{{ home_assistant_docker_network_subnet }}"
 traefik_docker_network_gateway: "{{ home_assistant_docker_network_gateway }}"
 traefik_docker_ip: "172.20.0.2"
 
-traefik_version: "2.6"
+traefik_version: "2.9"
 traefik_domain: "{{ vault_traefik_domain }}"
 
 lets_encrypt_use_production: true
@@ -47,7 +47,7 @@ netatmo_client_secret: "{{ vault_netatmo_client_secret }}"
 home_assistant_user_password: "{{ vault_home_assistant_user_password }}"
 home_assistant_user: home_assistant
 home_assistant_home_folder: "/home/{{ home_assistant_user }}/home_assistant"
-home_assistant_version: "2022.4"
+home_assistant_version: "2022.11"
 home_assistant_docker_network: "home-assistant-network"
 home_assistant_docker_network_subnet: "172.20.0.0/16"
 home_assistant_docker_network_gateway: "172.20.0.1"
@@ -71,7 +71,7 @@ zigbee2mqtt_domain: "{{ vault_zigbee2mqtt_domain }}"
 zigbee2mqtt_docker_network_subnet: "{{ home_assistant_docker_network_subnet }}"
 zigbee2mqtt_docker_network: "{{ home_assistant_docker_network }}"
 zigbee2mqtt_docker_network_gateway: "{{ home_assistant_docker_network_gateway }}"
-zigbee2mqtt_version: "1.24.0"
+zigbee2mqtt_version: "1.28.2"
 zigbee2mqtt_network_key: "{{ vault_zigbee2mqtt_network_key }}"
 
 ###########################
@@ -79,7 +79,7 @@ zigbee2mqtt_network_key: "{{ vault_zigbee2mqtt_network_key }}"
 ###########################
 ble2mqtt_home_folder: "/home/{{ home_assistant_user }}/ble2mqtt"
 ble2mqtt_user: "{{ home_assistant_user }}"
-ble2mqtt_version: "0.4.0"
+ble2mqtt_version: "0.7.0"
 
 ###########################
 # InfluxDB
@@ -93,3 +93,15 @@ influxdb_docker_network_gateway: "{{ home_assistant_docker_network_gateway }}"
 influxdb_init_bucket: "home-assistant"
 influxdb_init_organization: "home-automation"
 chronograf_version: "1.8.10"
+
+#########################
+# Grafana
+#########################
+grafana_domain: "{{ vault_grafana_domain }}"
+grafana_admin_email: "{{ lets_encrypt_user_email }}"
+grafana_version: "9.3.1"
+grafana_user: "grafana"
+grafana_home_folder: "/home/{{ home_assistant_user }}/grafana"
+grafana_docker_network_subnet: "{{ home_assistant_docker_network_subnet }}"
+grafana_docker_network: "{{ home_assistant_docker_network }}"
+grafana_docker_network_gateway: "{{ home_assistant_docker_network_gateway }}"

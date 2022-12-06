@@ -1,6 +1,6 @@
 services:
   mosquitto:
-    image: "eclipse-mosquitto:{{ mqtt_mosquitto_version }}-openssl"
+    image: "eclipse-mosquitto:{{ mqtt_mosquitto_version }}"
     container_name: mosquitto
     networks:
       - "{{ mqtt_docker_network }}"

@@ -7,3 +7,5 @@ office:
     - sensor.office_workstation_shelly_plug_power
     - sensor.office_workstation_shelly_plug_energy
     - switch.office_workstation_shelly_plug
+    - sensor.office_ruuvitag_humidity
+    - sensor.office_ruuvitag_temperature

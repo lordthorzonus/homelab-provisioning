@@ -11,4 +11,6 @@ cloud:
         - sensor.netatmo_living_room_humidity
         - sensor.netatmo_bedroom_humidity
         - sensor.netatmo_balcony_humidity
+        - sensor.office_ruuvitag_temperature
+        - sensor.office_ruuvitag_humidity
         - script.check_plant_status

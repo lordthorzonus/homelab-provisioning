@@ -1,0 +1,22 @@
+services:
+  grafana:
+    container_name: grafana
+    image: "grafana/grafana:{{ grafana_version }}"
+    restart: unless-stopped
+    volumes:
+      - ./data:/var/lib/grafana
+      - ./grafana.ini:/etc/grafana/grafana.ini
+      - ./datasources.yml:/etc/grafana/provisioning/datasources/datasources.yml
+    environment:
+      - TZ=Europe/Helsinki
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.grafana.rule=Host(`{{ grafana_domain }}`)"
+      - "traefik.http.routers.grafana.entrypoints=websecure"
+      - "traefik.http.routers.grafana.tls.certresolver=lets-encrypt"
+      - "traefik.http.services.grafana.loadbalancer.server.port=3000"
+    networks:
+      - "{{ grafana_docker_network }}"
+networks:
+  "{{ grafana_docker_network }}":
+    external: true

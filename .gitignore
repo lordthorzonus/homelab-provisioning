@@ -1,2 +1,4 @@
 .idea/
 vault.yml
+roles/geerlingguy.docker_arm
+roles/geerlingguy.pip

@@ -2,8 +2,8 @@
 - alias: Office Motion Lights
   id: office_motion_lights_automation
   description: >-
-    Controls the Office lights. 
-    
+    Controls the Office lights.
+
     They respond to motion and turn off when no motion is detected in 15 minutes
   mode: restart
   max_exceeded: silent
@@ -24,7 +24,7 @@
         from: "on"
         to: "off"
     - alias: "Wait until some time has passed"
-      delay: 900
+      delay: 1800
     - alias: "turn off the light"
       service: light.turn_off
       target:

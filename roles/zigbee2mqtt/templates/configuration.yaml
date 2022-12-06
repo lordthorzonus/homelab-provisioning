@@ -13,6 +13,7 @@ devices: devices.yaml
 groups: groups.yaml
 advanced:
   lst_seen: ISO_8601
+  log_level: warn
   network_key:
   {% for item in zigbee2mqtt_network_key %}
   - {{ item }}

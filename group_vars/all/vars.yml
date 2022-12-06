@@ -22,7 +22,7 @@ zigbee2mqtt_mqtt_password: "{{ vault_zigbee2mqtt_mqtt_password }}"
 
 mqtt_broker_domain: "{{ vault_mqtt_broker_domain }}"
 mqtt_broker_port: 8883
-mqtt_mosquitto_version: "2.0.14"
+mqtt_mosquitto_version: "2.0.14-openssl"
 mqtt_broker_users:
   - { username: "{{ home_assistant_mqtt_username }}" , password: "{{ home_assistant_mqtt_password }}" }
   - { username: "{{ zigbee2mqtt_mqtt_username }}", password: "{{ zigbee2mqtt_mqtt_password }}" }
@@ -35,3 +35,4 @@ chronograf_domain: "{{ vault_chronograf_domain }}"
 influxdb_home_assistant_username: "{{ vault_influxdb_home_assistant_username }}"
 influxdb_home_assistant_password: "{{ vault_influxdb_home_assistant_password }}"
 
+dropbox_access_token: "{{ vault_dropbox_access_token }}"

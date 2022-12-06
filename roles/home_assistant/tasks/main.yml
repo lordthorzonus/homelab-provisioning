@@ -38,6 +38,24 @@
     state: present
     appends: yes
 
+- name: Ensure home assistant config is present
+  synchronize:
+    src: home_assistant_config/
+    group: false
+    delete: true
+    recursive: true
+    dest: "{{ home_assistant_home_folder }}/config/"
+    rsync_opts:
+      - "--exclude=secrets.yml"
+      - "--exclude=.HA_VERSION"
+      - "--exclude=.storage"
+      - "--exclude=.cloud"
+      - "--exclude=deps"
+      - "--exclude=home_assistant_v2.db"
+      - "--exclude=home_assistant_v2.db-shm"
+      - "--exclude=home_assistant_v2.db-wal"
+  notify: restart home assistant
+
 - name: Ensure home assistant secrets are present
   template:
     src: secrets.yaml
@@ -45,15 +63,6 @@
     group: home-assistant
     mode: 0644
     owner: "{{ home_assistant_user }}"
-  notify: restart home assistant
-
-- name: Ensure home assistant config is present
-  copy:
-    src: home_assistant_config/
-    group: home-assistant
-    owner: "{{ home_assistant_user }}"
-    mode: 0644
-    dest: "{{ home_assistant_home_folder }}/config/"
   notify: restart home assistant
 
 - name: Ensure correct home assistant docker-compose file is present

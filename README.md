@@ -1,5 +1,5 @@
 # Homelab Provisioning
-This repository contains the playbooks to provision my home network environment. Ansible vault files that contain secrets haven't been committed to the public repo. Currently, only contains the playbooks for setup of Home Assitant. 
+This repository contains the playbooks to provision my home network environment. Ansible vault files that contain secrets haven't been committed to the public repo. Currently, only contains the playbooks for setup of Home Assistant. 
 
 ## Home Assistant
 The Home Assistant instance currently runs on an old Raspberry PI 3B+.
@@ -9,6 +9,7 @@ The Home Assistant instance currently runs on an old Raspberry PI 3B+.
 * Traefik as a reverse proxy
 * Mosquitto as a MQTT broker
 * Zigbee2MQTT with a Conbee II stick for various zigbee device communications
+* BLE2MQTT Gateway (https://github.com/lordthorzonus/ble2mqtt-gateway) for BLE sensors
 
 ### Devices/Integrations in use
 
@@ -17,6 +18,8 @@ The Home Assistant instance currently runs on an old Raspberry PI 3B+.
   * Xiaomi Miio illuminance sensor
   * Netatmo weather station
   * Aeotec motion sensors
+  * RuuviTags
+  * MiFlora Flower Care sensors
 * Energy
   * Shelly plug S for monitoring energy usage and remote control of some devices
 * Lights
@@ -30,5 +33,20 @@ The Home Assistant instance currently runs on an old Raspberry PI 3B+.
 
 
 
+## Running
 
+First remember to 
 
+```bash
+ansible-galaxy install -r requirements.yml
+```
+
+### Available playbooks
+- provision-home-assistant-server.yml
+  - Used for Provisioning/updating everything
+- update-home-assistant.yml
+  - Only update home assistant and it's configs
+
+```bash
+ansible-playbook playbooks/your-playbook.yml -i inventory.ini
+```

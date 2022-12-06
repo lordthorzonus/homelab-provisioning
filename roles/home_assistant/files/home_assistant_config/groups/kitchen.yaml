@@ -5,3 +5,6 @@ kitchen:
     - light.kitchen_ceiling_spots
     - light.kitchen_hallway_spots
     - sensor.kitchen_dimmer_switch_battery
+    - binary_sensor.kitchen_leak_sensor_water_leak
+    - sensor.fridge_door_opened_today
+    - sensor.fridge_ruuvitag_temperature

@@ -1,0 +1,8 @@
+light:
+  platform: group
+  name: Mood Lights
+  unique_id: mood_lights
+  entities:
+    - light.hue_smart_plug_1
+    - light.hue_smart_plug_2
+    - light.hue_smart_plug_3
