@@ -1,0 +1,20 @@
+---
+turn_on_game_mode:
+  alias: Turn on Game Mode
+  sequence:
+    - service: media_player.turn_on
+      target:
+        entity_id: media_player.denon_avr_x3400h
+    - service: media_player.select_source
+      data:
+        source: Game
+      target:
+        entity_id: media_player.denon_avr_x3400h
+    - service: hue.activate_scene
+      target:
+        entity_id: scene.living_room_doze
+    - service: light.turn_off
+      target:
+        entity_id: light.kitchen_ceiling_spots
+  mode: single
+  icon: mdi:gamepad-variant

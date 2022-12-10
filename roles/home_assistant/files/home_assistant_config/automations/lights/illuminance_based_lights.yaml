@@ -69,13 +69,16 @@
     Turns on the Mood Lights for the Morning.
   trigger:
     - platform: time
-      at: '06:00'
+      at: input_datetime.mood_lights_turn_on_time
   condition:
     - condition: state
       entity_id: light.mood_lights
       state: "off"
     - condition: state
       entity_id: binary_sensor.dark_outside
+      state: "on"
+    - condition: state
+      entity_id: input_boolean.mood_lights_morning
       state: "on"
   action:
     - alias: "Turn on the Mood lights"

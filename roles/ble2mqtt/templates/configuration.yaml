@@ -10,11 +10,18 @@ gateways:
   base_topic: ble2mqtt
   ruuvitag:
     allow_unknown: false
+    timeout: 60000
     devices:
       - name: Office Ruuvitag
         id: da21045d81a8
       - name: Fridge Ruuvitag
         id: f66b9906ee4e
+      - name: Freezer Ruuvitag
+        id: e04cc4794f9a
+      - name: Bathroom Ruuvitag
+        id: e6d915b382bf
+      - name: Storage Ruuvitag
+        id: e61da2e98d5a
   miflora:
     timeout: 120000
     devices:

@@ -1,0 +1,20 @@
+input_number:
+  dark_outside_lux_value:
+    initial: 70
+    min: 30
+    max: 300
+    step: 1
+    unit_of_measurement: "lux"
+    name: "Setting for minimal lux level when it is considered to be dark outside"
+    icon: "mdi:shield-moon"
+input_boolean:
+  mood_lights_morning:
+    name: Mood lights turn on in morning
+    initial: off
+input_datetime:
+  mood_lights_turn_on_time:
+    name: The time when Mood lights turn on if mood_lights_morning is also on
+    icon: "mdi:alarm-check"
+    initial: "06:00"
+    has_date: false
+    has_time: true

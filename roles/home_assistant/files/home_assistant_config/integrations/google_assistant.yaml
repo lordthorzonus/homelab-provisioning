@@ -14,3 +14,4 @@ cloud:
         - sensor.office_ruuvitag_temperature
         - sensor.office_ruuvitag_humidity
         - script.check_plant_status
+        - script.turn_on_game_mode

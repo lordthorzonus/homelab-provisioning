@@ -9,11 +9,11 @@ binary_sensor:
       prob_given_true: 0.9
       prob_given_false: 0.1
       to_state: "below_horizon"
-    - platform: "numeric_state"
-      entity_id: sensor.balcony_light_sensor_illuminance_lux
-      prob_given_true: 0.8
+    - platform: template
+      prob_given_true: 0.95
       prob_given_false: 0.05
-      below: 50
+      value_template: >
+        {{ states('sensor.balcony_light_sensor_illuminance_lux') | float <= states('input_number.dark_outside_lux_value') | float }}
     - platform: template
       value_template: >
         {{ states('weather.sumppari') == 'cloudy' and states('sensor.season') == 'winter' }}

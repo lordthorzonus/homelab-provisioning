@@ -1,0 +1,7 @@
+template:
+  sensor:
+    - name: Uptime Minutes
+      unit_of_measurement: "minutes"
+      unique_id: sensor.uptime_minutes
+      state: >
+        {{ (as_timestamp(now()) - as_timestamp(states('sensor.uptime'))) // 60| round (0)  }}
