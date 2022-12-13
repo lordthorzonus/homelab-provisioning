@@ -7,7 +7,7 @@
             "fileMatch": ["vars.yml"],
             "matchStringsStrategy": "combination",
             "matchStrings": [
-                "mqtt_mosquitto_version:*\\\"*(?<currentValue>.*)\\\"*"
+                "mqtt_mosquitto_version:\\s*\\\"*(?<currentValue>.*)\\\""
             ],
             "datasourceTemplate": "docker",
             "depNameTemplate": "eclipse-mosquitto"
@@ -16,7 +16,7 @@
             "fileMatch": ["vars.yml"],
             "matchStringsStrategy": "combination",
             "matchStrings": [
-                "home_assistant_version:*\\\"*(?<currentValue>.*)\\\"*"
+                "home_assistant_version:\\s*\\\"*(?<currentValue>.*)\\\""
             ],
             "datasourceTemplate": "docker",
             "depNameTemplate": "homeassistant/home-assistant"
@@ -25,7 +25,7 @@
             "fileMatch": ["vars.yml"],
             "matchStringsStrategy": "combination",
             "matchStrings": [
-                "grafana_version:*\\\"*(?<currentValue>.*)\\\"*"
+                "grafana_version:\\s*\\\"*(?<currentValue>.*)\\\""
             ],
             "datasourceTemplate": "docker",
             "depNameTemplate": "grafana/grafana"
@@ -34,7 +34,7 @@
             "fileMatch": ["vars.yml"],
             "matchStringsStrategy": "combination",
             "matchStrings": [
-                "ble2mqtt_version:*\\\"*(?<currentValue>.*)\\\"*"
+                "ble2mqtt_version:\\s*\\\"*(?<currentValue>.*)\\\""
             ],
             "datasourceTemplate": "docker",
             "depNameTemplate": "lordthorzonus/ble2mqtt-gateway"
@@ -43,7 +43,7 @@
             "fileMatch": ["vars.yml"],
             "matchStringsStrategy": "combination",
             "matchStrings": [
-                "zigbee2mqtt_version:*\\\"*(?<currentValue>.*)\\\"*"
+                "zigbee2mqtt_version:\\s*\\\"*(?<currentValue>.*)\\\""
             ],
             "datasourceTemplate": "docker",
             "depNameTemplate": "koenkk/zigbee2mqtt"
@@ -52,7 +52,7 @@
             "fileMatch": ["vars.yml"],
             "matchStringsStrategy": "combination",
             "matchStrings": [
-                "traefik_version:*\\\"*(?<currentValue>.*)\\\"*"
+                "traefik_version:\\s*\\\"*(?<currentValue>.*)\\\""
             ],
             "datasourceTemplate": "docker",
             "depNameTemplate": "traefik"
