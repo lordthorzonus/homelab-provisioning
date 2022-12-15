@@ -99,7 +99,7 @@ chronograf_version: "1.8.10"
 #########################
 grafana_domain: "{{ vault_grafana_domain }}"
 grafana_admin_email: "{{ lets_encrypt_user_email }}"
-grafana_version: "9.3.1"
+grafana_version: "9.3.2"
 grafana_user: "grafana"
 grafana_home_folder: "/home/{{ home_assistant_user }}/grafana"
 grafana_docker_network_subnet: "{{ home_assistant_docker_network_subnet }}"
