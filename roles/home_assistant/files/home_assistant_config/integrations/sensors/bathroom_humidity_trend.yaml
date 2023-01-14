@@ -1,0 +1,16 @@
+binary_sensor:
+  - platform: trend
+    sensors:
+      bathroom_humidity_rising_sharply:
+        entity_id: sensor.bathroom_ruuvitag_humidity
+        sample_duration: 120
+        max_samples: 120
+        friendly_name: Bathroom Humidity Rising Sharply
+        min_gradient: 0.00821018
+
+      bathroom_humidity_falling_sharply:
+        entity_id: sensor.bathroom_ruuvitag_humidity
+        sample_duration: 120
+        max_samples: 120
+        friendly_name: Bathroom Humidity Falling Sharply
+        min_gradient: -0.00821018
