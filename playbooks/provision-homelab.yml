@@ -1,16 +1,22 @@
 ---
-- hosts: home_assistant
+- hosts: all
   roles:
     - { name: base_security, become: true }
     - { name: geerlingguy.pip, become: true }
-    - { name: geerlingguy.docker_arm, become: true }
+
+- hosts: home_assistant
+  roles:
+    - { name: geerlingguy.docker}
     - { name: traefik, become: true }
     - { name: home_assistant, become: true }
     - { name: mosquitto, become: true }
+
+
+- hosts: mqtt_gateway
+  roles:
+    - { name: geerlingguy.docker_arm, become: true }
+    - { name: traefik, become: true }
     - { name: zigbee2mqtt, become: true }
     - { name: ble2mqtt, become: true }
-    - { name: influxdb, become: true }
-    - { name: grafana, become: true }
-    - { name: backup, become: true}
 
 

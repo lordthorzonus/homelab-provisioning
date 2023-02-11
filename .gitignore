@@ -2,3 +2,6 @@
 vault.yml
 roles/geerlingguy.docker_arm
 roles/geerlingguy.pip
+terraform.tfstate
+.terraform
+prod.tfvars

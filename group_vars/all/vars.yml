@@ -1,13 +1,15 @@
 docker_version: "latest"
-
+docker_edition: 'ce'
 iot_vlan_network: "192.168.30.0/24"
 main_vlan_network: "192.168.10.0/24"
 media_vlan_network: "192.168.50.0/24"
 iot_untrusted_vlan_network: "192.168.40.0/24"
 lan_network: "192.168.5.0/24"
+remote_vpn_network: "10.0.10.0/24"
 
 pip_install_packages:
   - name: setuptools_rust
+  - name: docker
 
 lets_encrypt_user_email: "{{ vault_lets_encrypt_user_email }}"
 

@@ -11,9 +11,11 @@ services:
     labels:
       - traefik.enable=true
       - "traefik.tcp.services.mosquitto.loadbalancer.server.port={{ mqtt_broker_port }}"
-      - traefik.tcp.routers.mosquitto.entrypoints=mqtt
+      - traefik.tcp.routers.mosquitto.entrypoints=websecure
       - traefik.tcp.routers.mosquitto.service=mosquitto
-      - "traefik.tcp.routers.mosquitto.rule=HostSNI(`*`)"
+      - "traefik.tcp.routers.mosquitto.rule=HostSNI(`{{ mqtt_broker_domain }}`)"
+      - traefik.tcp.routers.mosquitto.tls=true
+      - traefik.tcp.routers.mosquitto.tls.certresolver=lets-encrypt
 networks:
   "{{ mqtt_docker_network }}":
     external: true

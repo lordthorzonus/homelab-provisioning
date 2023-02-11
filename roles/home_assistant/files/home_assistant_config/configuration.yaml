@@ -9,6 +9,7 @@ homeassistant:
   packages: !include_dir_named integrations
   external_url: !secret home_assistant_url
   internal_url: !secret home_assistant_url
+  country: FI
 default_config:
 group: !include_dir_merge_named groups/
 

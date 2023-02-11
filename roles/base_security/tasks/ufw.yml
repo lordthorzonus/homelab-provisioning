@@ -31,3 +31,43 @@
     - "{{ main_vlan_network }}"
     - "{{ lan_network }}"
   notify: reload ufw
+
+- name: Allow http port
+  when: security_allow_http_traffic
+  community.general.ufw:
+    rule: allow
+    port: "80"
+    proto: tcp
+    src: "{{ item }}"
+  loop: "{{ allowed_network_sources }}"
+  notify: reload ufw
+
+- name: Allow https port
+  when: security_allow_https_traffic
+  community.general.ufw:
+    rule: allow
+    port: "443"
+    proto: tcp
+    src: "{{ item }}"
+  loop: "{{ allowed_network_sources }}"
+  notify: reload ufw
+
+- name: Allow mqqts port
+  when: security_allow_mqtts_traffic
+  community.general.ufw:
+    rule: allow
+    port: "8883"
+    proto: tcp
+    src: "{{ item }}"
+  loop: "{{ allowed_network_sources }}"
+  notify: reload ufw
+
+- name: Allow influxdb port
+  when: security_allow_influxdb_traffic
+  community.general.ufw:
+    rule: allow
+    port: "8086"
+    proto: tcp
+    src: "{{ item }}"
+  loop: "{{ allowed_network_sources }}"
+  notify: reload ufw

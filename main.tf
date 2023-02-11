@@ -1,0 +1,26 @@
+terraform {
+  required_providers {
+    proxmox = {
+      source = "Telmate/proxmox"
+      version = "2.9.11"
+    }
+  }
+  required_version = " ~>1.3.8"
+}
+
+provider "proxmox" {
+  pm_api_url = "https://192.168.10.10:8006/api2/json"
+  pm_tls_insecure = true
+  pm_user = var.pm_user
+  pm_password = var.pm_password
+}
+
+module "servers" {
+  source = "./terraform-modules/servers"
+  home_assistant_target_node = "nuc1"
+  home_assistant_core_count = 2
+  home_assistant_disk_size = "32G"
+  public_ssh_key = file(var.public_key_path)
+  pm_ssh_user = var.pm_ssh_user
+  pm_ssh_private_key_path = var.pm_ssh_private_key_path
+}
