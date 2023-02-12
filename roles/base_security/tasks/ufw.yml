@@ -30,10 +30,11 @@
   loop:
     - "{{ main_vlan_network }}"
     - "{{ lan_network }}"
+    - "{{ remote_vpn_network }}"
   notify: reload ufw
 
 - name: Allow http port
-  when: security_allow_http_traffic
+  when: security_allow_http_traffic | default(false)
   community.general.ufw:
     rule: allow
     port: "80"
@@ -43,7 +44,7 @@
   notify: reload ufw
 
 - name: Allow https port
-  when: security_allow_https_traffic
+  when: security_allow_https_traffic | default(false)
   community.general.ufw:
     rule: allow
     port: "443"
@@ -53,7 +54,7 @@
   notify: reload ufw
 
 - name: Allow mqqts port
-  when: security_allow_mqtts_traffic
+  when: security_allow_mqtt_traffic | default(false)
   community.general.ufw:
     rule: allow
     port: "8883"
@@ -63,7 +64,7 @@
   notify: reload ufw
 
 - name: Allow influxdb port
-  when: security_allow_influxdb_traffic
+  when: security_allow_influxdb_traffic | default(false)
   community.general.ufw:
     rule: allow
     port: "8086"

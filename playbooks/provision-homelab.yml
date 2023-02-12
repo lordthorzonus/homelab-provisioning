@@ -6,11 +6,10 @@
 
 - hosts: home_assistant
   roles:
-    - { name: geerlingguy.docker}
+    - { name: geerlingguy.docker, become: true}
     - { name: traefik, become: true }
     - { name: home_assistant, become: true }
     - { name: mosquitto, become: true }
-
 
 - hosts: mqtt_gateway
   roles:

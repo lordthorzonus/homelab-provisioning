@@ -1,3 +1,8 @@
+docker_compose_package_state: present
+docker_install_compose: true
+docker_compose_version: '1.29.2'
+ansible_python_interpreter: /usr/bin/python3
+
 ###########################
 # Security
 ###########################
@@ -20,20 +25,21 @@ allowed_direct_access_to_home_assistant:
 
 security_allow_http_traffic: true
 security_allow_https_traffic: true
-security_allow_mqtts_traffic: true
 
 ###########################
 # Traefik
 ###########################
 traefik_home_folder: "/home/{{ home_assistant_user }}/traefik"
 traefik_user: "{{ home_assistant_user }}"
+traefik_user_id: "{{ home_assistant_user_id }}"
+traefik_user_group_id: "{{ home_assistant_user_group_id }}"
 
 traefik_docker_network: "{{ home_assistant_docker_network }}"
 traefik_docker_network_subnet: "{{ home_assistant_docker_network_subnet }}"
 traefik_docker_network_gateway: "{{ home_assistant_docker_network_gateway }}"
 traefik_docker_ip: "172.20.0.2"
 
-traefik_version: "v3.0"
+traefik_version: "v2.9.6"
 traefik_domain: "{{ vault_traefik_domain }}"
 
 lets_encrypt_use_production: true
@@ -51,6 +57,8 @@ netatmo_client_secret: "{{ vault_netatmo_client_secret }}"
 
 home_assistant_user_password: "{{ vault_home_assistant_user_password }}"
 home_assistant_user: home_assistant
+home_assistant_user_id: 1024
+home_assistant_user_group_id: 1004
 home_assistant_home_folder: "/home/{{ home_assistant_user }}/home_assistant"
 home_assistant_version: "2023.2"
 home_assistant_docker_network: "home-assistant-network"
@@ -66,6 +74,8 @@ mqtt_docker_network: "{{ home_assistant_docker_network }}"
 mqtt_docker_network_gateway: "{{ home_assistant_docker_network_gateway }}"
 mosquitto_home_folder: "/home/{{ home_assistant_user }}/mosquitto"
 mosquitto_user: "{{ home_assistant_user }}"
+mosquitto_user_id: "{{ home_assistant_user_id }}"
+mosquitto_user_group_id: "{{ home_assistant_user_group_id }}"
 
 ###########################
 # InfluxDB
@@ -91,17 +101,3 @@ grafana_home_folder: "/home/{{ home_assistant_user }}/grafana"
 grafana_docker_network_subnet: "{{ home_assistant_docker_network_subnet }}"
 grafana_docker_network: "{{ home_assistant_docker_network }}"
 grafana_docker_network_gateway: "{{ home_assistant_docker_network_gateway }}"
-
-#########################
-# Backup
-#########################
-folders_to_backup:
-  - "{{ ble2mqtt_home_folder }}"
-  - "{{ grafana_home_folder }}"
-  - "{{ home_assistant_home_folder }}"
-  - "{{ mosquitto_home_folder }}"
-  - "{{ traefik_home_folder }}"
-  - "{{ zigbee2mqtt_home_folder }}"
-
-dropbox_backup_folder: "/home_assistant_server_backups"
-backup_name: "home_assistant_server_backup"

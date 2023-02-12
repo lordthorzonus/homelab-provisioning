@@ -1,7 +1,7 @@
 permit_join: false
 availability: true
 mqtt:
-  server: "mqtt://mosquitto:8883"
+  server: "mqtts://{{ mqtt_broker_domain }}:443"
   user: "{{ zigbee2mqtt_mqtt_username }}"
   password: "{{ zigbee2mqtt_mqtt_password }}"
 serial:

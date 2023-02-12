@@ -1,10 +1,10 @@
 mqtt:
   host: "{{ mqtt_broker_domain }}"
-  port: 8883
+  port: 443
   username: "{{ zigbee2mqtt_mqtt_username }}"
   password: "{{ zigbee2mqtt_mqtt_password }}"
   client_id: ble2mqtt
-  protocol: mqtt
+  protocol: mqtts
 
 gateways:
   base_topic: ble2mqtt

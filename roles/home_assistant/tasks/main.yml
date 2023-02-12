@@ -2,11 +2,13 @@
 - name: Ensure Home Assistant group exists
   group:
     name: home-assistant
+    gid: "{{ home_assistant_user_group_id }}"
     state: present
 
 - name: Ensure Home Assistant user exists
   user:
     name: "{{ home_assistant_user }}"
+    uid: "{{ home_assistant_user_id }}"
     password: "{{ home_assistant_user_password }}"
     groups: docker, home-assistant
     state: present

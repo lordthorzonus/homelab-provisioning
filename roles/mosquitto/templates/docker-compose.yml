@@ -2,6 +2,7 @@ services:
   mosquitto:
     image: "eclipse-mosquitto:{{ mqtt_mosquitto_version }}"
     container_name: mosquitto
+    user: "{{ mosquitto_user_id }}:{{ mosquitto_user_group_id }}"
     networks:
       - "{{ mqtt_docker_network }}"
     restart: unless-stopped

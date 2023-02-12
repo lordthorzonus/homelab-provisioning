@@ -28,7 +28,6 @@
     dest: "{{ traefik_home_folder }}/traefik.yml"
     group: docker
     mode: 0600
-    owner: "{{ traefik_user }}"
   notify: restart traefik
 
 - name: Ensure Traefik docker-compose file is present
@@ -37,7 +36,6 @@
     dest: "{{ traefik_home_folder }}/docker-compose.yml"
     group: docker
     mode: 0644
-    owner: "{{ traefik_user }}"
   notify: restart traefik
 
 - name: Ensure traefik is running

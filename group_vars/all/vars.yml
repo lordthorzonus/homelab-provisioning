@@ -10,6 +10,7 @@ remote_vpn_network: "10.0.10.0/24"
 pip_install_packages:
   - name: setuptools_rust
   - name: docker
+  - name: docker-compose
 
 lets_encrypt_user_email: "{{ vault_lets_encrypt_user_email }}"
 

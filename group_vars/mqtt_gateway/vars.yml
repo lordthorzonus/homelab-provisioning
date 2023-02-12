@@ -9,7 +9,6 @@ allowed_network_sources:
   - "{{ iot_vlan_network }}"
   - "{{ main_vlan_network }}"
   - "{{ lan_network }}"
-  - "{{ gateway_docker_network_subnet }}"
   - "{{ remote_vpn_network }}"
 
 gateway_docker_network: "home-assistant-network"
@@ -30,7 +29,7 @@ traefik_docker_network_subnet: "{{ gateway_docker_network_subnet }}"
 traefik_docker_network_gateway: "{{ gateway_docker_network_gateway }}"
 traefik_docker_ip: "172.20.0.2"
 
-traefik_version: "v3.0"
+traefik_version: "v2.9.6"
 traefik_domain: "{{ vault_traefik_domain }}"
 
 lets_encrypt_use_production: true
@@ -39,8 +38,8 @@ lets_encrypt_use_production: true
 ###########################
 # Zigbee2MQTT
 ###########################
-zigbee2mqtt_home_folder: "/home/{{ home_assistant_user }}/zigbee2mqtt"
-zigbee2mqtt_user: "{{ home_assistant_user }}"
+zigbee2mqtt_home_folder: "/home/{{ gateway_user }}/zigbee2mqtt"
+zigbee2mqtt_user: "{{ gateway_user }}"
 zigbee2mqtt_domain: "{{ vault_zigbee2mqtt_domain }}"
 zigbee2mqtt_docker_network_subnet: "{{ gateway_docker_network_subnet }}"
 zigbee2mqtt_docker_network: "{{ gateway_docker_network }}"
@@ -53,4 +52,4 @@ zigbee2mqtt_network_key: "{{ vault_zigbee2mqtt_network_key }}"
 ###########################
 ble2mqtt_home_folder: "/home/{{ gateway_user }}/ble2mqtt"
 ble2mqtt_user: "{{ gateway_user }}"
-ble2mqtt_version: "0.7.2"
+ble2mqtt_version: "0.7.3"
