@@ -1,5 +1,5 @@
 # Homelab Provisioning
-[Available ansible playbooks](#available-playbooks) • [Terraform](#terraform) • [Home Assistant](#home-assistant)
+[Available ansible playbooks](#available-playbooks) • [Terraform](#terraform) • [Home Assistant](#home-assistant) • [Network](./docs/network.md)
 
 This repository contains the ansible playbooks and terraform files to provision my home network environment. Ansible vault files that contain secrets haven't been committed to the public repo.
 
@@ -14,6 +14,10 @@ ansible-playbook -i inventory.ini provision-homelab.yml
 
 ## Overview
 
+### Network
+
+See the documentation [here](./docs/network.md)
+
 ### Hardware
 - Intel NUC i3-8109U/16Gb RAM/480Gb running Proxmox
 - Raspberry PI 3b+ running Raspberry Pi OS
@@ -27,10 +31,14 @@ ansible-playbook -i inventory.ini provision-homelab.yml
 - [Ble2MQTT](./roles/ble2mqtt)
 - [Traefik](./roles/traefik)
 
+#### Currently waiting to be moved to k3s
+- [Grafana](./roles/grafana)
+- [InfluxDB](./roles/influxdb)
+
 ## Home Assistant
 The Home Assistant instance currently runs on a VM inside a proxmox in a intel nuc, with a friend mqtt gateway running on a old Raspberry PI 3b+.
 
-The configurations can be found [roles/home_assistant](./roles/home_assistant/files/home_assistant_config). Most of the integrations are through MQTT whenever it's available. 
+The configurations can be found [roles/home_assistant](./roles/home_assistant/files/home_assistant_config). Most of the integrations are through MQTT whenever it's available. [Overview of connections](./docs/network.md#home-assistant) 
 
 ### Home Assistant VM
 
