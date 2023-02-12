@@ -65,6 +65,8 @@ home_assistant_docker_network: "home-assistant-network"
 home_assistant_docker_network_subnet: "172.20.0.0/16"
 home_assistant_docker_network_gateway: "172.20.0.1"
 home_assistant_domain: "{{ vault_home_assistant_domain }}"
+hacs_version: "1.30.1"
+
 
 ###########################
 # MQTT

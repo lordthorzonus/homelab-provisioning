@@ -7,6 +7,15 @@
             "fileMatch": ["vars.yml"],
             "matchStringsStrategy": "combination",
             "matchStrings": [
+                "hacs_version:\\s*\\\"*(?<currentValue>.*)\\\""
+            ],
+            "datasourceTemplate": "github-releases",
+            "depNameTemplate": "hacs/integration"
+        },
+        {
+            "fileMatch": ["vars.yml"],
+            "matchStringsStrategy": "combination",
+            "matchStrings": [
                 "mqtt_mosquitto_version:\\s*\\\"*(?<currentValue>.*)\\\""
             ],
             "datasourceTemplate": "docker",

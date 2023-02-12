@@ -1,4 +1,11 @@
 ---
+- name: Ensure zip is installed
+  package:
+    name:
+      - zip
+      - unzip
+    state: present
+
 - name: Ensure Home Assistant group exists
   group:
     name: home-assistant
@@ -53,6 +60,7 @@
       - "--exclude=.storage"
       - "--exclude=.cloud"
       - "--exclude=deps"
+      - "--exclude=custom_components"
       - "--exclude=home_assistant_v2.db"
       - "--exclude=home_assistant_v2.db-shm"
       - "--exclude=home_assistant_v2.db-wal"
@@ -75,6 +83,51 @@
     group: home-assistant
     owner: "{{ home_assistant_user }}"
   notify: restart home assistant
+
+- name: Ensure hacs is downloaded
+  get_url:
+    url: "https://github.com/hacs/integration/releases/download/{{ hacs_version }}/hacs.zip"
+    dest: "{{ home_assistant_home_folder }}/hacs-{{ hacs_version }}.zip"
+  register: hacs
+
+- name: Ensure custom components folder exists
+  file:
+    path: "{{ home_assistant_home_folder }}/config/custom_components"
+    state: directory
+    owner: "{{ home_assistant_user }}"
+    group: home-assistant
+    mode: 0755
+
+- name: Ensure hacs folder exists
+  file:
+    path: "{{ home_assistant_home_folder }}/config/custom_components/hacs"
+    state: directory
+    owner: "{{ home_assistant_user }}"
+    group: home-assistant
+    mode: 0755
+
+- name: Unzip hacs
+  when: hacs.changed
+  unarchive:
+    remote_src: true
+    src: "{{ home_assistant_home_folder }}/hacs-{{ hacs_version }}.zip"
+    dest: "{{ home_assistant_home_folder }}/config/custom_components/hacs/"
+  notify: restart home assistant
+
+- name: Register old hacs versions
+  find:
+    paths: "{{ home_assistant_home_folder }}"
+    excludes:
+      - "hacs-{{ hacs_version }}.zip"
+    patterns: hacs-.*\.zip
+    use_regex: true
+  register: old_hacs_versions
+
+- name: Delete old hacs versions
+  file:
+    path: "{{ item.path }}"
+    state: absent
+  with_items: " {{ old_hacs_versions['files'] }}"
 
 - name: Ensure home assistant is running
   community.docker.docker_compose:
