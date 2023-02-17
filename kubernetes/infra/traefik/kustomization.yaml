@@ -6,5 +6,6 @@ helmCharts:
     name:  traefik
     valuesFile: values.yml
     repo: https://traefik.github.io/charts
+    includeCRDs: true
 resources:
   - ingress-route.yml
