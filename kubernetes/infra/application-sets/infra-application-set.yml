@@ -15,9 +15,9 @@ spec:
     metadata:
       name: '{{.path.basename}}'
     spec:
-      project: "Infra applications"
+      project: homelab
       source:
-        repoURL: https://github.com/lordthorzonus/homelab-provisioning
+        repoURL: https://github.com/lordthorzonus/homelab-provisioning.git
         targetRevision: HEAD
         path: '{{.path.path}}'
       destination:

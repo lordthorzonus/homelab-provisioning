@@ -118,3 +118,11 @@ ansible-playbook playbooks/your-playbook.yml -i inventory.ini
 ```
 
 Available playbooks are in [./playbooks](./playbooks)
+
+## Kubernetes
+
+### Bootstrapping a new cluster
+
+- Use [terraform](#running) to spin up the k3s nodes.
+- Run `ansible-playbook playbooks/bootstrap-k3s-cluster.yml -i inventory.ini` for boostrapping the cluster
+- ArgoCD will deploy the rest

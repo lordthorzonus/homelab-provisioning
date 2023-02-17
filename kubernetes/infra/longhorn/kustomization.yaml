@@ -1,7 +1,9 @@
+namespace: longhorn-system
 helmCharts:
   - namespace: longhorn-system
     repo: https://charts.longhorn.io
     name: longhorn
+    releaseName: longhorn
     version: 1.4.0
     includeCRDs: true
 
