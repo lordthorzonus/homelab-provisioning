@@ -43,9 +43,9 @@ flowchart TD
     
     subgraph nuc [Intel NUC]
         vm1(fa:fa-server Home Assistant VM <br> 192.168.30.11 <br> Ubuntu 22.04 LTS)
-        vm2(fa:fa-server K3S Agent <br> 192.168.10.20 <br> Ubuntu 22.04 LTS)
-        vm3(fa:fa-server K3S Worker 1 <br> 192.168.10.21 <br> Ubuntu 22.04 LTS)
-        vm4(fa:fa-server K3S Worker 2 <br> 192.168.10.22 <br> Ubuntu 22.04 LTS)
+        vm2(fa:fa-server K3S Server <br> 192.168.10.40 <br> Ubuntu 22.04 LTS)
+        vm3(fa:fa-server K3S Agent 1 <br> 192.168.10.41 <br> Ubuntu 22.04 LTS)
+        vm4(fa:fa-server K3S Agent 2 <br> 192.168.10.42 <br> Ubuntu 22.04 LTS)
     end
     
     server1-.->nuc

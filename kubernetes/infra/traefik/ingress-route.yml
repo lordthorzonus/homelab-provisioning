@@ -1,0 +1,32 @@
+---
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: traefik-dashboard
+  namespace: kube-system
+spec:
+  commonName: traefik-k3s.lan.juusoleinonen.fi
+  secretName: traefik-dashboard-certificate
+  dnsNames:
+    - traefik-k3s.lan.juusoleinonen.fi
+  issuerRef:
+    name: letsencrypt-prod
+    kind: ClusterIssuer
+
+---
+apiVersion: traefik.containo.us/v1alpha1
+kind: IngressRoute
+metadata:
+  name: traefik-dashboard-websecure
+  namespace: kube-system
+spec:
+  entryPoints:
+    - websecure
+  routes:
+    - match: "Host(`traefik-k3s.lan.juusoleinonen.fi`)"
+      kind: Rule
+      services:
+        - name: api@internal
+          kind: TraefikService
+  tls:
+    secretName: traefik-dashboard-certificate

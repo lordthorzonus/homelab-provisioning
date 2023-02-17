@@ -1,0 +1,21 @@
+- name: copy kubectl back to calling host
+  ansible.builtin.fetch:
+    src: /etc/rancher/k3s/k3s.yaml
+    dest: ./tmp/k3s-kubeconfig
+    flat: yes
+
+- name: (localhost) replace localhost with master-ip {{ master_ip }}
+  delegate_to: localhost
+  become: false
+  replace:
+    path: ./tmp/k3s-kubeconfig
+    regexp: "127.0.0.1"
+    replace: "{{ hostvars[inventory_hostname]['ansible_default_ipv4']['address'] }}"
+
+- name: (localhost) replace default with cluster name {{ k3s_cluster_name | default('k3s-home') }}
+  delegate_to: localhost
+  become: false
+  replace:
+    path: ./tmp/k3s-kubeconfig
+    regexp: "default"
+    replace: "{{ k3s_cluster_name | default('k3s-home') }}"

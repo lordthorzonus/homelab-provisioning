@@ -1,0 +1,44 @@
+apiVersion: cert-manager.io/v1
+kind: ClusterIssuer
+metadata:
+  name: letsencrypt-prod
+spec:
+  acme:
+    email: leinonen.juuso@gmail.com
+    privateKeySecretRef:
+      name: letsencrypt-prod-secret
+    server: https://acme-v02.api.letsencrypt.org/directory
+    solvers:
+      - dns01:
+          route53:
+            region: eu-north-1
+            hostedZoneID: Z2Q81JS3BTNRPO
+            accessKeyIDSecretRef:
+              name: route53-acme-dns01-credentials
+              key: accessKeyId
+            secretAccessKeySecretRef:
+              name: route53-acme-dns01-credentials
+              key: accessKeySecret
+
+---
+apiVersion: cert-manager.io/v1
+kind: ClusterIssuer
+metadata:
+  name: letsencrypt-staging
+spec:
+  acme:
+    email: leinonen.juuso@gmail.com
+    privateKeySecretRef:
+      name: letsencrypt-staging-secret
+    server: https://acme-staging-v02.api.letsencrypt.org/directory
+    solvers:
+      - dns01:
+          route53:
+            region: eu-north-1
+            hostedZoneID: Z2Q81JS3BTNRPO
+            accessKeyIDSecretRef:
+              name: route53-acme-dns01-credentials
+              key: accessKeyId
+            secretAccessKeySecretRef:
+              name: route53-acme-dns01-credentials
+              key: accessKeySecret

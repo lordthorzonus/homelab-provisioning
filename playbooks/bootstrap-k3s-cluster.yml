@@ -1,0 +1,8 @@
+---
+- hosts: k3s_server
+  roles:
+    - { name: k3s/get_kubeconfig, become: true }
+
+- hosts: localhost
+  roles:
+    - { name: k3s/bootstrap_cluster }

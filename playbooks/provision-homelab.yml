@@ -1,5 +1,5 @@
 ---
-- hosts: all
+- hosts: [home_assistant, mqtt_gateway]
   roles:
     - { name: base_security, become: true }
     - { name: geerlingguy.pip, become: true }
@@ -18,4 +18,4 @@
     - { name: zigbee2mqtt, become: true }
     - { name: ble2mqtt, become: true }
 
-
+- import_playbook: bootstrap-k3s-cluster.yml

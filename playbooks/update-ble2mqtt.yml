@@ -1,4 +1,0 @@
----
-- hosts: mqtt_gateway
-  roles:
-    - { name: ble2mqtt, become: true }

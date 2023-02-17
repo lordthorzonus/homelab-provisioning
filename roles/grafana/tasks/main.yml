@@ -15,7 +15,7 @@
     appends: yes
 
 - name: Ensure Grafana folder exists
-  file:
+  ansible.builtin.file:
     path: "{{ grafana_home_folder }}"
     state: directory
     owner: "{{ grafana_user }}"
@@ -23,7 +23,7 @@
     mode: 0755
 
 - name: Ensure Grafana data folder exists
-  file:
+  ansible.builtin.file:
     path: "{{ grafana_home_folder }}/data"
     state: directory
     owner: "{{ grafana_user }}"
@@ -31,7 +31,7 @@
     mode: 0755
 
 - name: Ensure Grafana config file is present
-  template:
+  ansible.builtin.template:
     src: grafana.ini
     dest: "{{ grafana_home_folder }}/grafana.ini"
     group: root
@@ -40,7 +40,7 @@
   notify: restart grafana
 
 - name: Ensure Grafana datasources.yml file is present
-  template:
+  ansible.builtin.template:
     src: datasources.yml
     dest: "{{ grafana_home_folder }}/datasources.yml"
     group: root
@@ -49,7 +49,7 @@
   notify: restart grafana
 
 - name: Ensure Grafana docker-compose file is present
-  template:
+  ansible.builtin.template:
     src: docker-compose.yml
     dest: "{{ grafana_home_folder }}/docker-compose.yml"
     group: root

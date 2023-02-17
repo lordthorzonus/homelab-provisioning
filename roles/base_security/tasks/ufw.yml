@@ -72,3 +72,11 @@
     src: "{{ item }}"
   loop: "{{ allowed_network_sources }}"
   notify: reload ufw
+
+- name: Allow host specific rules are in place
+  community.general.ufw:
+    rule: "{{ item.rule }}"
+    port: "{{ item.port }}"
+    proto: "{{ item.proto }}"
+    src: "{{ item.src }}"
+  loop: "{{ host_specific_firewall_rules }}"

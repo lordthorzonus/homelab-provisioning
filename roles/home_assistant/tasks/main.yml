@@ -1,28 +1,28 @@
 ---
 - name: Ensure zip is installed
-  package:
+  ansible.builtin.package:
     name:
       - zip
       - unzip
     state: present
 
 - name: Ensure Home Assistant group exists
-  group:
+  ansible.builtin.group:
     name: home-assistant
     gid: "{{ home_assistant_user_group_id }}"
     state: present
 
 - name: Ensure Home Assistant user exists
-  user:
+  ansible.builtin.user:
     name: "{{ home_assistant_user }}"
     uid: "{{ home_assistant_user_id }}"
     password: "{{ home_assistant_user_password }}"
     groups: docker, home-assistant
     state: present
-    append: yes
+    append: true
 
 - name: Ensure Home Assistant folder exists
-  file:
+  ansible.builtin.file:
     path: "{{ home_assistant_home_folder }}/config"
     state: directory
     owner: "{{ home_assistant_user }}"
@@ -45,10 +45,10 @@
       - subnet: "{{ home_assistant_docker_network_subnet }}"
         gateway: "{{ home_assistant_docker_network_gateway }}"
     state: present
-    appends: yes
+    appends: true
 
 - name: Ensure home assistant config is present
-  synchronize:
+  ansible.posix.synchronize:
     src: home_assistant_config/
     group: false
     delete: true
@@ -67,7 +67,7 @@
   notify: restart home assistant
 
 - name: Ensure home assistant secrets are present
-  template:
+  ansible.builtin.template:
     src: secrets.yaml
     dest: "{{ home_assistant_home_folder }}/config/secrets.yaml"
     group: home-assistant
@@ -76,7 +76,7 @@
   notify: restart home assistant
 
 - name: Ensure correct home assistant docker-compose file is present
-  template:
+  ansible.builtin.template:
     src: docker-compose.yml
     dest: "{{ home_assistant_home_folder }}"
     mode: 0644
@@ -85,13 +85,13 @@
   notify: restart home assistant
 
 - name: Ensure hacs is downloaded
-  get_url:
+  ansible.builtin.get_url:
     url: "https://github.com/hacs/integration/releases/download/{{ hacs_version }}/hacs.zip"
     dest: "{{ home_assistant_home_folder }}/hacs-{{ hacs_version }}.zip"
   register: hacs
 
 - name: Ensure custom components folder exists
-  file:
+  ansible.builtin.file:
     path: "{{ home_assistant_home_folder }}/config/custom_components"
     state: directory
     owner: "{{ home_assistant_user }}"
@@ -99,7 +99,7 @@
     mode: 0755
 
 - name: Ensure hacs folder exists
-  file:
+  ansible.builtin.file:
     path: "{{ home_assistant_home_folder }}/config/custom_components/hacs"
     state: directory
     owner: "{{ home_assistant_user }}"
@@ -108,14 +108,14 @@
 
 - name: Unzip hacs
   when: hacs.changed
-  unarchive:
+  ansible.builtin.unarchive:
     remote_src: true
     src: "{{ home_assistant_home_folder }}/hacs-{{ hacs_version }}.zip"
     dest: "{{ home_assistant_home_folder }}/config/custom_components/hacs/"
   notify: restart home assistant
 
 - name: Register old hacs versions
-  find:
+  ansible.builtin.find:
     paths: "{{ home_assistant_home_folder }}"
     excludes:
       - "hacs-{{ hacs_version }}.zip"
@@ -124,7 +124,7 @@
   register: old_hacs_versions
 
 - name: Delete old hacs versions
-  file:
+  ansible.builtin.file:
     path: "{{ item.path }}"
     state: absent
   with_items: " {{ old_hacs_versions['files'] }}"
@@ -133,8 +133,3 @@
   community.docker.docker_compose:
     project_src: "{{ home_assistant_home_folder }}"
     state: present
-
-
-
-
-

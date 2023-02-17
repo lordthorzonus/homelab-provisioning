@@ -8,7 +8,7 @@
     appends: yes
 
 - name: Ensure InfluxDB folder exists
-  file:
+  ansible.builtin.file:
     path: "{{ influxdb_home_folder }}"
     state: directory
     owner: "{{ influxdb_user }}"
@@ -16,7 +16,7 @@
     mode: 0755
 
 - name: Ensure InfluxDB data folder exists
-  file:
+  ansible.builtin.file:
     path: "{{ influxdb_home_folder }}/data"
     state: directory
     owner: "{{ influxdb_user }}"
@@ -24,7 +24,7 @@
     mode: 0755
 
 - name: Ensure Chronograf folder exists
-  file:
+  ansible.builtin.file:
     path: "{{ influxdb_home_folder }}/chronograf"
     state: directory
     owner: "{{ influxdb_user }}"
@@ -32,7 +32,7 @@
     mode: 0755
 
 - name: Ensure InfluxDB config folder exists
-  file:
+  ansible.builtin.file:
     path: "{{ influxdb_home_folder }}/config"
     state: directory
     owner: "{{ influxdb_user }}"
@@ -40,7 +40,7 @@
     mode: 0755
 
 - name: Ensure InfluxDB docker-compose file is present
-  template:
+  ansible.builtin.template:
     src: docker-compose.yml
     dest: "{{ influxdb_home_folder }}/docker-compose.yml"
     group: docker

@@ -1,4 +1,0 @@
----
-- hosts: home_assistant
-  roles:
-    - { name: grafana, become: true }

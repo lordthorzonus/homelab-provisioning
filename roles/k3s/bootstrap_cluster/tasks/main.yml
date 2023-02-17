@@ -1,0 +1,42 @@
+- name: Create external-secrets namespace
+  k8s:
+    name: external-secrets
+    api_version: v1
+    kind: Namespace
+    state: present
+
+- name: Apply 1password credentials secret manifest
+  k8s:
+    state: present
+    definition: "{{ lookup('template', '1password-credentials-secret.yml') | from_yaml }}"
+    kubeconfig: ./tmp/k3s-kubeconfig
+
+- name: Apply 1password operator token manifest
+  k8s:
+    state: present
+    definition: "{{ lookup('template', '1password-operator-token.yml') | from_yaml }}"
+    kubeconfig: ./tmp/k3s-kubeconfig
+
+- name: Apply external-secrets manifests
+  shell: 'kustomize build ./../kubernetes/infra/external-secrets --enable-helm  | kubectl apply -f --kubeconfig=./tmp/k3s-kubeconfig -'
+
+- name: Apply secret store manifests
+  shell: 'kubectl apply -f ./../kubernetes/infra/secret-store/secret-store.yaml --kubeconfig=./tmp/k3s-kubeconfig'
+
+- name: Apply cert-manager manifests
+  shell: 'kustomize build ./../kubernetes/infra/cert-manager --enable-helm  | kubectl apply -f --kubeconfig=./tmp/k3s-kubeconfig -'
+
+- name: Apply cluster-issuer manifests
+  shell: 'kubectl apply -k ./../kubernetes/infra/cluster-issuer --kubeconfig=./tmp/k3s-kubeconfig'
+
+- name: Apply metallb manifests
+  shell: 'kubectl apply -k ./../kubernetes/infra/metallb --kubeconfig=./tmp/k3s-kubeconfig'
+
+- name: Apply traefik manifests
+  shell: 'kustomize build ./../kubernetes/infra/traefik --enable-helm  | kubectl apply -f --kubeconfig=./tmp/k3s-kubeconfig -'
+
+- name: Apply longhorn manifest
+  shell: 'kustomize build ./../kubernetes/infra/longhorn --enable-helm  | kubectl apply -f --kubeconfig=./tmp/k3s-kubeconfig -'
+
+- name: Apply argocd manifests
+  shell: 'kubectl apply -k ./../kubernetes/infra/argocd --kubeconfig=./tmp/k3s-kubeconfig'

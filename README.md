@@ -1,18 +1,33 @@
 # Homelab Provisioning
-[Available ansible playbooks](#available-playbooks) • [Terraform](#terraform) • [Home Assistant](#home-assistant) • [Network](./docs/network.md)
+[Available ansible playbooks](#available-playbooks) • [Terraform](#terraform) • [Home Assistant](#home-assistant) • [Network](./docs/network.md) • [Kubernetes Manifests](./kubernetes) 
 
-This repository contains the ansible playbooks and terraform files to provision my home network environment. Ansible vault files that contain secrets haven't been committed to the public repo.
+This repository contains the ansible playbooks, terraform modules and kubernetes manifests to provision my home network environment. Ansible vault files that contain secrets haven't been committed to the public repo.
 
 ## Quickstart
 
+First install the tools needed
+
 ```bash
-ansible-galaxy install -r requirements.yml
+brew install --cask 1password/tap/1password-cli
+brew install ansible
+brew install terraform
+brew install kubectl
+```
+
+```bash
 terraform init
 terraform apply -var-file="prod.tfvars"
+ansible-galaxy install -r requirements.yml
 ansible-playbook -i inventory.ini provision-homelab.yml
 ```
 
 ## Overview
+
+- PFsense is managed by hand
+- Unifi equipment is managed by hand
+- Terraform spins up all VMs
+- Ansible is used for provisioning those + other computers and bootstrapping the k3s cluster
+- ArgoCD deploys everything under [./kubernetes](./kubernetes)
 
 ### Network
 
@@ -98,12 +113,8 @@ First remember to
 ansible-galaxy install -r requirements.yml
 ```
 
-#### Available playbooks
-- provision-home-assistant-server.yml
-  - Used for Provisioning/updating everything
-- update-home-assistant.yml
-  - Only update home assistant and it's configs
-
 ```bash
 ansible-playbook playbooks/your-playbook.yml -i inventory.ini
 ```
+
+Available playbooks are in [./playbooks](./playbooks)

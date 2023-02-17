@@ -1,5 +1,5 @@
 - name: Ensure BLE2MQTT folder exists
-  file:
+  ansible.builtin.file:
     path: "{{ ble2mqtt_home_folder }}"
     state: directory
     owner: "{{ ble2mqtt_user }}"
@@ -7,7 +7,7 @@
     mode: 0755
 
 - name: Ensure BLE2MQTT configuration is present
-  template:
+  ansible.builtin.template:
     src: configuration.yaml
     dest: "{{ ble2mqtt_home_folder }}/configuration.yaml"
     group: docker
@@ -16,7 +16,7 @@
   notify: restart ble2mqtt
 
 - name: Ensure BLE2MQTT docker-compose file is present
-  template:
+  ansible.builtin.template:
     src: docker-compose.yml
     dest: "{{ ble2mqtt_home_folder }}/docker-compose.yml"
     group: docker

@@ -8,7 +8,7 @@
     appends: yes
 
 - name: Ensure Zigbee2MQTT folder exists
-  file:
+  ansible.builtin.file:
     path: "{{ zigbee2mqtt_home_folder }}"
     state: directory
     owner: "{{ zigbee2mqtt_user }}"
@@ -16,7 +16,7 @@
     mode: 0755
 
 - name: Ensure Zigbee2MQTT data folder exists
-  file:
+  ansible.builtin.file:
     path: "{{ zigbee2mqtt_home_folder }}/data"
     state: directory
     owner: "{{ zigbee2mqtt_user }}"
@@ -24,7 +24,7 @@
     mode: 0755
 
 - name: Ensure Zigbee2MQTT configuration is present
-  template:
+  ansible.builtin.template:
     src: configuration.yaml
     dest: "{{ zigbee2mqtt_home_folder }}/data/configuration.yaml"
     group: docker
@@ -33,7 +33,7 @@
   notify: restart zigbee2mqtt
 
 - name: Ensure Zigbee2MQTT group configuration is present
-  template:
+  ansible.builtin.template:
     src: groups.yaml
     dest: "{{ zigbee2mqtt_home_folder }}/data/groups.yaml"
     group: docker
@@ -42,7 +42,7 @@
   notify: restart zigbee2mqtt
 
 - name: Ensure Zigbee2MQTT docker-compose file is present
-  template:
+  ansible.builtin.template:
     src: docker-compose.yml
     dest: "{{ zigbee2mqtt_home_folder }}/docker-compose.yml"
     group: docker

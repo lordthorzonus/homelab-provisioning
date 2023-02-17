@@ -8,7 +8,7 @@
     appends: yes
 
 - name: Ensure Traefik folder exists
-  file:
+  ansible.builtin.file:
     path: "{{ traefik_home_folder }}"
     state: directory
     owner: "{{ traefik_user }}"
@@ -16,14 +16,14 @@
     mode: 0755
 
 - name: Ensures acme.json file exists
-  file:
+  ansible.builtin.file:
     path: "{{ traefik_home_folder }}/acme.json"
     state: touch
     group: docker
     mode: 0600
 
 - name: Ensure Traefik configuration is present
-  template:
+  ansible.builtin.template:
     src: traefik.yml
     dest: "{{ traefik_home_folder }}/traefik.yml"
     group: docker
@@ -31,7 +31,7 @@
   notify: restart traefik
 
 - name: Ensure Traefik docker-compose file is present
-  template:
+  ansible.builtin.template:
     src: docker-compose.yml
     dest: "{{ traefik_home_folder }}/docker-compose.yml"
     group: docker

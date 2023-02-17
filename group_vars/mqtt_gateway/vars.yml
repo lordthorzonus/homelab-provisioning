@@ -18,6 +18,8 @@ gateway_user: 'home_assistant'
 security_allow_http_traffic: true
 security_allow_https_traffic: true
 
+host_specific_firewall_rules: []
+
 ###########################
 # Traefik
 ###########################

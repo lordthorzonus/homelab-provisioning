@@ -1,0 +1,33 @@
+---
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: longhorn-certificate
+  namespace: longhorn-system
+spec:
+  commonName: longhorn.lan.juusoleinonen.fi
+  secretName: longhorn-certificate
+  dnsNames:
+    - longhorn.lan.juusoleinonen.fi
+  issuerRef:
+    name: letsencrypt-prod
+    kind: ClusterIssuer
+
+---
+apiVersion: traefik.containo.us/v1alpha1
+kind: IngressRoute
+metadata:
+  name: longhorn-ingress
+  namespace: longhorn-system
+spec:
+  entryPoints:
+    - websecure
+  routes:
+    - kind: Rule
+      match: Host(`longhorn.lan.juusoleinonen.fi`)
+      priority: 10
+      services:
+        - name: longhorn-frontend
+          port: 80
+  tls:
+    secretName: longhorn-certificate

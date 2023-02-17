@@ -1,0 +1,6 @@
+---
+- hosts: mqtt_gateway
+  roles:
+    - { name: traefik, become: true }
+    - { name: zigbee2mqtt, become: true }
+    - { name: ble2mqtt, become: true }

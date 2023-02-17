@@ -1,12 +1,3 @@
-terraform {
-  required_providers {
-    proxmox = {
-      source = "Telmate/proxmox"
-      version = "2.9.13"
-    }
-  }
-}
-
 resource "null_resource" "cloud_init_user_data_file" {
   triggers = {
     user_data_file = filemd5("${path.module}/files/home_assistant_user_data.yml.tftpl")
@@ -16,7 +7,7 @@ resource "null_resource" "cloud_init_user_data_file" {
     type = "ssh"
     user = var.pm_ssh_user
     private_key = file(var.pm_ssh_private_key_path)
-    host = "192.168.10.10"
+    host = local.pm_host["nuc1"]
     timeout = "30s"
   }
 
@@ -38,6 +29,7 @@ resource "proxmox_vm_qemu" "home-assistant-server" {
   target_node = var.home_assistant_target_node
   os_type = "cloud-init"
   clone = "ubuntu-2204-cloudinit-template"
+  onboot = true
 
   ciuser = "provisioner"
   cloudinit_cdrom_storage = "local-lvm"

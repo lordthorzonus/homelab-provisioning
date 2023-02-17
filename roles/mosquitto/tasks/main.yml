@@ -1,5 +1,5 @@
 - name: Ensure Mosquitto folder exists
-  file:
+  ansible.builtin.file:
     path: "{{ mosquitto_home_folder }}"
     state: directory
     owner: "{{ mosquitto_user }}"
@@ -7,7 +7,7 @@
     mode: 0755
 
 - name: Ensure Mosquitto config folder exists
-  file:
+  ansible.builtin.file:
     path: "{{ mosquitto_home_folder }}/config"
     state: directory
     owner: "{{ mosquitto_user }}"
@@ -15,7 +15,7 @@
     mode: 0755
 
 - name: Ensure Mosquitto data exists
-  file:
+  ansible.builtin.file:
     path: "{{ mosquitto_home_folder }}/data"
     state: directory
     owner: "{{ mosquitto_user }}"
@@ -32,7 +32,7 @@
     appends: yes
 
 - name: Ensure correct mosquitto docker-compose file is present
-  template:
+  ansible.builtin.template:
     src: docker-compose.yml
     dest: "{{ mosquitto_home_folder }}"
     mode: 0644
@@ -41,7 +41,7 @@
   notify: restart mosquitto
 
 - name: Ensure correct mosquitto mosquitto.conf file is present
-  template:
+  ansible.builtin.template:
     src: mosquitto.conf
     dest: "{{ mosquitto_home_folder }}/config"
     mode: 0644
@@ -50,7 +50,7 @@
   notify: restart mosquitto
 
 - name: Ensure correct mosquitto mosquitto.passwd file is present
-  template:
+  ansible.builtin.template:
     src: mosquitto.passwd
     dest: "{{ mosquitto_home_folder }}/config"
     mode: 0644

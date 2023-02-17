@@ -1,0 +1,10 @@
+helmCharts:
+  - namespace: longhorn-system
+    repo: https://charts.longhorn.io
+    name: longhorn
+    version: 1.4.0
+    includeCRDs: true
+
+resources:
+  - namespace.yml
+  - ingress.yml

@@ -6,3 +6,5 @@ roles/geerlingguy.*
 terraform.tfstate
 .terraform
 prod.tfvars
+playbooks/tmp
+kubernetes/**/charts

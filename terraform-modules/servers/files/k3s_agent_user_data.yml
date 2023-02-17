@@ -1,0 +1,41 @@
+#cloud-config
+timezone: Europe/Helsinki
+users:
+  - name: provisioner
+    groups: users, admin, sudo
+    shell: /bin/bash
+    sudo: ALL=(ALL) NOPASSWD:ALL
+    ssh-authorized-keys:
+      - ${ssh_key}
+package_update: true
+package_upgrade: true
+packages:
+  - qemu-guest-agent
+  - wget
+  - ntp
+  - ca-certificates
+  - git
+  - fail2ban
+manage_etc_hosts: true
+hostname: k3s-agent-${proxmox_host}-${agent_number}
+runcmd:
+  - locale-gen fi_FI.utf8
+  - loadkeys fi
+  - printf "[sshd]\nenabled = true\n" > /etc/fail2ban/jail.local
+  - sed -i -e '/^PermitRootLogin/s/^.*$/PermitRootLogin no/' /etc/ssh/sshd_config
+  - sed -i -e '/^PasswordAuthentication/s/^.*$/PasswordAuthentication no/' /etc/ssh/sshd_config
+  - sed -i -e '/^X11Forwarding/s/^.*$/X11Forwarding no/' /etc/ssh/sshd_config
+  - sed -i -e '/^#MaxAuthTries/s/^.*$/MaxAuthTries 2/' /etc/ssh/sshd_config
+  - sed -i -e '/^#AllowTcpForwarding/s/^.*$/AllowTcpForwarding no/' /etc/ssh/sshd_config
+  - sed -i -e '/^#AllowAgentForwarding/s/^.*$/AllowAgentForwarding no/' /etc/ssh/sshd_config
+  - sed -i -e '/^#AuthorizedKeysFile/s/^.*$/AuthorizedKeysFile .ssh/authorized_keys/' /etc/ssh/sshd_config
+  - sed -i '$a AllowUsers provisioner' /etc/ssh/sshd_config
+  - systemctl enable --now fail2ban
+  - systemctl restart sshd
+  - systemctl restart ssh
+  - systemctl enable qemu-guest-agent
+  - systemctl start qemu-guest-agent
+  - wget https://get.k3s.io -O /root/k3s_installer.sh
+  - chmod +x /root/k3s_installer.sh
+  - cd /root
+  - K3S_TOKEN=${k3s_token} K3S_URL=https://${k3s_private_ip}:6443 ./k3s_installer.sh  agent --flannel-iface eth0

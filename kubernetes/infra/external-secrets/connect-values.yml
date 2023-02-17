@@ -1,0 +1,4 @@
+connect:
+  credentialsName: 1password-credentials
+  credentialsKey: credentials
+  serviceType: ClusterIP

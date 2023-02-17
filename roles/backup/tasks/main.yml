@@ -19,7 +19,7 @@
 
 - name: Copy systemd timer unit file for backup script
   become: yes
-  template:
+  ansible.builtin.template:
     src: backup-to-dropbox.service
     dest: /etc/systemd/system/backup-to-dropbox.service
     mode: 0644

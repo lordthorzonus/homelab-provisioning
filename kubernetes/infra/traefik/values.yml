@@ -1,0 +1,5 @@
+namespaceOverride: kube-system
+providers:
+  kubernetesIngress:
+    publishedService:
+      enabled: true

@@ -1,0 +1,12 @@
+namespace: external-secrets
+helmCharts:
+  - repo: https://charts.external-secrets.io
+    namespace: external-secrets
+    name: external-secrets
+    valuesFile: external-secret-values.yml
+    includeCRDs: true
+  - repo: https://1password.github.io/connect-helm-charts
+    namespace: external-secrets
+    name: connect
+    valuesFile: connect-values.yml
+    includeCRDs: true

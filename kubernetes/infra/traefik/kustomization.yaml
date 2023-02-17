@@ -1,0 +1,10 @@
+namespace: kube-system
+helmCharts:
+  - namespace: kube-system
+    version: 21.1.0
+    releaseName: traefik
+    name:  traefik
+    valuesFile: values.yml
+    repo: https://traefik.github.io/charts
+resources:
+  - ingress-route.yml

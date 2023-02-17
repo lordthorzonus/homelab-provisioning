@@ -1,0 +1,24 @@
+apiVersion: argoproj.io/v1alpha1
+kind: ApplicationSet
+metadata:
+  name: infra-applications
+  namespace: argocd
+spec:
+  goTemplate: true
+  generators:
+    - git:
+        repoURL: https://github.com/lordthorzonus/homelab-provisioning.git
+        revision: HEAD
+        directories:
+          - path: kubernetes/infra/*
+  template:
+    metadata:
+      name: '{{.path.basename}}'
+    spec:
+      project: "Infra applications"
+      source:
+        repoURL: https://github.com/lordthorzonus/homelab-provisioning
+        targetRevision: HEAD
+        path: '{{.path.path}}'
+      destination:
+        server: https://kubernetes.default.svc

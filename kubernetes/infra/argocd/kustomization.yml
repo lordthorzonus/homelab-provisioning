@@ -1,0 +1,8 @@
+namespace: argocd
+resources:
+  - namespace.yml
+  - https://raw.githubusercontent.com/argoproj/argo-cd/v2.6.1/manifests/install.yaml
+  - ingress.yml
+patchesStrategicMerge:
+  - overlays/argocd-cmd-params-cm.yml
+  - overlays/argocd-cm.yml
