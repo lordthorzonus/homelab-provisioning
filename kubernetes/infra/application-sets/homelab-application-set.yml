@@ -1,7 +1,7 @@
 apiVersion: argoproj.io/v1alpha1
 kind: ApplicationSet
 metadata:
-  name: infra-applications
+  name: homelab-applications
   namespace: argocd
 spec:
   goTemplate: true
@@ -11,6 +11,7 @@ spec:
         revision: HEAD
         directories:
           - path: kubernetes/infra/*
+          - path: kubernetes/monitoring/*
   template:
     metadata:
       name: '{{.path.basename}}'

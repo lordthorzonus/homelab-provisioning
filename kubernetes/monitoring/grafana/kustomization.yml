@@ -1,0 +1,8 @@
+namespace: grafana
+resources:
+  - namespace.yml
+  - pvc.yml
+  - grafana-config-map-ini.yml
+  - deployment.yml
+  - service.yml
+  - ingress.yml

@@ -1,0 +1,33 @@
+---
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: grafana-certificate
+  namespace: grafana
+spec:
+  commonName: grafana.lan.juusoleinonen.fi
+  secretName: grafana-certificate
+  dnsNames:
+    - grafana.lan.juusoleinonen.fi
+  issuerRef:
+    name: letsencrypt-prod
+    kind: ClusterIssuer
+
+---
+apiVersion: traefik.containo.us/v1alpha1
+kind: IngressRoute
+metadata:
+  name: grafana
+  namespace: grafana
+spec:
+  entryPoints:
+    - websecure
+  routes:
+    - kind: Rule
+      match: Host(`grafana.lan.juusoleinonen.fi`)
+      priority: 10
+      services:
+        - name: grafana
+          port: 3000
+  tls:
+    secretName: grafana-certificate
