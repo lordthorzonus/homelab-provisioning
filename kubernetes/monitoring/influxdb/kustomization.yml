@@ -13,5 +13,4 @@ resources:
   - namespace.yml
   - secrets.yml
   - certificate.yml
-  - ip-whitelist.yml
   - ingress.yml

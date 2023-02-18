@@ -9,4 +9,3 @@ helmCharts:
     includeCRDs: true
 resources:
   - ingress-route.yml
-  - ip-whitelist-middleware.yml

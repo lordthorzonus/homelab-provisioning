@@ -29,8 +29,5 @@ spec:
       services:
         - name: grafana
           port: 3000
-      middlewares:
-        - name: ipwhitelist
-          namespace: kube-system
   tls:
     secretName: grafana-certificate

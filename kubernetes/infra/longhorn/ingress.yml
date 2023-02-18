@@ -30,7 +30,6 @@ spec:
         - name: longhorn-frontend
           port: 80
       middlewares:
-        - name: ipwhitelist
-          namespace: kube-system
+        - name: ip-whitelist
   tls:
     secretName: longhorn-certificate
