@@ -26,6 +26,9 @@ spec:
           scheme: https
           passHostHeader: true
           serversTransport: unifi-transport
+      middlewares:
+        - name: ipwhitelist
+          namespace: kube-system
 
   tls:
     secretName: unifi-certificate

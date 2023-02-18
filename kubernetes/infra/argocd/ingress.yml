@@ -29,6 +29,9 @@ spec:
       services:
         - name: argocd-server
           port: 80
+      middlewares:
+        - name: ipwhitelist
+          namespace: kube-system
     - kind: Rule
       match: Host(`argocd.lan.juusoleinonen.fi`) && Headers(`Content-Type`, `application/grpc`)
       priority: 11
@@ -36,5 +39,8 @@ spec:
         - name: argocd-server
           port: 80
           scheme: h2c
+      middlewares:
+        - name: ipwhitelist
+          namespace: kube-system
   tls:
     secretName: argocd-certificate

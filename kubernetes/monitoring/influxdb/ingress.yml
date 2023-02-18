@@ -14,5 +14,8 @@ spec:
       services:
         - name: influxdb
           port: 80
+      middlewares:
+        - name: ipwhitelist
+          namespace: influxdb
   tls:
     secretName: influxdb-certificate
