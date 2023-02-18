@@ -39,31 +39,22 @@ See the documentation [here](./docs/network.md)
 - Netgate SG-3100 with Pfsense as router/firewall/dns/vpn
 - Unifi access points and switches
 
-### Software
-- [Home Assistant](./roles/home_assistant)
-- [Mosquitto](./roles/mosquitto)
-- [Zigbee2MQTT](./roles/zigbee2mqtt)
-- [Ble2MQTT](./roles/ble2mqtt)
-- [Traefik](./roles/traefik)
-
-#### Currently waiting to be moved to k3s
-- [Grafana](./roles/grafana)
-- [InfluxDB](./roles/influxdb)
-
 ## Home Assistant
 The Home Assistant instance currently runs on a VM inside a proxmox in a intel nuc, with a friend mqtt gateway running on a old Raspberry PI 3b+.
 
 The configurations can be found [roles/home_assistant](./roles/home_assistant/files/home_assistant_config). Most of the integrations are through MQTT whenever it's available. [Overview of connections](./docs/network.md#home-assistant) 
 
+InfluxDB is used for long time data storage of the sensor data.
+
 ### Home Assistant VM
 
-* Traefik as a reverse proxy
-* Mosquitto as a MQTT broker
-* Home Asssistant
+* [Traefik](./roles/traefik) as a reverse proxy
+* [Mosquitto](./roles/mosquitto) as a MQTT broker
+* [Home Assistant](./roles/home_assistant)
 
 ### Gateway computer
-* Zigbee2MQTT with a Conbee II stick for various zigbee device communications
-* BLE2MQTT Gateway (https://github.com/lordthorzonus/ble2mqtt-gateway) for BLE sensors
+* [Zigbee2MQTT](./roles/zigbee2mqtt) with a Conbee II stick for various zigbee device communications
+* [Ble2MQTT](./roles/ble2mqtt) Gateway (https://github.com/lordthorzonus/ble2mqtt-gateway) for BLE sensors
 
 ### Devices/Integrations in use
 

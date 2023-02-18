@@ -1,7 +1,12 @@
 influxdb:
-  api_version: 1
-  port: 443
+  api_version: 2
   ssl: true
-  username: !secret influxdb_username
-  password: !secret influxdb_password
-  host:  !secret influxdb_hostname
+  host:  influxdb.lan.juusoleinonen.fi
+  token: !secret influxdb_token
+  organization: 105f851870ba5069
+  bucket: home-assistant
+  tags_attributes:
+    - friendly_name
+    - friendly_name_string
+    - device_class_string
+    - entity_id_str

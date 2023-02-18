@@ -57,6 +57,8 @@ home_latitude: "{{ vault_home_latitude }}"
 netatmo_client_id: "{{ vault_netatmo_client_id }}"
 netatmo_client_secret: "{{ vault_netatmo_client_secret }}"
 
+influxdb_token: "{{ lookup('community.general.onepassword', 'influxdb', vault='homelab', field='home_assistant_token') }}"
+
 home_assistant_user_password: "{{ vault_home_assistant_user_password }}"
 home_assistant_user: home_assistant
 home_assistant_user_id: 1024
@@ -80,28 +82,3 @@ mosquitto_home_folder: "/home/{{ home_assistant_user }}/mosquitto"
 mosquitto_user: "{{ home_assistant_user }}"
 mosquitto_user_id: "{{ home_assistant_user_id }}"
 mosquitto_user_group_id: "{{ home_assistant_user_group_id }}"
-
-###########################
-# InfluxDB
-###########################
-influxdb_version: "1.8.10"
-influxdb_user: "{{ home_assistant_user }}"
-influxdb_home_folder: "/home/{{ home_assistant_user }}/influxdb"
-influxdb_docker_network_subnet: "{{ home_assistant_docker_network_subnet }}"
-influxdb_docker_network: "{{ home_assistant_docker_network }}"
-influxdb_docker_network_gateway: "{{ home_assistant_docker_network_gateway }}"
-influxdb_init_bucket: "home-assistant"
-influxdb_init_organization: "home-automation"
-chronograf_version: "1.8.10"
-
-#########################
-# Grafana
-#########################
-grafana_domain: "{{ vault_grafana_domain }}"
-grafana_admin_email: "{{ lets_encrypt_user_email }}"
-grafana_version: "9.3.6"
-grafana_user: "grafana"
-grafana_home_folder: "/home/{{ home_assistant_user }}/grafana"
-grafana_docker_network_subnet: "{{ home_assistant_docker_network_subnet }}"
-grafana_docker_network: "{{ home_assistant_docker_network }}"
-grafana_docker_network_gateway: "{{ home_assistant_docker_network_gateway }}"
