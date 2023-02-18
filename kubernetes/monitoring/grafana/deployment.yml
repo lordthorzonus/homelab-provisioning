@@ -66,4 +66,4 @@ spec:
             name: grafana-ini
         - name: datasources
           secret:
-            secretName: grafana-datasources
+            secretName: datasources
