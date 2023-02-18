@@ -1,0 +1,13 @@
+namespace: influxdb
+
+helmCharts:
+  - repo: https://helm.influxdata.com/
+    name: influxdata/influxdb2
+    namespace: influxdb
+    includeCRDs: true
+    valuesFile: values.yml
+    version: "4.12.0"
+    releaseName: influxdb
+
+resources:
+  - secrets.yml

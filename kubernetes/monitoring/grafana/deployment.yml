@@ -55,6 +55,8 @@ spec:
             - mountPath: /etc/grafana/grafana.ini
               name: grafana-config
               subPath: grafana.ini
+            - mountPath: /var/lib/grafana/conf/provisioning/datasources
+              name: datasources
       volumes:
         - name: grafana-pv
           persistentVolumeClaim:
@@ -62,3 +64,6 @@ spec:
         - name: grafana-config
           configMap:
             name: grafana-ini
+        - name: datasources
+          secret:
+            secretName: grafana-datasources

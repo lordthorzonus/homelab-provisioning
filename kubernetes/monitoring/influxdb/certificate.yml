@@ -1,0 +1,14 @@
+---
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: influxdb
+  namespace: influxdb
+spec:
+  commonName: influxdb.lan.juusoleinonen.fi
+  secretName: influxdb-certificate
+  dnsNames:
+    - influxdb.lan.juusoleinonen.fi
+  issuerRef:
+    name: letsencrypt-prod
+    kind: ClusterIssuer

@@ -1,0 +1,18 @@
+---
+apiVersion: traefik.containo.us/v1alpha1
+kind: IngressRoute
+metadata:
+  name: influxdb
+  namespace: influxdb
+spec:
+  entryPoints:
+    - websecure
+  routes:
+    - kind: Rule
+      match: Host(`influxdb.lan.juusoleinonen.fi`)
+      priority: 10
+      services:
+        - name: influxdb
+          port: 80
+  tls:
+    secretName: influxdb-certificate

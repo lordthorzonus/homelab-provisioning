@@ -1,0 +1,7 @@
+persistence:
+  storageClassName: longhorn
+  size: 10G
+
+adminUser:
+  organization: "homelab"
+  user: "lordthorzonus"
