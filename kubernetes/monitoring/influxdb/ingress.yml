@@ -12,7 +12,7 @@ spec:
       match: Host(`influxdb.lan.juusoleinonen.fi`)
       priority: 10
       services:
-        - name: influxdb
+        - name: influxdb-influxdb2
           port: 80
   tls:
     secretName: influxdb-certificate
