@@ -1,5 +1,5 @@
 persistence:
-  storageClassName: longhorn
+  storageClass: longhorn
   size: 10G
 
 adminUser:
