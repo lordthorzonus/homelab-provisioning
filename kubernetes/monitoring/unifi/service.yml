@@ -1,0 +1,86 @@
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: unifi
+  labels:
+    app: unifi
+spec:
+  ports:
+    - port: 8080
+      name: dev-comm
+      protocol: TCP
+      targetPort: dev-comm
+    - port: 3478
+      name: stun
+      protocol: UDP
+      targetPort: stun
+    - port: 6789
+      name: speedtest
+      protocol: TCP
+      targetPort: speedtest
+    - port: 10001
+      name: ap-discovery
+      protocol: UDP
+      targetPort: ap-discovery
+    - port: 1900
+      name: discovery-l2
+      protocol: UDP
+      targetPort: discovery-l2
+    - port: 8443
+      name: default-console
+      protocol: TCP
+      targetPort: default-console
+  clusterIP: None
+  selector:
+    app: unifi
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: unifi-controller
+  namespace: unifi
+spec:
+  ports:
+    - port: 8080
+      name: dev-comm
+      protocol: TCP
+      targetPort: dev-comm
+    - port: 3478
+      name: stun
+      protocol: UDP
+      targetPort: stun
+    - port: 6789
+      name: speedtest
+      protocol: TCP
+      targetPort: speedtest
+    - port: 10001
+      name: ap-discovery
+      protocol: UDP
+      targetPort: ap-discovery
+    - port: 1900
+      name: discovery-l2
+      protocol: UDP
+      targetPort: discovery-l2
+  selector:
+    statefulset.kubernetes.io/pod-name: unifi-controller-0
+  sessionAffinity: None
+  type: LoadBalancer
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: unifi-console
+  namespace: unifi
+spec:
+  ports:
+    - port: 8443
+      name: default-console
+      protocol: TCP
+      targetPort: default-console
+  selector:
+    statefulset.kubernetes.io/pod-name: unifi-controller-0
+  sessionAffinity: None
+  type: ClusterIP

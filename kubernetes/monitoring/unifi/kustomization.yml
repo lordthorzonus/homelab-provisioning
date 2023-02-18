@@ -1,0 +1,9 @@
+namespace: unifi
+
+resources:
+  - namespace.yml
+  - service.yml
+  - certificate.yml
+  - pvc.yml
+  - stateful-set.yml
+  - ingress.yml

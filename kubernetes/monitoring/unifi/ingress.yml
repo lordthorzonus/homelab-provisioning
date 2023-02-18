@@ -1,0 +1,31 @@
+---
+apiVersion: traefik.containo.us/v1alpha1
+kind: ServersTransport
+metadata:
+  name: unifi-transport
+  namespace: unifi
+spec:
+  serverName: unifi.lan.juusoleinonen.fi
+
+---
+apiVersion: traefik.containo.us/v1alpha1
+kind: IngressRoute
+metadata:
+  name: unifi
+  namespace: unifi
+spec:
+  entryPoints:
+    - websecure
+  routes:
+    - kind: Rule
+      match: Host(`unifi.lan.juusoleinonen.fi`)
+      priority: 10
+      services:
+        - name: unifi-console
+          port: 8443
+          scheme: https
+          passHostHeader: true
+          serversTransport: unifi-transport
+
+  tls:
+    secretName: unifi-certificate
