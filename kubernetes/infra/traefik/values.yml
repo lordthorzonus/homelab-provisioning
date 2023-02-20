@@ -3,3 +3,13 @@ providers:
   kubernetesIngress:
     publishedService:
       enabled: true
+
+deployment:
+  replicas: 2
+
+env:
+  - name: TRAEFIK_GLOBAL_SENDANONYMOUSUSAGE
+    value: "false"
+
+globalArguments:
+  - "--global.checknewversion"

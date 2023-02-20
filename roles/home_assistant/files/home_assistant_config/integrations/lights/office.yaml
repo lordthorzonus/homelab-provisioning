@@ -8,3 +8,16 @@ light:
     - light.office_ceiling_3
     - light.office_ceiling_4
     - light.office_ceiling_5
+
+switch:
+  - platform: flux
+    lights:
+      - light.office_medusa_ceiling_light
+    name: Office Medusa Ceiling Flux
+    start_time: "8:00"
+    stop_time: "23:00"
+    start_colortemp: 4300
+    sunset_colortemp: 2700
+    stop_colortemp: 2400
+    transition: 30
+    interval: 60
