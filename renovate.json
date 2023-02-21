@@ -2,6 +2,9 @@
     "extends": [
         "config:base"
     ],
+    "kubernetes": {
+        "fileMatch": ["kubernetes/.+\\.ya?ml$"]
+    },
     "regexManagers": [
         {
             "fileMatch": ["vars.yml"],
