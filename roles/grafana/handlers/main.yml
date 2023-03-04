@@ -1,5 +1,0 @@
----
-- name: restart grafana
-  community.docker.docker_compose:
-    project_src: "{{ grafana_home_folder }}"
-    restarted: true
