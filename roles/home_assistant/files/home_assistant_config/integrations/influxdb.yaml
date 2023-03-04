@@ -5,8 +5,44 @@ influxdb:
   token: !secret influxdb_token
   organization: 105f851870ba5069
   bucket: home-assistant
+  precision: s
+  ignore_attributes:
+    - device_class
+    - supported_features
+    - restored
+    - state_class
+    - icon
+    - attribution
+    - fan_speed_list
+    - mop_mode_list
+    - mop_intensity_list
+    - msq
+    - editable
+    - latitude
+    - longitude
+    - passive
+    - person
+    - mode
+    - current
+    - app_id
   tags_attributes:
     - friendly_name
     - friendly_name_string
     - device_class_string
     - entity_id_str
+    - unit_of_measurement
+  exclude:
+    entities:
+      - camera.hot_dog_map
+      - zone.home
+      - sensor.uptime_minutes
+      - sensor.uptime
+    entity_globs:
+      - "*_measurement_sequence"
+      - "*_acceleration_*"
+    domains:
+      - light
+      - plant
+      - scene
+      - automation
+      - group

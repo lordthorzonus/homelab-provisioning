@@ -5,7 +5,7 @@ mqtt:
   password: "{{ zigbee2mqtt_mqtt_password }}"
   client_id: ble2mqtt
   protocol: mqtts
-
+decimal_precision: 1
 gateways:
   base_topic: ble2mqtt
   ruuvitag:

@@ -29,6 +29,24 @@
     group: home-assistant
     mode: 0755
 
+- name: Ensure Home Assistant automations.yaml exists
+  ansible.builtin.file:
+    path: "{{ home_assistant_home_folder }}/config/automations.yaml"
+    state: touch
+    owner: "{{ home_assistant_user }}"
+    access_time: preserve
+    group: home-assistant
+    mode: 0755
+
+- name: Ensure Home Assistant scripts.yaml exists
+  ansible.builtin.file:
+    path: "{{ home_assistant_home_folder }}/config/scripts.yaml"
+    state: touch
+    owner: "{{ home_assistant_user }}"
+    access_time: preserve
+    group: home-assistant
+    mode: 0755
+
 - name: Allow direct access to home assistant
   community.general.ufw:
     rule: allow
@@ -55,15 +73,20 @@
     recursive: true
     dest: "{{ home_assistant_home_folder }}/config/"
     rsync_opts:
-      - "--exclude=secrets.yml"
+      - "--exclude=secrets.yaml"
+      - "--exclude=automations.yaml"
+      - "--exclude=scripts.yaml"
       - "--exclude=.HA_VERSION"
       - "--exclude=.storage"
+      - "--exclude=blueprints"
       - "--exclude=.cloud"
       - "--exclude=deps"
       - "--exclude=custom_components"
+      - "--exclude=home-assistant.log"
       - "--exclude=home_assistant_v2.db"
       - "--exclude=home_assistant_v2.db-shm"
       - "--exclude=home_assistant_v2.db-wal"
+      - "--exclude=www/community"
   notify: restart home assistant
 
 - name: Ensure home assistant secrets are present
