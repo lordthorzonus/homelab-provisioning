@@ -27,3 +27,16 @@ plant:
     min_temperature: 10.00
     max_temperature: 32.00
     min_brightness: 1500
+  apostolinmiekka:
+    sensors:
+      moisture: sensor.apostolinmiekka_soil_moisture
+      temperature: sensor.apostolinmiekka_temperature
+      conductivity: sensor.apostolinmiekka_soil_conductivity
+      brightness: sensor.apostolinmiekka_illuminance
+    min_moisture: 7
+    max_moisture: 50
+    min_battery: 10
+    min_conductivity: 300
+    max_conductivity: 1000
+    min_temperature: 10.00
+    max_temperature: 32.00
