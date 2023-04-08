@@ -64,7 +64,7 @@ home_assistant_user: home_assistant
 home_assistant_user_id: 1024
 home_assistant_user_group_id: 1004
 home_assistant_home_folder: "/home/{{ home_assistant_user }}/home_assistant"
-home_assistant_version: "2023.3"
+home_assistant_version: "2023.4"
 home_assistant_docker_network: "home-assistant-network"
 home_assistant_docker_network_subnet: "172.20.0.0/16"
 home_assistant_docker_network_gateway: "172.20.0.1"
