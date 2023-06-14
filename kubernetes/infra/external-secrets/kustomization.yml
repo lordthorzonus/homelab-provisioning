@@ -5,10 +5,12 @@ helmCharts:
     name: external-secrets
     releaseName: external-secrets
     valuesFile: external-secret-values.yml
+    version: 0.8.3
     includeCRDs: true
   - repo: https://1password.github.io/connect-helm-charts
     namespace: external-secrets
     name: connect
+    version: 1.11.0
     releaseName: connect
     valuesFile: connect-values.yml
     includeCRDs: true
