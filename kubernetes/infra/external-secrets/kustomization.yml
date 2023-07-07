@@ -5,7 +5,7 @@ helmCharts:
     name: external-secrets
     releaseName: external-secrets
     valuesFile: external-secret-values.yml
-    version: 0.8.3
+    version: 0.9.1
     includeCRDs: true
   - repo: https://1password.github.io/connect-helm-charts
     namespace: external-secrets
