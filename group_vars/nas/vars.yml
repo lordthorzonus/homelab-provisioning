@@ -1,0 +1,30 @@
+ansible_ssh_user: root
+
+media_group_name: homeusers
+media_share_user: juusopc
+
+file_sharing_users:
+  - name: "{{ media_share_user }}"
+    group: "{{ media_group_name }}"
+
+###########################
+# Samba
+###########################
+samba_shares_root: /tank
+
+samba_media_share_root: "{{ samba_shares_root }}/media"
+
+samba_server_string: "NAS"
+
+samba_users:
+  - name: "{{ media_share_user }}"
+    password: "{{ lookup('community.general.onepassword', 'samba_share_user', vault='homelab') }}"
+
+samba_shares:
+  - name: media
+    comment: "Movies, Music, books etc."
+    writeable: yes
+    browseable: yes
+    group: "{{media_group_name}}"
+    write_list: "+{{media_group_name}}"
+    path: "{{ samba_media_share_root }}"

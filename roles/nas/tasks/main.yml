@@ -1,0 +1,15 @@
+---
+- name: Ensure file sharing groups exists
+  ansible.builtin.group:
+    name: "{{ item.group }}"
+    state: present
+  loop: "{{ file_sharing_users }}"
+
+- name: Ensure file sharing users exists
+  ansible.builtin.user:
+    name: "{{ item.name }}"
+    shell: /bin/bash
+    state: present
+    groups: "{{item.group}}"
+    append: true
+  loop: "{{ file_sharing_users }}"

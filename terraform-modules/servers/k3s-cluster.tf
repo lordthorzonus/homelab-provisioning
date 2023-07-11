@@ -49,7 +49,7 @@ resource "proxmox_vm_qemu" "k3s_server" {
 
   cores = 1
   sockets = 1
-  memory = 2048
+  memory = 4096
   agent = 1
 
   ssh_user = "provisioner"

@@ -3,6 +3,7 @@ vault.yml
 roles/geerlingguy.docker_arm
 roles/geerlingguy.pip
 roles/geerlingguy.*
+roles/vladgh.*
 terraform.tfstate
 .terraform
 prod.tfvars

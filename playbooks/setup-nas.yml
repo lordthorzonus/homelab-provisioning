@@ -1,0 +1,6 @@
+---
+- hosts: nas
+  roles:
+    - { name: nas, become: true }
+    - { name: vladgh.samba.server, become: true }
+
