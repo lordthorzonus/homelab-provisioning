@@ -1,6 +1,7 @@
 locals {
   pm_host = {
     "nuc1" = "192.168.5.10"
+    "pve2" = "192.168.5.11"
   }
 }
 variable "home_assistant_target_node" {
@@ -40,6 +41,7 @@ variable "k3s_agent_count" {
   description = "The count of k3s agents inside a proxmox host"
   default = {
     "nuc1" = 2
+    "pve2" = 1
   }
 }
 
@@ -48,6 +50,7 @@ variable "k3s_agent_core_count" {
   description = "The core count for k3s agent vm"
   default = {
     "nuc1" = 2
+    "pve2" = 4
   }
 }
 
@@ -56,6 +59,7 @@ variable "k3s_agent_memory_amount" {
   description = "The memory amount for k3s agent vm"
   default = {
     "nuc1" = 4096
+    "pve2" = 4096
   }
 }
 
@@ -64,6 +68,7 @@ variable "k3s_agent_disk_size" {
   description = "The core count for k3s agent vm"
   default = {
     "nuc1" = "64G"
+    "pve2" = "64G"
   }
 }
 

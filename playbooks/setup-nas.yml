@@ -3,4 +3,5 @@
   roles:
     - { name: nas, become: true }
     - { name: vladgh.samba.server, become: true }
+    - { name: geerlingguy.nfs, become: true }
 

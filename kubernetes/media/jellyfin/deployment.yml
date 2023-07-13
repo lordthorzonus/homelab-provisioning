@@ -1,0 +1,70 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: jellyfin
+  name: jellyfin
+  namespace: jellyfin
+spec:
+  selector:
+    matchLabels:
+      app: jellyfin
+  template:
+    metadata:
+      labels:
+        app: jellyfin
+    spec:
+      nodeSelector:
+        servertype: pc
+      containers:
+        - name: jellyfin
+          image: lscr.io/linuxserver/jellyfin:10.8.10
+          imagePullPolicy: IfNotPresent
+          env:
+            - name: TZ
+              value: Europe/Helsinki
+            - name: "JELLYFIN_PublishedServerUrl"
+              value: "jellyfin.lan.juusoleinonen.fi"
+            - name: PUID
+              value: "1000"
+            - name: PGID
+              value: "1000"
+          ports:
+            - containerPort: 8096
+              name: http-tcp
+              protocol: TCP
+            - containerPort: 8920
+              name: https-tcp
+              protocol: TCP
+            - containerPort: 1900
+              name: dlna-udp
+              protocol: UDP
+            - containerPort: 7359
+              name: discovery-udp
+              protocol: TCP
+          livenessProbe:
+            httpGet:
+              path: /health
+              port: http-tcp
+            failureThreshold: 2
+            periodSeconds: 10
+          resources:
+            requests:
+              cpu: 250m
+              memory: 750Mi
+          volumeMounts:
+            - mountPath: /config
+              name: jellyfin-pvc
+            - mountPath: /data
+              name: media-pvc
+      volumes:
+        - name: jellyfin-pvc
+          persistentVolumeClaim:
+            claimName: jellyfin-pvc
+        - name: media-pvc
+          nfs:
+            server: 192.168.5.11
+            path: /tank/media/library
+            readOnly: true
+

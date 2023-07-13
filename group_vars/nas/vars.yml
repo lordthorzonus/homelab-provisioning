@@ -18,7 +18,7 @@ samba_server_string: "NAS"
 
 samba_users:
   - name: "{{ media_share_user }}"
-    password: "{{ lookup('community.general.onepassword', 'samba_share_user', vault='homelab') }}"
+    password: "{{ lookup('community.general.onepassword', 'samba_share_user', field='password', vault='homelab') }}"
 
 samba_shares:
   - name: media
@@ -28,3 +28,11 @@ samba_shares:
     group: "{{media_group_name}}"
     write_list: "+{{media_group_name}}"
     path: "{{ samba_media_share_root }}"
+
+###########################
+# NFS
+###########################
+nfs_shares_root: /tank
+
+nfs_exports:
+  - "{{ nfs_shares_root }}/media/library *(rw,sync)"

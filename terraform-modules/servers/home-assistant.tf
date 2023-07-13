@@ -35,6 +35,9 @@ resource "proxmox_vm_qemu" "home-assistant-server" {
   cloudinit_cdrom_storage = "local-lvm"
   cicustom = "user=local:snippets/home_assistant_user_data.yml"
 
+  scsihw = "virtio-scsi-pci"
+  qemu_os = "other"
+
   cores = var.home_assistant_core_count
   sockets = 1
   memory = 4096

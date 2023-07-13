@@ -14,6 +14,8 @@ spec:
       labels:
         app: unifi-controller
     spec:
+      nodeSelector:
+        severtype: pc
       containers:
         - name: unifi-controller
           image: jacobalberty/unifi:v7.4.162

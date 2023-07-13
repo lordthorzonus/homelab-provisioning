@@ -6,6 +6,8 @@ roles:
     version: "5.0.0"
   - name: geerlingguy.docker
     version: "6.1.0"
+  - name: geerlingguy.nfs
+    version: 2.0.0
 
 collections:
   - name: community.general
