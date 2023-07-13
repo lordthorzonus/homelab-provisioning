@@ -49,7 +49,7 @@ EOF
     type = "scsi"
     storage = "local-lvm"
     size = var.home_assistant_disk_size
-    backup = 1
+    backup = true
   }
 
   serial {

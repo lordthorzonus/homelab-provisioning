@@ -61,7 +61,7 @@ EOF
     type = "scsi"
     storage = "local-lvm"
     size = "32G"
-    backup = 1
+    backup = false
   }
 
   serial {
@@ -149,7 +149,7 @@ EOF
     type = "scsi"
     storage = "local-lvm"
     size = var.k3s_agent_disk_size["nuc1"]
-    backup = 1
+    backup = false
   }
 
   serial {
