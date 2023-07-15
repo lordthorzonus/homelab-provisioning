@@ -1,0 +1,33 @@
+---
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: prowlarr-certificate
+  namespace: prowlarr
+spec:
+  commonName: prowlarr.lan.juusoleinonen.fi
+  secretName: prowlarr-certificate
+  dnsNames:
+    - prowlarr.lan.juusoleinonen.fi
+  issuerRef:
+    name: letsencrypt-prod
+    kind: ClusterIssuer
+
+---
+apiVersion: traefik.containo.us/v1alpha1
+kind: IngressRoute
+metadata:
+  name: prowlarr
+  namespace: prowlarr
+spec:
+  entryPoints:
+    - websecure
+  routes:
+    - kind: Rule
+      match: Host(`prowlarr.lan.juusoleinonen.fi`)
+      priority: 10
+      services:
+        - name: prowlarr
+          port: 9696
+  tls:
+    secretName: prowlarr-certificate

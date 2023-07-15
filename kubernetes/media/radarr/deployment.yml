@@ -1,0 +1,63 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: radarr
+  name: radarr
+  namespace: radarr
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: radarr
+  template:
+    metadata:
+      labels:
+        app: radarr
+    spec:
+      nodeSelector:
+        servertype: pc
+      containers:
+        - env:
+            - name: TZ
+              value: Europe/Helsinki
+            - name: PUID
+              value: "1000"
+            - name: PGID
+              value: "1000"
+          image: linuxserver/radarr:4.6.4
+          name: radarr
+          ports:
+            - containerPort: 7878
+              name: http
+          livenessProbe:
+            exec:
+              command:
+                - /bin/sh
+                - -c
+                - curl "http://localhost:7878/radarr/api/health?ApiKey=$(sed -ne '/ApiKey/{s/.*<ApiKey>\(.*\)<\/ApiKey>.*/\1/p;q;}' </config/config.xml)"
+            initialDelaySeconds: 30
+            periodSeconds: 10
+          readinessProbe:
+            exec:
+              command:
+                - /bin/sh
+                - -c
+                - curl "http://localhost:7878/radarr/api/system/status?ApiKey=$(sed -ne '/ApiKey/{s/.*<ApiKey>\(.*\)<\/ApiKey>.*/\1/p;q;}' </config/config.xml)"
+            initialDelaySeconds: 30
+            periodSeconds: 10
+          volumeMounts:
+            - mountPath: /config
+              name: radarr-pvc
+            - mountPath: /media
+              name: media-nfs
+      volumes:
+        - name: radarr-pvc
+          persistentVolumeClaim:
+            claimName: radarr-pvc
+        - name: media-nfs
+          nfs:
+            server: 192.168.5.11
+            path: /tank/media
+

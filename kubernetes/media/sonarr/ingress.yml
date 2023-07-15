@@ -1,0 +1,33 @@
+---
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: sonarr-certificate
+  namespace: sonarr
+spec:
+  commonName: sonarr.lan.juusoleinonen.fi
+  secretName: sonarr-certificate
+  dnsNames:
+    - sonarr.lan.juusoleinonen.fi
+  issuerRef:
+    name: letsencrypt-prod
+    kind: ClusterIssuer
+
+---
+apiVersion: traefik.containo.us/v1alpha1
+kind: IngressRoute
+metadata:
+  name: sonarr
+  namespace: sonarr
+spec:
+  entryPoints:
+    - websecure
+  routes:
+    - kind: Rule
+      match: Host(`sonarr.lan.juusoleinonen.fi`)
+      priority: 10
+      services:
+        - name: sonarr
+          port: 8989
+  tls:
+    secretName: sonarr-certificate

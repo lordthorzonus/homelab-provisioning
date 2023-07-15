@@ -1,0 +1,15 @@
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: sonarr
+  namespace: sonarr
+spec:
+  ports:
+    - port: 8989
+      protocol: TCP
+      targetPort: http
+  selector:
+    app: sonarr
+  sessionAffinity: ClientIP
+  type: ClusterIP

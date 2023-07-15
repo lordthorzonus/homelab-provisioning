@@ -1,0 +1,47 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: sonarr
+  name: sonarr
+  namespace: sonarr
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: sonarr
+  template:
+    metadata:
+      labels:
+        app: sonarr
+    spec:
+      nodeSelector:
+        servertype: pc
+      containers:
+        - env:
+            - name: TZ
+              value: Europe/Helsinki
+            - name: PUID
+              value: "1000"
+            - name: PGID
+              value: "1000"
+          image: linuxserver/sonarr:3.0.10
+          name: sonarr
+          ports:
+            - containerPort: 8989
+              name: http
+          volumeMounts:
+            - mountPath: /config
+              name: sonarr-pvc
+            - mountPath: /media
+              name: media-nfs
+      volumes:
+        - name: sonarr-pvc
+          persistentVolumeClaim:
+            claimName: sonarr-pvc
+        - name: media-nfs
+          nfs:
+            server: 192.168.5.11
+            path: /tank/media
+
