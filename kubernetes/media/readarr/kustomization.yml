@@ -1,0 +1,7 @@
+namespace: readarr
+resources:
+  - namespace.yml
+  - pvc.yml
+  - deployment.yml
+  - service.yml
+  - ingress.yml

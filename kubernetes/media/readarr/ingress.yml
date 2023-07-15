@@ -1,0 +1,33 @@
+---
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: readarr-certificate
+  namespace: readarr
+spec:
+  commonName: readarr.lan.juusoleinonen.fi
+  secretName: readarr-certificate
+  dnsNames:
+    - readarr.lan.juusoleinonen.fi
+  issuerRef:
+    name: letsencrypt-prod
+    kind: ClusterIssuer
+
+---
+apiVersion: traefik.containo.us/v1alpha1
+kind: IngressRoute
+metadata:
+  name: readarr
+  namespace: readarr
+spec:
+  entryPoints:
+    - websecure
+  routes:
+    - kind: Rule
+      match: Host(`readarr.lan.juusoleinonen.fi`)
+      priority: 10
+      services:
+        - name: readarr
+          port: 8787
+  tls:
+    secretName: readarr-certificate
