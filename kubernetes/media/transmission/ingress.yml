@@ -1,0 +1,33 @@
+---
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: transmission-certificate
+  namespace: transmission
+spec:
+  commonName: transmission.lan.juusoleinonen.fi
+  secretName: transmission-certificate
+  dnsNames:
+    - transmission.lan.juusoleinonen.fi
+  issuerRef:
+    name: letsencrypt-prod
+    kind: ClusterIssuer
+
+---
+apiVersion: traefik.containo.us/v1alpha1
+kind: IngressRoute
+metadata:
+  name: transmission
+  namespace: transmission
+spec:
+  entryPoints:
+    - websecure
+  routes:
+    - kind: Rule
+      match: Host(`transmission.lan.juusoleinonen.fi`)
+      priority: 10
+      services:
+        - name: transmission
+          port: 9091
+  tls:
+    secretName: transmission-certificate

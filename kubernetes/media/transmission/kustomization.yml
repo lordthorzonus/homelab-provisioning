@@ -1,0 +1,12 @@
+---
+namespace: transmission
+resources:
+  - namespace.yml
+  - ovpn-config-secret.yml
+  - ovpn-credentials-secret.yml
+  - transmission-config.yml
+  - pvc.yml
+  - deployment.yml
+  - service.yml
+  - ingress.yml
+

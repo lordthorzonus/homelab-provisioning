@@ -6,6 +6,7 @@ helmCharts:
     releaseName: longhorn
     version: 1.5.0
     includeCRDs: true
+    valuesFile: values.yml
 
 resources:
   - namespace.yml

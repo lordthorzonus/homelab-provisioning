@@ -1,0 +1,77 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: transmission
+  namespace: transmission
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: transmission
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        app: transmission
+    spec:
+      nodeSelector:
+        servertype: pc
+      containers:
+        - envFrom:
+            - configMapRef:
+                name: transmission-config
+                optional: false
+            - secretRef:
+                name: ovpn-credentials
+                optional: false
+          image: haugene/transmission-openvpn:5.0.2
+          imagePullPolicy: IfNotPresent
+          ports:
+            - containerPort: 9091
+              name: http-tcp
+              protocol: TCP
+          livenessProbe:
+            failureThreshold: 3
+            initialDelaySeconds: 10
+            periodSeconds: 2
+            successThreshold: 1
+            tcpSocket:
+              port: 9091
+            timeoutSeconds: 2
+          name: transmission
+          readinessProbe:
+            failureThreshold: 3
+            initialDelaySeconds: 10
+            periodSeconds: 2
+            successThreshold: 2
+            tcpSocket:
+              port: 9091
+            timeoutSeconds: 2
+          resources:
+            limits:
+              memory: 2000Mi
+          securityContext:
+            allowPrivilegeEscalation: true
+            capabilities:
+              add:
+                - NET_ADMIN
+            privileged: true
+          volumeMounts:
+            - mountPath: /data
+              name: downloads
+            - mountPath: /config
+              name: transmission-pvc
+      restartPolicy: Always
+      terminationGracePeriodSeconds: 30
+      volumes:
+        - name: downloads
+          nfs:
+            path: /tank/media/downloads
+            server: 192.168.5.11
+        - name: transmission-pvc
+          persistentVolumeClaim:
+            claimName: transmission-pvc
+
+

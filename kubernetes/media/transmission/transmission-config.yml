@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: transmission-config
+  namespace: transmission
+data:
+  LOCAL_NETWORK: "10.42.0.0/16"
+  OVPN_PROTOCOL: "udp"
+  OVPN_COUNTRY: "se"
+  OVPN_CITY: "stockholm"
+  OVPN_CONNECTION: "standard"
+  OPENVPN_PROVIDER: "OVPN"
+  PUID: "1000"
+  PGID: "1000"
+
