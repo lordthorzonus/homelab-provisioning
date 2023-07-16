@@ -1,3 +1,2 @@
 sensor:
   - platform: season
-  - platform: moon

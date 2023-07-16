@@ -29,7 +29,7 @@ spec:
           image: linuxserver/readarr:0.2.3-nightly
           name: readarr
           ports:
-            - containerPort: 8989
+            - containerPort: 8787
               name: http
           volumeMounts:
             - mountPath: /config
