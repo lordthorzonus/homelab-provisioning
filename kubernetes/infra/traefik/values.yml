@@ -5,10 +5,11 @@ providers:
       enabled: true
 
 deployment:
-  replicas: 2
+  replicas: 3
 
 service:
-  externalTrafficPolicy: Local
+  spec:
+    externalTrafficPolicy: Local
 
 env:
   - name: TRAEFIK_GLOBAL_SENDANONYMOUSUSAGE
