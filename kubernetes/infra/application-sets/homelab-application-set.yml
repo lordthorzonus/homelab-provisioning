@@ -12,6 +12,7 @@ spec:
         directories:
           - path: kubernetes/infra/*
           - path: kubernetes/monitoring/*
+          - path: kubernetes/media/*
   template:
     metadata:
       name: '{{.path.basename}}'

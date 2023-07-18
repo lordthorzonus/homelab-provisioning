@@ -7,6 +7,9 @@ providers:
 deployment:
   replicas: 2
 
+service:
+  externalTrafficPolicy: Local
+
 env:
   - name: TRAEFIK_GLOBAL_SENDANONYMOUSUSAGE
     value: "false"
