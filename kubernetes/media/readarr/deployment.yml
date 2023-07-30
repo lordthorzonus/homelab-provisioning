@@ -26,7 +26,7 @@ spec:
               value: "1000"
             - name: PGID
               value: "1000"
-          image: linuxserver/readarr:0.2.4-nightly
+          image: linuxserver/readarr:0.3.1-nightly
           name: readarr
           ports:
             - containerPort: 8787
