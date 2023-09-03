@@ -20,8 +20,10 @@
   - PfBlocker blocks a lot of dns requests and Ips
 - Traffic between VLANS is denied
   - Main VLAN can access everything
-  - Also remote VP
+  - Also remote VPN
   - Home assistant can access DENON 3400 in Media VLAN
+  - Home assistant can access 192.168.10.50 which is the kubernetes ingress
+  - Media PC can access SAMBA shares in 192.168.5.11
 
 
 ### Network Diagram
@@ -43,7 +45,6 @@ flowchart TD
     
     subgraph nuc [Intel NUC]
         vm1(fa:fa-server Home Assistant VM <br> 192.168.30.11 <br> Ubuntu 22.04 LTS)
-        vm2(fa:fa-server K3S Server <br> 192.168.10.40 <br> Ubuntu 22.04 LTS)
         vm3(fa:fa-server K3S Agent 1 <br> 192.168.10.41 <br> Ubuntu 22.04 LTS)
         vm4(fa:fa-server K3S Agent 2 <br> 192.168.10.42 <br> Ubuntu 22.04 LTS)
     end
@@ -63,7 +64,7 @@ flowchart TD
         switch3-- vlan 30 -->server2(fa:fa-server Rasperry PI <br> 192.168.30.10 <br> BLE/Zigbee Gateway)
         switch3-- vlan 30 -->hue1(fa:fa-lightbulb Philips HUE <br> 192.168.30.2 <br> BLE/Zigbee Gateway)
         switch3-- vlan 50 -->playstation(fa:fa-gamepad Playstation 5 <br> 192.168.50.3)
-        switch3-- vlan 50 -->comp2(fa:fa-computer Media PC <br> 192.168.50.2 <br> Windows 11)
+        switch3--> server3(fa:fa-server NAS/Proxmox <br> 192.168.5.11 <br> Proxmox host)
         switch3-- vlan 50 -->av1(fa:fa-radio Denon 3400 <br> 192.168.50.4 <br> AV Receiver)
         switch3-- vlan 50 -->tv1(fa:fa-tv Samsung Q8D <br> 192.168.50.5 <br> AV Receiver)
         switch3-- PoE -->ap2(fa:fa-wifi Unifi AP FlexHD <br> 192.168.5.5)
@@ -75,11 +76,20 @@ flowchart TD
         container6(fa:fa-docker Traefik <br> traefik-gateway.lan)
     end
 
+    subgraph nas [NAS / Proxmox host]
+        vm2(fa:fa-server K3S Server <br> 192.168.10.40 <br> Ubuntu 22.04 LTS)
+        vm5(fa:fa-server K3S Agent 3 <br> 192.168.10.43 <br> Ubuntu 22.04 LTS)
+        vm6(fa:fa-computer Media PC <br> Windows 11)
+        file(fa:fa-folder Samba Share)
+        file2(fa:fa-folder NFS Share)
+    end
+    
     server2-.->pi
+    server3-.->nas
 
 ```
 
-### Wifi networks
+### Wi-Fi networks
 ```mermaid
 flowchart TD
     subgraph wifi1 [Main WiFi vlan10]
@@ -130,7 +140,8 @@ flowchart TD
     
     cont3-- BLE -->miflora1(MiFLora 1)
     cont3-- BLE -->miflora2(MiFLora 2)
-    
+    cont3-- BLE -->miflora3(MiFLora 3)
+
     ha1 -- https --> hue(Philips Hue)
     ha1 -- https --> Denon3400
     end
@@ -140,6 +151,7 @@ flowchart TD
         Withings
         Roborock
         Google
+        LGSmartThing
     end
     
     ha1 -- https --> Cloud
