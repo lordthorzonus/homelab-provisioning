@@ -1,0 +1,8 @@
+light:
+  platform: group
+  name: Bedroom ceiling lights
+  unique_id: bedroom_ceiling_lights
+  entities:
+    - light.bedroom_ceiling_lamp_1
+    - light.bedroom_ceiling_lamp_2
+    - light.bedroom_ceiling_lamp_3
