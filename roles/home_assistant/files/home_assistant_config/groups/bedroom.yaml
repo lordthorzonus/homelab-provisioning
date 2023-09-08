@@ -3,7 +3,8 @@ bedroom:
   icon: "mdi:bed-king-outline"
   entities:
     - sensor.bedroom_switch_battery
-    - light.bedroom_light
+    - light.night_lights
+    - light.bedroom_ceiling_lights
     - sensor.netatmo_bedroom_humidity
     - sensor.netatmo_bedroom_co2
     - sensor.netatmo_bedroom_temperature

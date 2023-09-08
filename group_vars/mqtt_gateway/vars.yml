@@ -36,7 +36,6 @@ traefik_domain: "{{ vault_traefik_domain }}"
 
 lets_encrypt_use_production: true
 
-
 ###########################
 # Zigbee2MQTT
 ###########################
@@ -54,4 +53,4 @@ zigbee2mqtt_network_key: "{{ vault_zigbee2mqtt_network_key }}"
 ###########################
 ble2mqtt_home_folder: "/home/{{ gateway_user }}/ble2mqtt"
 ble2mqtt_user: "{{ gateway_user }}"
-ble2mqtt_version: "0.9.3"
+ble2mqtt_version: "0.9.4"

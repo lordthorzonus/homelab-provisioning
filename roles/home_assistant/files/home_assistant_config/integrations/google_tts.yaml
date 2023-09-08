@@ -3,4 +3,3 @@ tts:
     cache: true
     cache_dir: /tmp/tts
     time_memory: 300
-    base_url: !secret home_assistant_url

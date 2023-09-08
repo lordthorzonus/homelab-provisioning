@@ -35,6 +35,7 @@ See the documentation [here](./docs/network.md)
 
 ### Hardware
 - Intel NUC i3-8109U/16Gb RAM/480Gb running Proxmox
+- AMD Ryzen 3700 NAS running Proxmox with 21Tb of usable space
 - Raspberry PI 3b+ running Raspberry Pi OS
 - Netgate SG-3100 with Pfsense as router/firewall/dns/vpn
 - Unifi access points and switches
