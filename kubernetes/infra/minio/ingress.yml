@@ -1,0 +1,41 @@
+
+---
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: minio-certificate
+  namespace: minio
+spec:
+  commonName: minio.lan.juusoleinonen.fi
+  secretName: minio-certificate
+  dnsNames:
+    - minio.lan.juusoleinonen.fi
+    - minio-console.lan.juusoleinonen.fi
+  issuerRef:
+    name: letsencrypt-prod
+    kind: ClusterIssuer
+
+---
+apiVersion: traefik.containo.us/v1alpha1
+kind: IngressRoute
+metadata:
+  name: minio
+  namespace: minio
+spec:
+  entryPoints:
+    - websecure
+  routes:
+    - kind: Rule
+      match: Host(`minio.lan.juusoleinonen.fi`)
+      priority: 10
+      services:
+        - name: minio
+          port: 9000
+    - kind: Rule
+      match: Host(`minio-console.lan.juusoleinonen.fi`)
+      priority: 10
+      services:
+        - name: minio
+          port: 9001
+  tls:
+    secretName: minio-certificate

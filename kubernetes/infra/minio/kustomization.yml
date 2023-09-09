@@ -1,0 +1,8 @@
+namespace: minio
+resources:
+  - namespace.yml
+  - pvc.yml
+  - minio-credentials-secret.yml
+  - deployment.yml
+  - service.yml
+  - ingress.yml
