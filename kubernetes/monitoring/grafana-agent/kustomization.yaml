@@ -1,0 +1,14 @@
+namespace: grafana-agent
+
+helmCharts:
+  - repo: https://grafana.github.io/helm-charts
+    name: grafana-agent
+    namespace: grafana-agent
+    includeCRDs: true
+    valuesFile: values.yml
+    version: "0.24.0"
+    releaseName: grafana-agent
+
+resources:
+  - namespace.yml
+  - agent-config.yml

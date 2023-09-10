@@ -1,0 +1,33 @@
+---
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: grafana-mimir-certificate
+  namespace: grafana-mimir
+spec:
+  commonName: mimir.lan.juusoleinonen.fi
+  secretName: grafana-mimir-certificate
+  dnsNames:
+    - mimir.lan.juusoleinonen.fi
+  issuerRef:
+    name: letsencrypt-prod
+    kind: ClusterIssuer
+
+---
+apiVersion: traefik.containo.us/v1alpha1
+kind: IngressRoute
+metadata:
+  name: grafana-mimir
+  namespace: grafana-mimir
+spec:
+  entryPoints:
+    - websecure
+  routes:
+    - kind: Rule
+      match: Host(`mimir.lan.juusoleinonen.fi`)
+      priority: 10
+      services:
+        - name: grafana-mimir
+          port: 8080
+  tls:
+    secretName: grafana-mimir-certificate

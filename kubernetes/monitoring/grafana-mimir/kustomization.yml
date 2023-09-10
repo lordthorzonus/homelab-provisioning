@@ -1,0 +1,9 @@
+namespace: grafana-mimir
+resources:
+  - namespace.yml
+  - mimir-config.yml
+  - mimir-minio-credentials.yml
+  - pvc.yml
+  - deployment.yml
+  - service.yml
+  - ingress.yml

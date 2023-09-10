@@ -1,0 +1,123 @@
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: grafana-agent-config
+  namespace: grafana-agent
+data:
+  config.river: |
+    logging {
+      level = "info"
+      format = "logfmt"
+    }
+    discovery.kubernetes "nodes" {
+      role = "node"
+    }
+  
+    discovery.kubernetes "k3s_pods" {
+      role = "pod"
+      selectors {
+        role = "pod"
+        label = "juusoleinonen.fi/monitoring=true"
+      }
+    }
+
+    discovery.kubernetes "k3s_ingresses" {
+      role = "ingress"
+    }
+    
+    prometheus.remote_write "mimir" {
+      endpoint {
+        url = "https://mimir.lan.juusoleinonen.fi/api/v1/push"
+      }
+    }
+
+    
+    prometheus.scrape "kubernetes_pods" {
+      scrape_interval = "60s"
+      targets = discovery.kubernetes.k3s_pods.targets
+      forward_to = [prometheus.remote_write.mimir.receiver]
+    }
+    
+    // Kubelet
+    discovery.relabel "kubelet" {
+      targets = discovery.kubernetes.nodes.targets
+      rule {
+        target_label = "__address__"
+        replacement  = "kubernetes.default.svc.cluster.local:443"
+      }
+      rule {
+        source_labels = ["__meta_kubernetes_node_name"]
+        regex         = "(.+)"
+        replacement   = "/api/v1/nodes/${1}/proxy/metrics"
+        target_label  = "__metrics_path__"
+      }
+    }
+
+    prometheus.scrape "kubelet" {
+      job_name   = "integrations/kubernetes/kubelet"
+      targets  = discovery.relabel.kubelet.output
+      scheme   = "https"
+      scrape_interval = "60s"
+      bearer_token_file = "/var/run/secrets/kubernetes.io/serviceaccount/token"
+      tls_config {
+        insecure_skip_verify = true
+      }
+      clustering {
+        enabled = true
+      }
+        forward_to = [prometheus.relabel.kubelet.receiver]
+    }
+        
+    prometheus.relabel "kubelet" {
+      rule {
+        source_labels = ["__name__"]
+        regex = "up|container_cpu_usage_seconds_total|kubelet_certificate_manager_client_expiration_renew_errors|kubelet_certificate_manager_client_ttl_seconds|kubelet_certificate_manager_server_ttl_seconds|kubelet_cgroup_manager_duration_seconds_bucket|kubelet_cgroup_manager_duration_seconds_count|kubelet_node_config_error|kubelet_node_name|kubelet_pleg_relist_duration_seconds_bucket|kubelet_pleg_relist_duration_seconds_count|kubelet_pleg_relist_interval_seconds_bucket|kubelet_pod_start_duration_seconds_bucket|kubelet_pod_start_duration_seconds_count|kubelet_pod_worker_duration_seconds_bucket|kubelet_pod_worker_duration_seconds_count|kubelet_running_container_count|kubelet_running_containers|kubelet_running_pod_count|kubelet_running_pods|kubelet_runtime_operations_errors_total|kubelet_runtime_operations_total|kubelet_server_expiration_renew_errors|kubelet_volume_stats_available_bytes|kubelet_volume_stats_capacity_bytes|kubelet_volume_stats_inodes|kubelet_volume_stats_inodes_used|kubernetes_build_info|namespace_workload_pod|rest_client_requests_total|storage_operation_duration_seconds_count|storage_operation_errors_total|volume_manager_total_volumes"
+        action = "keep"
+      }
+       forward_to = [prometheus.remote_write.mimir.receiver]
+    }
+    
+    // Node Exporter
+    discovery.relabel "node_exporter" {
+      targets = discovery.kubernetes.k3s_pods.targets
+      rule {
+        source_labels = ["__meta_kubernetes_pod_label_app_kubernetes_io_instance"]
+        regex = "k8smon"
+        action = "keep"
+      }
+      rule {
+        source_labels = ["__meta_kubernetes_pod_label_app_kubernetes_io_name"]
+        regex = "prometheus-node-exporter.*"
+        action = "keep"
+      }
+      rule {
+        source_labels = ["__meta_kubernetes_pod_node_name"]
+        action = "replace"
+        target_label = "instance"
+      }
+    }
+      
+    prometheus.scrape "node_exporter" {
+      job_name   = "integrations/node_exporter"
+      targets  = discovery.relabel.node_exporter.output
+      scrape_interval = "60s"
+      clustering {
+        enabled = true
+      }
+      forward_to = [prometheus.relabel.node_exporter.receiver]
+    }
+      
+    prometheus.relabel "node_exporter" {
+      rule {
+        source_labels = ["__name__"]
+        regex = "up|node_cpu.*|node_exporter_build_info|node_filesystem.*|node_memory.*|process_cpu_seconds_total|process_resident_memory_bytes"
+        action = "keep"
+      }
+      forward_to = [prometheus.remote_write.mimir.receiver]
+    }
+
+  config.yaml: |
+      server:
+        log_level: warn
+        log_format: logfmt

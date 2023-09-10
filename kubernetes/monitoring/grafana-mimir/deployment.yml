@@ -1,0 +1,52 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: grafana-mimir
+  labels:
+    app: grafana-mimir
+spec:
+  selector:
+    matchLabels:
+      app: grafana-mimir
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: grafana-mimir
+    spec:
+      nodeSelector:
+        servertype: pc
+      containers:
+        - name: grafana-mimir
+          image: grafana/mimir:2.9.0
+          args:
+            - "--config.file=/etc/mimir.yaml"
+            - "-config.expand-env=true"
+          ports:
+            - containerPort: 8080
+              name: mimir-http
+              protocol: TCP
+          volumeMounts:
+            - name: grafana-mimir-config
+              mountPath: /etc/mimir.yaml
+              subPath: mimir.yaml
+            - name: grafana-mimir-pvc
+              mountPath: /data
+          env:
+            - name: MINIO_ACCESS_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: grafana-mimir-minio-credentials
+                  key: MINIO_ACCESS_KEY
+            - name: MINIO_SECRET_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: grafana-mimir-minio-credentials
+                  key: MINIO_SECRET_KEY
+      volumes:
+        - name: grafana-mimir-config
+          configMap:
+            name: grafana-mimir-config
+        - name: grafana-mimir-pvc
+          persistentVolumeClaim:
+            claimName: grafana-mimir-pvc

@@ -1,0 +1,38 @@
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: grafana-mimir-config
+  namespace: grafana-mimir
+data:
+  mimir.yaml: |
+    # Do not use this configuration in production.
+    # It is for demonstration purposes only.
+    # Run Mimir in single process mode, with all components running in 1 process.
+    target: all
+
+    multitenancy_enabled: false
+
+    # Configure Mimir to use Minio as object storage backend.
+    common:
+      storage:
+        backend: s3
+        s3:
+          endpoint: minio.lan.juusoleinonen.fi
+          access_key_id: ${MINIO_ACCESS_KEY}
+          secret_access_key: ${MINIO_SECRET_KEY}
+          bucket_name: mimir
+
+    # Blocks storage requires a prefix when using a common object storage bucket.
+    blocks_storage:
+      storage_prefix: blocks
+      tsdb:
+        dir: /data/ingester
+    
+    store_gateway:
+      sharding_ring:
+        replication_factor: 1
+    ingester:
+      ring:
+        replication_factor: 1
+        
