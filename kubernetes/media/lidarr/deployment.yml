@@ -26,7 +26,7 @@ spec:
               value: "1000"
             - name: PGID
               value: "1000"
-          image: linuxserver/lidarr:1.4.5
+          image: linuxserver/lidarr:8.1.2135
           name: lidarr
           ports:
             - containerPort: 8686
