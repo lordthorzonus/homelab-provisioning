@@ -3,4 +3,4 @@ installCRDs: true
 extraArgs:
   - --enable-certificate-owner-ref=true
   - --dns01-recursive-nameservers-only
-  - --dns01-recursive-nameservers=8.8.8.8:53,1.1.1.1:53
+  - --dns01-recursive-nameservers=ns-1609.awsdns-09.co.uk:53,ns-462.awsdns-57.com:53

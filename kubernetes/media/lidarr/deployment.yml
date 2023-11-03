@@ -1,0 +1,47 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: lidarr
+  name: lidarr
+  namespace: lidarr
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: lidarr
+  template:
+    metadata:
+      labels:
+        app: lidarr
+    spec:
+      nodeSelector:
+        servertype: pc
+      containers:
+        - env:
+            - name: TZ
+              value: Europe/Helsinki
+            - name: PUID
+              value: "1000"
+            - name: PGID
+              value: "1000"
+          image: linuxserver/lidarr:1.4.5
+          name: lidarr
+          ports:
+            - containerPort: 8686
+              name: http
+          volumeMounts:
+            - mountPath: /config
+              name: lidarr-pvc
+            - mountPath: /media
+              name: media-nfs
+      volumes:
+        - name: lidarr-pvc
+          persistentVolumeClaim:
+            claimName: lidarr-pvc
+        - name: media-nfs
+          nfs:
+            server: 192.168.5.11
+            path: /tank/media
+

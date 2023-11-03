@@ -1,0 +1,33 @@
+---
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: lidarr-certificate
+  namespace: lidarr
+spec:
+  commonName: lidarr.lan.juusoleinonen.fi
+  secretName: lidarr-certificate
+  dnsNames:
+    - lidarr.lan.juusoleinonen.fi
+  issuerRef:
+    name: letsencrypt-prod
+    kind: ClusterIssuer
+
+---
+apiVersion: traefik.containo.us/v1alpha1
+kind: IngressRoute
+metadata:
+  name: lidarr
+  namespace: lidarr
+spec:
+  entryPoints:
+    - websecure
+  routes:
+    - kind: Rule
+      match: Host(`lidarr.lan.juusoleinonen.fi`)
+      priority: 10
+      services:
+        - name: lidarr
+          port: 8686
+  tls:
+    secretName: lidarr-certificate
