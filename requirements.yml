@@ -19,4 +19,4 @@ collections:
   - name: kubernetes.core
     version: "2.4.0"
   - name: vladgh.samba
-    version: "3.1.1"
+    version: "3.2.2"
