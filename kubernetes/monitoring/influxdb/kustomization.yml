@@ -6,7 +6,7 @@ helmCharts:
     namespace: influxdb
     includeCRDs: true
     valuesFile: values.yml
-    version: "2.1.1"
+    version: "2.1.2"
     releaseName: influxdb
 
 resources:
