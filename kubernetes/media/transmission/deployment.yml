@@ -26,7 +26,7 @@ spec:
             - secretRef:
                 name: ovpn-credentials
                 optional: false
-          image: haugene/transmission-openvpn:5.2.0
+          image: haugene/transmission-openvpn:5.3.1
           imagePullPolicy: IfNotPresent
           ports:
             - containerPort: 9091
