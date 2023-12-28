@@ -71,6 +71,7 @@ home_assistant_docker_network_gateway: "172.20.0.1"
 home_assistant_domain: "{{ vault_home_assistant_domain }}"
 hacs_version: "1.33.0"
 
+home_assistant_docker_ip: "172.20.0.3"
 
 ###########################
 # MQTT
@@ -82,3 +83,4 @@ mosquitto_home_folder: "/home/{{ home_assistant_user }}/mosquitto"
 mosquitto_user: "{{ home_assistant_user }}"
 mosquitto_user_id: "{{ home_assistant_user_id }}"
 mosquitto_user_group_id: "{{ home_assistant_user_group_id }}"
+mosquitto_docker_ip: "172.20.0.4"

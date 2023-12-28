@@ -3,8 +3,6 @@ services:
     image: "eclipse-mosquitto:{{ mqtt_mosquitto_version }}"
     container_name: mosquitto
     user: "{{ mosquitto_user_id }}:{{ mosquitto_user_group_id }}"
-    networks:
-      - "{{ mqtt_docker_network }}"
     restart: unless-stopped
     volumes:
       - "./config:/mosquitto/config"
@@ -17,6 +15,9 @@ services:
       - "traefik.tcp.routers.mosquitto.rule=HostSNI(`{{ mqtt_broker_domain }}`)"
       - traefik.tcp.routers.mosquitto.tls=true
       - traefik.tcp.routers.mosquitto.tls.certresolver=lets-encrypt
+    networks:
+      "{{ mqtt_docker_network }}":
+        ipv4_address: "{{ mosquitto_docker_ip }}"
 networks:
   "{{ mqtt_docker_network }}":
     external: true
