@@ -82,7 +82,7 @@ data:
       
     prometheus.scrape "node_exporter" {
       job_name   = "integrations/unix"
-      targets  = prometheus.exporter.unix.targets
+      targets  = prometheus.exporter.unix.node_exporter.targets
       scrape_interval = "60s"
       clustering {
         enabled = true
