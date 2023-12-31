@@ -18,7 +18,6 @@ data:
       role = "pod"
       selectors {
         role = "pod"
-        label = "juusoleinonen.fi/monitoring=true"
       }
     }
 
@@ -77,6 +76,44 @@ data:
        forward_to = [prometheus.remote_write.mimir.receiver]
     }
     
+    // servicemonitor
+      prometheus.operator.servicemonitors "services" {
+        forward_to = [prometheus.remote_write.default.receiver]
+      }
+
+      // cadvisor
+      prometheus.scrape "cadvisor" {
+        scheme = "https"
+        tls_config {
+            server_name = "kubernetes"
+            ca_file = "/var/run/secrets/kubernetes.io/serviceaccount/ca.crt"
+            insecure_skip_verify = false
+        }
+        bearer_token_file = "/var/run/secrets/kubernetes.io/serviceaccount/token"
+        targets = discovery.relabel.metrics_cadvisor.output
+        scrape_interval = "60s"
+        forward_to = [prometheus.remote_write.default.receiver]
+      }
+
+
+      discovery.relabel "metrics_cadvisor" {
+        targets = discovery.kubernetes.nodes.targets
+
+        rule {
+          action = "replace"
+          target_label = "__address__"
+          replacement = "kubernetes.default.svc.cluster.local:443"
+        }
+
+        rule {
+          source_labels = ["__meta_kubernetes_node_name"]
+          regex = "(.+)"
+          action = "replace"
+          replacement = "/api/v1/nodes/${1}/proxy/metrics/cadvisor"
+          target_label = "__metrics_path__"
+        }
+      }
+
     // Node Exporter
     prometheus.exporter.unix "node_exporter" {}
       
