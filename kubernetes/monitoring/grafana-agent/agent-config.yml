@@ -81,23 +81,15 @@ data:
     prometheus.exporter.unix "node_exporter" {}
       
     prometheus.scrape "node_exporter" {
-      job_name   = "integrations/unix"
+      job_name = "integrations/unix"
       targets  = prometheus.exporter.unix.node_exporter.targets
       scrape_interval = "60s"
       clustering {
         enabled = true
       }
-      forward_to = [prometheus.relabel.node_exporter.receiver]
-    }
-      
-    prometheus.relabel "node_exporter" {
-      rule {
-        source_labels = ["__name__"]
-        regex = "up|node_cpu.*|node_exporter_build_info|node_filesystem.*|node_memory.*|process_cpu_seconds_total|process_resident_memory_bytes"
-        action = "keep"
-      }
       forward_to = [prometheus.remote_write.mimir.receiver]
     }
+      
 
   config.yaml: |
       server:
