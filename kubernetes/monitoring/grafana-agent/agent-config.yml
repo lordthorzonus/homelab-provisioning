@@ -78,7 +78,7 @@ data:
     }
     
     // Node Exporter
-    prometheus.exporter.unix {}
+    prometheus.exporter.unix "node_exporter" {}
       
     prometheus.scrape "node_exporter" {
       job_name   = "integrations/unix"
