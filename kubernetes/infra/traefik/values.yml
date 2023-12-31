@@ -17,3 +17,8 @@ env:
 
 globalArguments:
   - "--global.checknewversion"
+
+metrics:
+  prometheus:
+    service:
+      enabled: true
