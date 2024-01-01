@@ -10,6 +10,7 @@ data:
       level = "info"
       format = "logfmt"
     }
+    
     discovery.kubernetes "nodes" {
       role = "node"
     }
@@ -78,7 +79,7 @@ data:
     
     // servicemonitor
       prometheus.operator.servicemonitors "services" {
-        forward_to = [prometheus.remote_write.default.receiver]
+        forward_to = [prometheus.remote_write.mimir.receiver]
       }
 
       // cadvisor
@@ -90,7 +91,7 @@ data:
         bearer_token_file = "/var/run/secrets/kubernetes.io/serviceaccount/token"
         targets = discovery.relabel.metrics_cadvisor.output
         scrape_interval = "60s"
-        forward_to = [prometheus.remote_write.default.receiver]
+        forward_to = [prometheus.remote_write.mimir.receiver]
       }
 
 
