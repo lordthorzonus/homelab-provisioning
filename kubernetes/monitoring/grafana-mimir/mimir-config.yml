@@ -36,3 +36,6 @@ data:
       ring:
         replication_factor: 1
         
+    limits:
+      # Allow ingestion of out-of-order samples up to 5 minutes since the latest received sample for the series.
+      out_of_order_time_window: 5m
