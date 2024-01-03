@@ -12,7 +12,10 @@ data:
     target: all
 
     multitenancy_enabled: false
-
+    
+    tsdb:
+      retention: 30d
+      
     # Configure Mimir to use Minio as object storage backend.
     common:
       storage:
