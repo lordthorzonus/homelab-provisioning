@@ -11,18 +11,9 @@ spec:
         revision: HEAD
         directories:
           - path: kubernetes/infra/*
-            values: 
-              syncPolicy: {}
           - path: kubernetes/monitoring/*
-            values:
-              syncPolicy:
-                automated:
-                  selfHeal: true
           - path: kubernetes/media/*
-            values:
-              syncPolicy: 
-                automated:
-                  selfHeal: true
+
   template:
     metadata:
       name: '{{.path.basename}}'
@@ -34,4 +25,6 @@ spec:
         path: '{{.path.path}}'
       destination:
         server: https://kubernetes.default.svc
-      syncPolicy: '{{ toYaml .values.syncPolicy }}'
+      syncPolicy:
+        automated:
+          selfHeal: true
