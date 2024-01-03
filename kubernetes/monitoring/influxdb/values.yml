@@ -5,6 +5,7 @@ persistence:
 adminUser:
   organization: "homelab"
   user: "lordthorzonus"
+  existingSecret: "influxdb-influxdb2-auth"
 
 image:
   tag: 2.7.1-alpine
