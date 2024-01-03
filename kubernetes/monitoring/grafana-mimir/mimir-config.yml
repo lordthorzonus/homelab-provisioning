@@ -26,8 +26,8 @@ data:
     # Blocks storage requires a prefix when using a common object storage bucket.
     blocks_storage:
       storage_prefix: blocks
-      tsdb:
-        dir: /data/ingester
+      s3:
+        bucket_name: mimir
     
     store_gateway:
       sharding_ring:
