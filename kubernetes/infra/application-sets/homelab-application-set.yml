@@ -24,6 +24,8 @@ spec:
         path: '{{.path.path}}'
       destination:
         server: https://kubernetes.default.svc
+      {{- if or (eq .path.path "kubernetes/monitoring") (eq .path.path "kubernetes/media") }}
       syncPolicy: 
           automated: 
             selfHeal: true
+      {{- end }}
