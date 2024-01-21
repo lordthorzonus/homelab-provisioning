@@ -1,3 +1,4 @@
 namespace: argocd
 resources:
   - homelab-application-set.yml
+  - infra-application-set.yml
