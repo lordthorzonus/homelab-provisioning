@@ -4,6 +4,8 @@ kind: PersistentVolumeClaim
 metadata:
   name: sonarr-pvc
   namespace: sonarr
+  annotations:
+    argocd.argoproj.io/sync-options: Delete=false
 spec:
   accessModes:
     - ReadWriteOnce

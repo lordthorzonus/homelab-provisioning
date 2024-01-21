@@ -4,6 +4,8 @@ kind: PersistentVolumeClaim
 metadata:
   name: minio-pvc
   namespace: minio
+  annotations:
+    argocd.argoproj.io/sync-options: Delete=false
 spec:
   accessModes:
     - ReadWriteOnce

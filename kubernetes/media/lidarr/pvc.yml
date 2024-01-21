@@ -4,6 +4,9 @@ kind: PersistentVolumeClaim
 metadata:
   name: lidarr-pvc
   namespace: lidarr
+  annotations:
+    argocd.argoproj.io/sync-options: Delete=false
+
 spec:
   accessModes:
     - ReadWriteOnce

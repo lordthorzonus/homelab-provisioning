@@ -4,6 +4,8 @@ kind: PersistentVolumeClaim
 metadata:
   name: prowlarr-pvc
   namespace: prowlarr
+  annotations:
+    argocd.argoproj.io/sync-options: Delete=false
 spec:
   accessModes:
     - ReadWriteOnce

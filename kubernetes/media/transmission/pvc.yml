@@ -4,6 +4,8 @@ kind: PersistentVolumeClaim
 metadata:
   name: transmission-pvc
   namespace: transmission
+  annotations:
+    argocd.argoproj.io/sync-options: Delete=false
 spec:
   accessModes:
     - ReadWriteOnce

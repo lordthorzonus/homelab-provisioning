@@ -4,6 +4,8 @@ kind: PersistentVolumeClaim
 metadata:
   name: readarr-pvc
   namespace: readarr
+  annotations:
+    argocd.argoproj.io/sync-options: Delete=false
 spec:
   accessModes:
     - ReadWriteOnce
