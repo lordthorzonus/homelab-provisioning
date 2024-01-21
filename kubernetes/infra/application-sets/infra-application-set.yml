@@ -10,8 +10,7 @@ spec:
         repoURL: https://github.com/lordthorzonus/homelab-provisioning.git
         revision: HEAD
         directories:
-          - path: kubernetes/monitoring/*
-          - path: kubernetes/media/*
+          - path: kubernetes/infra/*
   template:
     metadata:
       name: "{{.path.basename}}"
@@ -23,6 +22,3 @@ spec:
         path: "{{.path.path}}"
       destination:
         server: https://kubernetes.default.svc
-      syncPolicy:
-        automated:
-          selfHeal: true
