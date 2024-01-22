@@ -4,6 +4,8 @@ metadata:
   name: homelab-applications
   namespace: argocd
 spec:
+  syncPolicy:
+    preserveResourcesOnDeletion: true
   goTemplate: true
   generators:
     - git:
