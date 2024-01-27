@@ -6,6 +6,9 @@ metadata:
 data:
   LOCAL_NETWORK: "10.42.0.0/16"
   OVPN_PROTOCOL: "udp"
+  DEBUG: "true"
+  TZ: "Europe/Helsinki"
+  HEALTH_CHECK_HOST: "github.com"
   OVPN_COUNTRY: "se"
   OVPN_CITY: "stockholm"
   OVPN_CONNECTION: "standard"
