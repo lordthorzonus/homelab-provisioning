@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
         - name: unifi-controller
-          image: jacobalberty/unifi:v8.0.26
+          image: jacobalberty/unifi:v8.0.28
           imagePullPolicy: IfNotPresent
           env:
             - name: TZ
