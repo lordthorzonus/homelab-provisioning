@@ -6,7 +6,7 @@ helmCharts:
     namespace: grafana-agent
     includeCRDs: true
     valuesFile: values.yml
-    version: "0.31.1"
+    version: "0.37.0"
     releaseName: grafana-agent
 
 resources:
