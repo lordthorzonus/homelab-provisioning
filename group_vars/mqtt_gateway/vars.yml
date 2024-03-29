@@ -14,7 +14,7 @@ allowed_network_sources:
 gateway_docker_network: "home-assistant-network"
 gateway_docker_network_subnet: "172.20.0.0/16"
 gateway_docker_network_gateway: "172.20.0.1"
-gateway_user: 'home_assistant'
+gateway_user: "home_assistant"
 security_allow_http_traffic: true
 security_allow_https_traffic: true
 
@@ -53,4 +53,4 @@ zigbee2mqtt_network_key: "{{ vault_zigbee2mqtt_network_key }}"
 ###########################
 ble2mqtt_home_folder: "/home/{{ gateway_user }}/ble2mqtt"
 ble2mqtt_user: "{{ gateway_user }}"
-ble2mqtt_version: "0.12.0"
+ble2mqtt_version: "edge"
