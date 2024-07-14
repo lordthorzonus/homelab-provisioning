@@ -26,7 +26,7 @@ spec:
               value: "1000"
             - name: PGID
               value: "1000"
-          image: linuxserver/prowlarr:1.19.0
+          image: linuxserver/prowlarr:1.20.1
           name: prowlarr
           ports:
             - containerPort: 9696
