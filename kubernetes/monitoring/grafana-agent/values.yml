@@ -3,6 +3,6 @@ agent:
     create: false
     name: grafana-agent-config
   enableReporting: false
-  controllers:
+  controller:
     type: 'deployment'
     replicas: 0
