@@ -4,4 +4,5 @@ agent:
     name: grafana-agent-config
   enableReporting: false
   controllers:
+    type: 'deployment'
     replicas: 0
