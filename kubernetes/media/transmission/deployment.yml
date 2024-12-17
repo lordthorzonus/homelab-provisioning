@@ -61,8 +61,8 @@ spec:
           volumeMounts:
             - mountPath: /data
               name: downloads
-           # - mountPath: /config
-            #  name: transmission-pvc
+            - mountPath: /config
+              name: transmission-pvc
       restartPolicy: Always
       terminationGracePeriodSeconds: 30
       volumes:
@@ -70,8 +70,8 @@ spec:
           nfs:
             path: /tank/media/downloads
             server: 192.168.5.11
-       # - name: transmission-pvc
-        #  persistentVolumeClaim:
-        #    claimName: transmission-pvc
+        - name: transmission-pvc
+          persistentVolumeClaim:
+            claimName: transmission-pvc
 
 
