@@ -30,7 +30,7 @@ spec:
         - name: argocd-server
           port: 80
     - kind: Rule
-      match: Host(`argocd.lan.juusoleinonen.fi`) && Headers(`Content-Type`, `application/grpc`)
+      match: Host(`argocd.lan.juusoleinonen.fi`) && Header(`Content-Type`, `application/grpc`)
       priority: 11
       services:
         - name: argocd-server
