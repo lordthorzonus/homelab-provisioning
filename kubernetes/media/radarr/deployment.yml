@@ -26,7 +26,7 @@ spec:
               value: "1000"
             - name: PGID
               value: "1000"
-          image: linuxserver/radarr:5.19.3
+          image: linuxserver/radarr:5.21.1
           name: radarr
           ports:
             - containerPort: 7878
