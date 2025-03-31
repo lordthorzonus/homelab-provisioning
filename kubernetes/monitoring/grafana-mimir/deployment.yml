@@ -18,7 +18,7 @@ spec:
         servertype: pc
       containers:
         - name: grafana-mimir
-          image: grafana/mimir:2.15.0
+          image: grafana/mimir:2.16.0
           args:
             - "--config.file=/etc/mimir.yaml"
             - "-config.expand-env=true"
