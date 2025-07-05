@@ -33,22 +33,22 @@ spec:
               name: http-tcp
               protocol: TCP
           livenessProbe:
-            failureThreshold: 3
-            initialDelaySeconds: 10
+            failureThreshold: 4
+            initialDelaySeconds: 30
             periodSeconds: 2
             successThreshold: 1
             tcpSocket:
               port: 9091
-            timeoutSeconds: 2
+            timeoutSeconds: 30
           name: transmission
           readinessProbe:
-            failureThreshold: 3
-            initialDelaySeconds: 10
+            failureThreshold: 4
+            initialDelaySeconds: 30
             periodSeconds: 2
             successThreshold: 2
             tcpSocket:
               port: 9091
-            timeoutSeconds: 2
+            timeoutSeconds: 30
           resources:
             limits:
               memory: 2000Mi
