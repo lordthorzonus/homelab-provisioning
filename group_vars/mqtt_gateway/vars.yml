@@ -45,7 +45,7 @@ zigbee2mqtt_domain: "{{ vault_zigbee2mqtt_domain }}"
 zigbee2mqtt_docker_network_subnet: "{{ gateway_docker_network_subnet }}"
 zigbee2mqtt_docker_network: "{{ gateway_docker_network }}"
 zigbee2mqtt_docker_network_gateway: "{{ gateway_docker_network_gateway }}"
-zigbee2mqtt_version: "2.5.1"
+zigbee2mqtt_version: "2.6.0"
 zigbee2mqtt_network_key: "{{ vault_zigbee2mqtt_network_key }}"
 
 ###########################
