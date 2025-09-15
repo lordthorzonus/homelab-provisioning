@@ -47,8 +47,9 @@ spec:
             httpGet:
               path: /health
               port: http-tcp
-            failureThreshold: 2
-            periodSeconds: 10
+            failureThreshold: 5
+            periodSeconds: 30
+            initialDelaySeconds: 60
           resources:
             requests:
               cpu: 250m
