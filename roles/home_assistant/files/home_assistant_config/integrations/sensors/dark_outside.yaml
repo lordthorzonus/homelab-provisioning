@@ -18,10 +18,9 @@ binary_sensor:
       prob_given_true: 0.96
       prob_given_false: 0.01
       value_template: >
-        {{ states('sensor.balcony_light_sensor_illuminance_lux') | float <= states('input_number.dark_outside_lux_value') | float }}
+        {{ states('sensor.balcony_light_sensor_illuminance') | float <= states('input_number.dark_outside_lux_value') | float }}
     - platform: template
       value_template: >
         {{ states('weather.sumppari') == 'cloudy' and now().month is in [11,12,1,2] }}
       prob_given_true: 0.6
       prob_given_false: 0.3
-
