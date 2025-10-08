@@ -17,6 +17,6 @@ collections:
   - name: ansible.posix
     version: "2.1.0"
   - name: kubernetes.core
-    version: "6.1.0"
+    version: "6.2.0"
   - name: vladgh.samba
     version: "3.5.3"
