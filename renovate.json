@@ -1,13 +1,18 @@
 {
     "extends": [
-        "config:base"
+        "config:recommended"
     ],
     "kubernetes": {
-        "fileMatch": ["kubernetes/.+\\.ya?ml$"]
+        "managerFilePatterns": [
+            "/kubernetes/.+\\.ya?ml$/"
+        ]
     },
-    "regexManagers": [
+    "customManagers": [
         {
-            "fileMatch": ["vars.yml"],
+            "customType": "regex",
+            "managerFilePatterns": [
+                "/vars.yml/"
+            ],
             "matchStringsStrategy": "combination",
             "matchStrings": [
                 "hacs_version:\\s*\\\"*(?<currentValue>.*)\\\""
@@ -16,7 +21,10 @@
             "depNameTemplate": "hacs/integration"
         },
         {
-            "fileMatch": ["vars.yml"],
+            "customType": "regex",
+            "managerFilePatterns": [
+                "/vars.yml/"
+            ],
             "matchStringsStrategy": "combination",
             "matchStrings": [
                 "mqtt_mosquitto_version:\\s*\\\"*(?<currentValue>.*)\\\""
@@ -25,7 +33,10 @@
             "depNameTemplate": "eclipse-mosquitto"
         },
         {
-            "fileMatch": ["vars.yml"],
+            "customType": "regex",
+            "managerFilePatterns": [
+                "/vars.yml/"
+            ],
             "matchStringsStrategy": "combination",
             "matchStrings": [
                 "home_assistant_version:\\s*\\\"*(?<currentValue>.*)\\\""
@@ -34,7 +45,10 @@
             "depNameTemplate": "homeassistant/home-assistant"
         },
         {
-            "fileMatch": ["vars.yml"],
+            "customType": "regex",
+            "managerFilePatterns": [
+                "/vars.yml/"
+            ],
             "matchStringsStrategy": "combination",
             "matchStrings": [
                 "grafana_version:\\s*\\\"*(?<currentValue>.*)\\\""
@@ -43,7 +57,10 @@
             "depNameTemplate": "grafana/grafana"
         },
         {
-            "fileMatch": ["vars.yml"],
+            "customType": "regex",
+            "managerFilePatterns": [
+                "/vars.yml/"
+            ],
             "matchStringsStrategy": "combination",
             "matchStrings": [
                 "ble2mqtt_version:\\s*\\\"*(?<currentValue>.*)\\\""
@@ -52,7 +69,10 @@
             "depNameTemplate": "lordthorzonus/ble2mqtt-gateway"
         },
         {
-            "fileMatch": ["vars.yml"],
+            "customType": "regex",
+            "managerFilePatterns": [
+                "/vars.yml/"
+            ],
             "matchStringsStrategy": "combination",
             "matchStrings": [
                 "zigbee2mqtt_version:\\s*\\\"*(?<currentValue>.*)\\\""
@@ -61,7 +81,10 @@
             "depNameTemplate": "koenkk/zigbee2mqtt"
         },
         {
-            "fileMatch": ["vars.yml"],
+            "customType": "regex",
+            "managerFilePatterns": [
+                "/vars.yml/"
+            ],
             "matchStringsStrategy": "combination",
             "matchStrings": [
                 "traefik_version:\\s*\\\"*(?<currentValue>.*)\\\""
