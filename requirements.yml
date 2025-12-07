@@ -13,7 +13,7 @@ collections:
   - name: community.general
     version: "12.1.0"
   - name: community.docker
-    version: "4.8.1"
+    version: "5.0.4"
   - name: ansible.posix
     version: "2.1.0"
   - name: kubernetes.core
