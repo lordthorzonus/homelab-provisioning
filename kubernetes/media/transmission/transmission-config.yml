@@ -13,6 +13,7 @@ data:
   OVPN_CITY: "stockholm"
   OVPN_CONNECTION: "standard"
   OPENVPN_PROVIDER: "OVPN"
+  GLOBAL_APPLY_PERMISSIONS: "false"
   PUID: "1000"
   PGID: "1000"
 
