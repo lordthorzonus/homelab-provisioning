@@ -1,7 +1,7 @@
 namespace: kube-system
 helmCharts:
   - namespace: kube-system
-    version: 37.4.0
+    version: 38.0.1
     releaseName: traefik
     name:  traefik
     valuesFile: values.yml
