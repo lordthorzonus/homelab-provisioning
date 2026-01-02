@@ -31,7 +31,7 @@ traefik_docker_network_subnet: "{{ gateway_docker_network_subnet }}"
 traefik_docker_network_gateway: "{{ gateway_docker_network_gateway }}"
 traefik_docker_ip: "172.20.0.2"
 
-traefik_version: "v3.6.2"
+traefik_version: "v3.6.6"
 traefik_domain: "{{ vault_traefik_domain }}"
 
 lets_encrypt_use_production: true
