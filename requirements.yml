@@ -1,7 +1,7 @@
 ---
 roles:
   - name: geerlingguy.pip
-    version: "3.1.1"
+    version: "3.1.2"
   - name: geerlingguy.docker_arm
     version: "5.0.0"
   - name: geerlingguy.docker
