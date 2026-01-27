@@ -1,0 +1,33 @@
+---
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: calibre-web-certificate
+  namespace: calibre-web
+spec:
+  commonName: calibre-web.lan.juusoleinonen.fi
+  secretName: calibre-web-certificate
+  dnsNames:
+    - calibre-web.lan.juusoleinonen.fi
+  issuerRef:
+    name: letsencrypt-prod
+    kind: ClusterIssuer
+
+---
+apiVersion: traefik.io/v1
+kind: IngressRoute
+metadata:
+  name: calibre-web
+  namespace: calibre-web
+spec:
+  entryPoints:
+    - websecure
+  routes:
+    - kind: Rule
+      match: Host(`calibre-web.lan.juusoleinonen.fi`)
+      priority: 10
+      services:
+        - name: calibre-web
+          port: 8083
+  tls:
+    secretName: calibre-web-certificate

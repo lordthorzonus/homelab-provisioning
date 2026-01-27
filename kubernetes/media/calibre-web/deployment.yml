@@ -1,0 +1,59 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: calibre-web
+  name: calibre-web
+  namespace: calibre-web
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: calibre-web
+  template:
+    metadata:
+      labels:
+        app: calibre-web
+    spec:
+      nodeSelector:
+        servertype: pc
+      containers:
+        - env:
+            - name: TZ
+              value: Europe/Helsinki
+            - name: PUID
+              value: "1000"
+            - name: PGID
+              value: "1000"
+          image: linuxserver/calibre-web:0.6.24
+          name: calibre-web
+          ports:
+            - containerPort: 8083
+              name: http
+          livenessProbe:
+            httpGet:
+              path: /
+              port: http
+            initialDelaySeconds: 30
+            periodSeconds: 10
+          readinessProbe:
+            httpGet:
+              path: /
+              port: http
+            initialDelaySeconds: 30
+            periodSeconds: 10
+          volumeMounts:
+            - mountPath: /config
+              name: calibre-web-pvc
+            - mountPath: /books
+              name: media-nfs
+              subPath: books
+      volumes:
+        - name: calibre-web-pvc
+          persistentVolumeClaim:
+            claimName: calibre-web-pvc
+        - name: media-nfs
+          nfs:
+            server: 192.168.5.11
+            path: /tank/media

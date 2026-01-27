@@ -1,0 +1,15 @@
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: calibre-web
+  namespace: calibre-web
+spec:
+  ports:
+    - port: 8083
+      protocol: TCP
+      targetPort: http
+  selector:
+    app: calibre-web
+  sessionAffinity: ClientIP
+  type: ClusterIP
