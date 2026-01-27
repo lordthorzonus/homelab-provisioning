@@ -22,3 +22,10 @@ spec:
         path: "{{.path.path}}"
       destination:
         server: https://kubernetes.default.svc
+  templatePatch: |
+    {{- if eq .path.basename "external-secrets" }}
+    spec:
+      syncPolicy:
+        syncOptions:
+          - ServerSideApply=true
+    {{- end }}
