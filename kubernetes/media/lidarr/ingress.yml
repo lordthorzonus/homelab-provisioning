@@ -14,7 +14,7 @@ spec:
     kind: ClusterIssuer
 
 ---
-apiVersion: traefik.io/v1alpha
+apiVersion: traefik.io/v1alpha1
 kind: IngressRoute
 metadata:
   name: lidarr
