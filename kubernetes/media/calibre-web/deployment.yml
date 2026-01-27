@@ -46,9 +46,8 @@ spec:
           volumeMounts:
             - mountPath: /config
               name: calibre-web-pvc
-            - mountPath: /books
+            - mountPath: /media
               name: media-nfs
-              subPath: books/books
       volumes:
         - name: calibre-web-pvc
           persistentVolumeClaim:
