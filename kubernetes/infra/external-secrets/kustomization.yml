@@ -10,7 +10,7 @@ helmCharts:
   - repo: https://1password.github.io/connect-helm-charts
     namespace: external-secrets
     name: connect
-    version: 2.2.1
+    version: 2.3.0
     releaseName: connect
     valuesFile: connect-values.yml
     includeCRDs: true
