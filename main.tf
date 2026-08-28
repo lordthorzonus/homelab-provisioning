@@ -5,7 +5,7 @@ terraform {
       version = "2.9.14"
     }
   }
-  required_version = "~> 1.15.0"
+  required_version = "~> 1.16.0"
 }
 
 provider "proxmox" {
