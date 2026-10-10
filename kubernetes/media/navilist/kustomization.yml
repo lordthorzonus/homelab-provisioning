@@ -1,0 +1,8 @@
+namespace: navilist
+resources:
+  - namespace.yml
+  - pvc.yml
+  - credentials-secret.yml
+  - deployment.yml
+  - service.yml
+  - ingress.yml

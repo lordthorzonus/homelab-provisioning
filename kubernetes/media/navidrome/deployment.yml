@@ -93,6 +93,9 @@ spec:
             - mountPath: /music
               name: music-nfs
               readOnly: true
+            - mountPath: /music/playlists
+              name: playlists-nfs
+              readOnly: true
       volumes:
         - name: navidrome-pvc
           persistentVolumeClaim:
@@ -101,4 +104,9 @@ spec:
           nfs:
             server: 192.168.5.11
             path: /tank/media/library/music
+            readOnly: true
+        - name: playlists-nfs
+          nfs:
+            server: 192.168.5.11
+            path: /tank/media/library/playlists
             readOnly: true

@@ -1,0 +1,106 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: navilist
+  name: navilist
+  namespace: navilist
+spec:
+  replicas: 1
+  strategy:
+    type: Recreate
+  selector:
+    matchLabels:
+      app: navilist
+  template:
+    metadata:
+      labels:
+        app: navilist
+    spec:
+      nodeSelector:
+        servertype: pc
+      securityContext:
+        runAsNonRoot: true
+        runAsUser: 1000
+        runAsGroup: 1000
+        fsGroup: 1000
+        fsGroupChangePolicy: OnRootMismatch
+      containers:
+        - name: navilist
+          image: ghcr.io/ofernander/navilist:latest@sha256:c5acd73ebd1d52d7aebc6ef4b947226315c2f147c0e68520ded41e2932d43f7a
+          imagePullPolicy: IfNotPresent
+          securityContext:
+            allowPrivilegeEscalation: false
+            capabilities:
+              drop:
+                - ALL
+          # These values seed naviList's settings database on first boot only.
+          # Subsequent changes must also be saved through its Settings page.
+          envFrom:
+            - secretRef:
+                name: navilist-credentials
+          env:
+            - name: TZ
+              value: Europe/Helsinki
+            - name: PORT
+              value: "3000"
+            - name: LOG_LEVEL
+              value: info
+            - name: DATA_DIR
+              value: /app/data
+            - name: DB_PATH
+              value: /app/data/navilist.db
+            - name: NL_NSP_PATH
+              value: /nsp
+            - name: NAVIDROME_URL
+              value: http://navidrome.navidrome.svc.cluster.local:4533
+            - name: LIDARR_URL
+              value: http://lidarr.lidarr.svc.cluster.local:8686
+            - name: LIDARR_ROOT_FOLDER
+              value: /media/library/music
+            - name: LIDARR_QUALITY_PROFILE_ID
+              value: "4"
+            - name: LIDARR_METADATA_PROFILE_ID
+              value: "1"
+          ports:
+            - containerPort: 3000
+              name: http-tcp
+              protocol: TCP
+          startupProbe:
+            httpGet:
+              path: /health
+              port: http-tcp
+            failureThreshold: 30
+            periodSeconds: 10
+            timeoutSeconds: 10
+          readinessProbe:
+            httpGet:
+              path: /health
+              port: http-tcp
+            periodSeconds: 10
+            timeoutSeconds: 10
+          livenessProbe:
+            httpGet:
+              path: /health
+              port: http-tcp
+            failureThreshold: 5
+            periodSeconds: 30
+            timeoutSeconds: 10
+          resources:
+            requests:
+              cpu: 100m
+              memory: 256Mi
+          volumeMounts:
+            - mountPath: /app/data
+              name: navilist-pvc
+            - mountPath: /nsp
+              name: playlists-nfs
+      volumes:
+        - name: navilist-pvc
+          persistentVolumeClaim:
+            claimName: navilist-pvc
+        - name: playlists-nfs
+          nfs:
+            server: 192.168.5.11
+            path: /tank/media/library/playlists
