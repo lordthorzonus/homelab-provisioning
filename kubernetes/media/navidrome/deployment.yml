@@ -49,6 +49,16 @@ spec:
               value: 1GB
             - name: ND_IMAGECACHESIZE
               value: 500MB
+            - name: ND_LASTFM_APIKEY
+              valueFrom:
+                secretKeyRef:
+                  name: last-fm-api-key
+                  key: api_key
+            - name: ND_LASTFM_SECRET
+              valueFrom:
+                secretKeyRef:
+                  name: last-fm-api-key
+                  key: shared_secret
           ports:
             - containerPort: 4533
               name: http-tcp

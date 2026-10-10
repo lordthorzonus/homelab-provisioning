@@ -2,6 +2,7 @@ namespace: navidrome
 resources:
   - namespace.yml
   - pvc.yml
+  - last-fm-api-key-secret.yml
   - deployment.yml
   - service.yml
   - ingress.yml
