@@ -15,6 +15,7 @@
       - cron
       - util-linux
       - logrotate
+      - curl
     state: present
 
 - name: Check installed Borg version
@@ -47,6 +48,36 @@
     owner: root
     group: root
     mode: "0600"
+  no_log: true
+  diff: false
+
+- name: Read the Healthchecks website from 1Password
+  ansible.builtin.set_fact:
+    borg_backup_healthchecks_url: "{{ (_named_fields + _primary_urls + _all_urls) | first | default('') }}"
+  vars:
+    # Built-in website entries live in urls, not fields, in the op v2 JSON.
+    _healthchecks_item: "{{ lookup('community.general.onepassword_raw', borg_backup_healthchecks_onepassword_item, vault=borg_backup_onepassword_vault) }}"
+    _named_fields: "{{ _healthchecks_item.get('fields', []) | selectattr('label', 'defined') | selectattr('label', 'equalto', borg_backup_healthchecks_onepassword_field) | map(attribute='value') | list }}"
+    _primary_urls: "{{ _healthchecks_item.get('urls', []) | selectattr('primary', 'defined') | selectattr('primary', 'equalto', true) | map(attribute='href') | list }}"
+    _all_urls: "{{ _healthchecks_item.get('urls', []) | map(attribute='href') | list }}"
+  when: borg_backup_healthchecks_enabled | bool
+  no_log: true
+
+- name: Require a nonempty HTTPS Healthchecks URL
+  ansible.builtin.assert:
+    that:
+      - borg_backup_healthchecks_url is match('^https://[a-zA-Z0-9./_~:%?=&+-]+$')
+  when: borg_backup_healthchecks_enabled | bool
+  no_log: true
+
+- name: Store the private Healthchecks ping URL
+  ansible.builtin.copy:
+    content: "{{ borg_backup_healthchecks_url }}"
+    dest: "{{ borg_backup_config_dir }}/healthchecks-url"
+    owner: root
+    group: root
+    mode: "0600"
+  when: borg_backup_healthchecks_enabled | bool
   no_log: true
   diff: false
 

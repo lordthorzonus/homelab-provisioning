@@ -16,3 +16,6 @@ borg_backup_log: /var/log/borg-backup.log
 borg_backup_onepassword_vault: homelab
 borg_backup_onepassword_item: borg-backup-key
 borg_backup_onepassword_field: password
+borg_backup_healthchecks_enabled: true
+borg_backup_healthchecks_onepassword_item: healthcheck-backups-ping-url
+borg_backup_healthchecks_onepassword_field: website
