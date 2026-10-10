@@ -1,0 +1,33 @@
+---
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: navidrome-certificate
+  namespace: navidrome
+spec:
+  commonName: navidrome.lan.juusoleinonen.fi
+  secretName: navidrome-certificate
+  dnsNames:
+    - navidrome.lan.juusoleinonen.fi
+  issuerRef:
+    name: letsencrypt-prod
+    kind: ClusterIssuer
+
+---
+apiVersion: traefik.io/v1alpha1
+kind: IngressRoute
+metadata:
+  name: navidrome
+  namespace: navidrome
+spec:
+  entryPoints:
+    - websecure
+  routes:
+    - kind: Rule
+      match: Host(`navidrome.lan.juusoleinonen.fi`)
+      priority: 10
+      services:
+        - name: navidrome
+          port: 4533
+  tls:
+    secretName: navidrome-certificate

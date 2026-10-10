@@ -1,0 +1,94 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: navidrome
+  name: navidrome
+  namespace: navidrome
+spec:
+  replicas: 1
+  strategy:
+    type: Recreate
+  selector:
+    matchLabels:
+      app: navidrome
+  template:
+    metadata:
+      labels:
+        app: navidrome
+    spec:
+      nodeSelector:
+        servertype: pc
+      securityContext:
+        runAsNonRoot: true
+        runAsUser: 1000
+        runAsGroup: 1000
+        fsGroup: 1000
+        fsGroupChangePolicy: OnRootMismatch
+      containers:
+        - name: navidrome
+          image: deluan/navidrome:0.64.2
+          imagePullPolicy: IfNotPresent
+          securityContext:
+            allowPrivilegeEscalation: false
+            capabilities:
+              drop:
+                - ALL
+          env:
+            - name: TZ
+              value: Europe/Helsinki
+            - name: ND_DATAFOLDER
+              value: /data
+            - name: ND_MUSICFOLDER
+              value: /music
+            # NFS changes may not trigger filesystem watchers.
+            - name: ND_SCANNER_SCHEDULE
+              value: "@every 1h"
+            - name: ND_TRANSCODINGCACHESIZE
+              value: 1GB
+            - name: ND_IMAGECACHESIZE
+              value: 500MB
+          ports:
+            - containerPort: 4533
+              name: http-tcp
+              protocol: TCP
+          startupProbe:
+            httpGet:
+              path: /ping
+              port: http-tcp
+            failureThreshold: 60
+            periodSeconds: 10
+            timeoutSeconds: 5
+          readinessProbe:
+            httpGet:
+              path: /ping
+              port: http-tcp
+            periodSeconds: 10
+            timeoutSeconds: 5
+          livenessProbe:
+            httpGet:
+              path: /ping
+              port: http-tcp
+            failureThreshold: 5
+            periodSeconds: 30
+            timeoutSeconds: 5
+          resources:
+            requests:
+              cpu: 100m
+              memory: 256Mi
+          volumeMounts:
+            - mountPath: /data
+              name: navidrome-pvc
+            - mountPath: /music
+              name: music-nfs
+              readOnly: true
+      volumes:
+        - name: navidrome-pvc
+          persistentVolumeClaim:
+            claimName: navidrome-pvc
+        - name: music-nfs
+          nfs:
+            server: 192.168.5.11
+            path: /tank/media/library/music
+            readOnly: true
