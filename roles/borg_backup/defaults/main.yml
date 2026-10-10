@@ -1,0 +1,18 @@
+---
+borg_backup_repository: /backups/tank
+borg_backup_mount: /backups
+borg_backup_sources:
+  - /tank/media
+borg_backup_compression: lz4
+borg_backup_interval_days: 14
+# Fourteen restore points span thirteen fortnightly intervals (182 days).
+borg_backup_keep_last: 14
+borg_backup_cron_hour: "3"
+borg_backup_cron_minute: "0"
+borg_backup_config_dir: /etc/borg-backup
+borg_backup_state_dir: /var/lib/borg-backup
+borg_backup_script: /usr/local/sbin/borg-backup
+borg_backup_log: /var/log/borg-backup.log
+borg_backup_onepassword_vault: homelab
+borg_backup_onepassword_item: borg-backup-key
+borg_backup_onepassword_field: password

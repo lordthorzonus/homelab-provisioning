@@ -1,0 +1,94 @@
+#!/bin/bash
+set -euo pipefail
+umask 077
+export PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
+
+repository={{ borg_backup_repository | quote }}
+backup_mount={{ borg_backup_mount | quote }}
+state_dir={{ borg_backup_state_dir | quote }}
+passphrase_file={{ (borg_backup_config_dir + '/passphrase') | quote }}
+interval_seconds=$(({{ borg_backup_interval_days | int }} * 86400))
+keep_last={{ borg_backup_keep_last | int }}
+compression={{ borg_backup_compression | quote }}
+sources=(
+{% for source in borg_backup_sources %}
+    {{ source | quote }}
+{% endfor %}
+)
+mode=${1:-scheduled}
+case "$mode" in
+    scheduled|--force|--prune-dry-run) ;;
+    *) echo "Usage: $0 [--force|--prune-dry-run]" >&2; exit 2 ;;
+esac
+
+log() { printf '[%s] %s\n' "$(date --iso-8601=seconds)" "$*"; }
+
+exec 9>"$state_dir/job.lock"
+if ! flock --nonblock 9; then
+    log 'Another managed backup is running; skipping.'
+    exit 0
+fi
+
+now=$(date +%s)
+if [[ "$mode" == scheduled && -f "$state_dir/last-success" ]]; then
+    last_success=$(cat "$state_dir/last-success")
+    if [[ ! "$last_success" =~ ^[0-9]+$ ]]; then
+        log 'Invalid last-success timestamp; refusing to continue.'
+        exit 1
+    fi
+    if (( now - last_success < interval_seconds )); then
+        log 'Backup not due yet.'
+        exit 0
+    fi
+fi
+
+# Do not create a repository, or fall back to writing on the NAS root disk.
+if ! mountpoint --quiet "$backup_mount"; then
+    log "Backup disk is not mounted at $backup_mount; aborting."
+    exit 1
+fi
+if [[ ! -f "$repository/config" || ! -r "$passphrase_file" || ! -s "$passphrase_file" ]]; then
+    log 'Existing Borg repository or readable nonempty passphrase file is missing; aborting.'
+    exit 1
+fi
+for source in "${sources[@]}"; do
+    if [[ ! -d "$source" ]]; then
+        log "Source directory is missing: $source; aborting."
+        exit 1
+    fi
+done
+
+# The secret is read by Borg, not embedded in this script or its command arguments.
+export BORG_PASSCOMMAND="/bin/cat $(printf '%q' "$passphrase_file")"
+archive_prefix="$(hostname)-"
+prune_options=(--verbose --list --stats --glob-archives "${archive_prefix}*" --keep-last "$keep_last")
+
+if [[ "$mode" == --prune-dry-run ]]; then
+    log "Previewing retention: keep the latest $keep_last archives matching ${archive_prefix}*."
+    borg prune --dry-run "${prune_options[@]}" "$repository"
+    exit $?
+fi
+
+archive="${archive_prefix}$(date +%Y-%m-%dT%H:%M:%S)"
+log "Creating $archive from ${sources[*]}."
+result=0
+borg create --verbose --stats --compression "$compression" \
+    "$repository::$archive" "${sources[@]}" || result=$?
+if (( result > 1 )); then
+    log "Backup failed (Borg exit $result); leaving retention and success timestamp unchanged."
+    exit "$result"
+fi
+
+# Borg 1.x exit 1 means a completed archive with warnings. Record completion,
+# but do not delete older restore points when any source files may be missing.
+date +%s > "$state_dir/last-success.tmp"
+mv "$state_dir/last-success.tmp" "$state_dir/last-success"
+if (( result == 1 )); then
+    log 'Backup completed with warnings; skipping prune/compact. Check the log.'
+    exit 1
+fi
+
+log "Backup completed; retaining the latest $keep_last archives matching ${archive_prefix}*."
+borg prune "${prune_options[@]}" "$repository"
+borg compact --verbose "$repository"
+log 'Backup, retention and compaction completed.'

@@ -1,0 +1,4 @@
+---
+- hosts: nas
+  roles:
+    - { name: borg_backup, become: true }

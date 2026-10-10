@@ -1,0 +1,93 @@
+---
+- name: Validate Borg backup configuration
+  ansible.builtin.assert:
+    that:
+      - borg_backup_interval_days | int > 0
+      - borg_backup_keep_last | int > 0
+      - borg_backup_sources | length > 0
+      - borg_backup_repository.startswith(borg_backup_mount.rstrip('/') + '/')
+    fail_msg: Backup intervals and retention must be positive, with the repository below the backup mount.
+
+- name: Install Borg and scheduling utilities
+  ansible.builtin.apt:
+    name:
+      - borgbackup
+      - cron
+      - util-linux
+      - logrotate
+    state: present
+
+- name: Check installed Borg version
+  ansible.builtin.command: borg --version
+  register: borg_backup_version
+  changed_when: false
+  check_mode: false
+
+- name: Require the supported Borg 1.x command syntax
+  ansible.builtin.assert:
+    that:
+      - borg_backup_version.stdout is match('^borg 1\.[24]\.')
+    fail_msg: This role supports Borg 1.2.x and 1.4.x; it does not initialize or migrate repositories.
+
+- name: Create private Borg configuration and state directories
+  ansible.builtin.file:
+    path: "{{ item }}"
+    state: directory
+    owner: root
+    group: root
+    mode: "0700"
+  loop:
+    - "{{ borg_backup_config_dir }}"
+    - "{{ borg_backup_state_dir }}"
+
+- name: Store the repository passphrase from 1Password
+  ansible.builtin.copy:
+    content: "{{ lookup('community.general.onepassword', borg_backup_onepassword_item, vault=borg_backup_onepassword_vault, field=borg_backup_onepassword_field) }}"
+    dest: "{{ borg_backup_config_dir }}/passphrase"
+    owner: root
+    group: root
+    mode: "0600"
+  no_log: true
+  diff: false
+
+- name: Install the Borg backup script
+  ansible.builtin.template:
+    src: borg-backup.sh.j2
+    dest: "{{ borg_backup_script }}"
+    owner: root
+    group: root
+    mode: "0700"
+    validate: /bin/bash -n %s
+
+- name: Create the private backup log
+  ansible.builtin.file:
+    path: "{{ borg_backup_log }}"
+    state: touch
+    owner: root
+    group: root
+    mode: "0600"
+    access_time: preserve
+    modification_time: preserve
+
+- name: Configure backup log rotation
+  ansible.builtin.template:
+    src: logrotate.j2
+    dest: /etc/logrotate.d/borg-backup
+    owner: root
+    group: root
+    mode: "0644"
+
+- name: Ensure cron is enabled
+  ansible.builtin.service:
+    name: cron
+    state: started
+    enabled: true
+
+- name: Check daily whether a fortnightly backup is due
+  ansible.builtin.cron:
+    name: Borg media backup
+    cron_file: borg-backup
+    user: root
+    minute: "{{ borg_backup_cron_minute }}"
+    hour: "{{ borg_backup_cron_hour }}"
+    job: "{{ borg_backup_script | quote }} >> {{ borg_backup_log | quote }} 2>&1"
