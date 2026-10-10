@@ -17,6 +17,11 @@ sources=(
     {{ source | quote }}
 {% endfor %}
 )
+exclude_options=(
+{% for excluded_path in borg_backup_excludes %}
+    --exclude {{ ('pp:' + excluded_path.lstrip('/')) | quote }}
+{% endfor %}
+)
 mode=${1:-scheduled}
 case "$mode" in
     scheduled|--force|--prune-dry-run) ;;
@@ -124,6 +129,7 @@ archive="${archive_prefix}$(date +%Y-%m-%dT%H:%M:%S)"
 log "Creating $archive from ${sources[*]}."
 result=0
 borg create --verbose --stats --compression "$compression" \
+    "${exclude_options[@]}" \
     "$repository::$archive" "${sources[@]}" || result=$?
 if (( result > 1 )); then
     log "Backup failed (Borg exit $result); leaving retention and success timestamp unchanged."

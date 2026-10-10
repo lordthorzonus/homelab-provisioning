@@ -3,6 +3,9 @@ borg_backup_repository: /backups/tank
 borg_backup_mount: /backups
 borg_backup_sources:
   - /tank/media
+# Absolute paths; exclude the whole subtree, not just partial downloads.
+borg_backup_excludes:
+  - /tank/media/downloads
 borg_backup_compression: lz4
 borg_backup_interval_days: 14
 # Fourteen restore points span thirteen fortnightly intervals (182 days).
