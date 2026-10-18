@@ -1,0 +1,82 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: seerr
+  name: seerr
+  namespace: seerr
+spec:
+  replicas: 1
+  strategy:
+    type: Recreate
+  selector:
+    matchLabels:
+      app: seerr
+  template:
+    metadata:
+      labels:
+        app: seerr
+    spec:
+      nodeSelector:
+        servertype: pc
+      automountServiceAccountToken: false
+      securityContext:
+        runAsNonRoot: true
+        runAsUser: 1000
+        runAsGroup: 1000
+        fsGroup: 1000
+        fsGroupChangePolicy: OnRootMismatch
+      containers:
+        - name: seerr
+          image: ghcr.io/seerr-team/seerr:v3.5.0
+          imagePullPolicy: IfNotPresent
+          securityContext:
+            allowPrivilegeEscalation: false
+            capabilities:
+              drop:
+                - ALL
+          env:
+            - name: TZ
+              value: Europe/Helsinki
+            - name: PORT
+              value: "5055"
+            - name: LOG_LEVEL
+              value: info
+          ports:
+            - containerPort: 5055
+              name: http
+              protocol: TCP
+          startupProbe:
+            httpGet:
+              path: /api/v1/settings/public
+              port: http
+            failureThreshold: 30
+            periodSeconds: 10
+            timeoutSeconds: 5
+          readinessProbe:
+            httpGet:
+              path: /api/v1/settings/public
+              port: http
+            periodSeconds: 10
+            timeoutSeconds: 5
+          livenessProbe:
+            httpGet:
+              path: /api/v1/settings/public
+              port: http
+            failureThreshold: 5
+            periodSeconds: 30
+            timeoutSeconds: 5
+          resources:
+            requests:
+              cpu: 100m
+              memory: 256Mi
+            limits:
+              memory: 1Gi
+          volumeMounts:
+            - mountPath: /app/config
+              name: seerr-pvc
+      volumes:
+        - name: seerr-pvc
+          persistentVolumeClaim:
+            claimName: seerr-pvc
