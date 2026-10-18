@@ -1,0 +1,8 @@
+---
+# Prepares the existing Ubuntu worker. PCI passthrough and the maintenance reboot
+# are separate operations; this playbook does not change Proxmox or restart k3s.
+- name: Prepare NVIDIA GPU support on k3s workers
+  hosts: k3s_gpu
+  become: true
+  roles:
+    - nvidia_gpu

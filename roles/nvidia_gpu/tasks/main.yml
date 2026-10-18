@@ -1,0 +1,75 @@
+---
+- name: Require the supported Ubuntu generic-kernel worker
+  ansible.builtin.assert:
+    that:
+      - ansible_distribution == 'Ubuntu'
+      - ansible_distribution_version == '24.04'
+      - ansible_architecture == 'x86_64'
+      - ansible_kernel is match('^6\.8\..*-generic$')
+    fail_msg: This role uses Ubuntu 24.04 amd64 precompiled NVIDIA modules for the 6.8 generic kernel.
+
+- name: Install headless NVIDIA driver and video codec libraries
+  ansible.builtin.apt:
+    name:
+      - ca-certificates
+      - curl
+      - "nvidia-headless-no-dkms-{{ nvidia_gpu_driver_branch }}-server"
+      - "nvidia-utils-{{ nvidia_gpu_driver_branch }}-server"
+      - "libnvidia-encode-{{ nvidia_gpu_driver_branch }}-server"
+      - "libnvidia-decode-{{ nvidia_gpu_driver_branch }}-server"
+      - "linux-modules-nvidia-{{ nvidia_gpu_driver_branch }}-server-generic"
+    state: present
+    update_cache: true
+    cache_valid_time: 3600
+    install_recommends: false
+  environment:
+    NEEDRESTART_MODE: l
+
+- name: Install NVIDIA container repository signing key
+  ansible.builtin.get_url:
+    url: https://nvidia.github.io/libnvidia-container/gpgkey
+    dest: /usr/share/keyrings/nvidia-container-toolkit.asc
+    owner: root
+    group: root
+    mode: "0644"
+
+- name: Configure the production NVIDIA container repository
+  ansible.builtin.apt_repository:
+    repo: deb [signed-by=/usr/share/keyrings/nvidia-container-toolkit.asc] https://nvidia.github.io/libnvidia-container/stable/deb/amd64 /
+    filename: nvidia-container-toolkit
+    state: present
+
+- name: Install pinned NVIDIA Container Toolkit
+  ansible.builtin.apt:
+    name:
+      - "nvidia-container-toolkit={{ nvidia_gpu_toolkit_version }}"
+      - "nvidia-container-toolkit-base={{ nvidia_gpu_toolkit_version }}"
+      - "libnvidia-container-tools={{ nvidia_gpu_toolkit_version }}"
+      - "libnvidia-container1={{ nvidia_gpu_toolkit_version }}"
+    state: present
+    install_recommends: false
+  environment:
+    NEEDRESTART_MODE: l
+
+- name: Read NVIDIA runtime configuration
+  ansible.builtin.slurp:
+    src: /etc/nvidia-container-runtime/config.toml
+  register: nvidia_gpu_runtime_config
+
+- name: Point NVIDIA runtime at k3s bundled runc
+  ansible.builtin.command:
+    argv:
+      - nvidia-ctk
+      - config
+      - --set
+      - nvidia-container-runtime.runtimes=/var/lib/rancher/k3s/data/current/bin/runc:runc
+      - --in-place
+  when: "'/var/lib/rancher/k3s/data/current/bin/runc' not in (nvidia_gpu_runtime_config.content | b64decode)"
+
+- name: Explain the required activation step
+  ansible.builtin.debug:
+    msg: >-
+      During an approved maintenance window, reboot the worker to load the driver
+      and let k3s detect /usr/bin/nvidia-container-runtime. Keep k3s's default runc
+      runtime; GPU pods explicitly use runtimeClassName nvidia. Do not configure
+      a separate /etc/containerd/config.toml or overwrite k3s's generated config.

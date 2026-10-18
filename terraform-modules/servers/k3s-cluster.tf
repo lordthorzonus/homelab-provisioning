@@ -235,6 +235,17 @@ resource "proxmox_vm_qemu" "k3s_agent_pve2" {
   memory = var.k3s_agent_memory_amount["pve2"]
   agent = 1
 
+  # RTX 3060 belongs exclusively to the first media worker, not media-windows.
+  # Keep SeaBIOS/i440fx and the existing serial console (no pcie/x-vga flags).
+  dynamic "hostpci" {
+    for_each = count.index == 0 ? ["0000:08:00.0", "0000:08:00.1"] : []
+    content {
+      host   = hostpci.value
+      pcie   = 0
+      rombar = 0
+    }
+  }
+
   ssh_user = "provisioner"
   sshkeys = <<EOF
 ${var.public_ssh_key}

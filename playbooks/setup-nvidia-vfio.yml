@@ -1,0 +1,37 @@
+---
+# Persist the NAS GPU's early VFIO ownership. Never reboots or unbinds live devices.
+- name: Reserve the RTX 3060 for PCI passthrough
+  hosts: nas
+  remote_user: root
+  become: true
+  tasks:
+    - name: Require the expected Proxmox host
+      ansible.builtin.assert:
+        that:
+          - ansible_hostname == 'pve2'
+
+    - name: Check the GPU identity
+      ansible.builtin.command: lspci -n -s 08:00.0
+      register: vfio_gpu_identity
+      changed_when: false
+
+    - name: Require the expected RTX 3060
+      ansible.builtin.assert:
+        that:
+          - "'10de:2504' in vfio_gpu_identity.stdout"
+
+    - name: Reserve GPU and audio functions before nouveau loads
+      ansible.builtin.copy:
+        dest: /etc/modprobe.d/rtx3060-vfio.conf
+        owner: root
+        group: root
+        mode: "0644"
+        content: |
+          options vfio-pci ids=10de:2504,10de:228e
+          softdep nouveau pre: vfio-pci
+          softdep snd_hda_intel pre: vfio-pci
+      notify: Update initramfs
+
+  handlers:
+    - name: Update initramfs
+      ansible.builtin.command: update-initramfs -u -k all
