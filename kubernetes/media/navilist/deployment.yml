@@ -28,7 +28,7 @@ spec:
         fsGroupChangePolicy: OnRootMismatch
       containers:
         - name: navilist
-          image: ghcr.io/ofernander/navilist:latest@sha256:c5acd73ebd1d52d7aebc6ef4b947226315c2f147c0e68520ded41e2932d43f7a
+          image: ghcr.io/ofernander/navilist:latest@sha256:92b474592b6210f7f8d4d5e72cbb2d0cab562e6fc387a6c45a3ccd652c375fa0
           imagePullPolicy: IfNotPresent
           securityContext:
             allowPrivilegeEscalation: false
