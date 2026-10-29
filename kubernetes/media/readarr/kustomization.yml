@@ -1,7 +1,5 @@
 namespace: readarr
+# Retain the existing data only; the application has been decommissioned.
 resources:
   - namespace.yml
   - pvc.yml
-  - deployment.yml
-  - service.yml
-  - ingress.yml

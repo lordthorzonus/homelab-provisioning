@@ -1,16 +1,5 @@
 namespace: influxdb
-
-helmCharts:
-  - repo: https://helm.influxdata.com/
-    name: influxdb2
-    namespace: influxdb
-    includeCRDs: true
-    valuesFile: values.yml
-    version: "2.1.2"
-    releaseName: influxdb
-
+# Retain the existing data only; the application has been decommissioned.
 resources:
   - namespace.yml
-  - secrets.yml
-  - certificate.yml
-  - ingress.yml
+  - pvc.yml

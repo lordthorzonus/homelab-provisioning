@@ -14,6 +14,8 @@ spec:
       labels:
         app: unifi-controller
     spec:
+      nodeSelector:
+        kubernetes.io/hostname: k3s-agent-nuc1-1
       containers:
         - name: unifi-controller
           image: jacobalberty/unifi:v10.0.162

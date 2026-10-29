@@ -19,7 +19,7 @@ spec:
         app: seerr
     spec:
       nodeSelector:
-        servertype: pc
+        kubernetes.io/hostname: k3s-agent-nuc1-1
       automountServiceAccountToken: false
       securityContext:
         runAsNonRoot: true
