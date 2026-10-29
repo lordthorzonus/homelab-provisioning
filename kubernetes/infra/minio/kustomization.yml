@@ -1,8 +1,5 @@
 namespace: minio
+# Retain the existing object-store data only; MinIO is decommissioned.
 resources:
   - namespace.yml
   - pvc.yml
-  - minio-credentials-secret.yml
-  - deployment.yml
-  - service.yml
-  - ingress.yml
