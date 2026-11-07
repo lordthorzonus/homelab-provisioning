@@ -29,7 +29,7 @@ spec:
       containers:
         - name: navilist
           # Development image imported directly into eligible k3s nodes.
-          image: docker.io/library/navilist:dev-spotify-initial
+          image: docker.io/library/navilist:dev-missing-music-r1
           imagePullPolicy: Never
           securityContext:
             allowPrivilegeEscalation: false
